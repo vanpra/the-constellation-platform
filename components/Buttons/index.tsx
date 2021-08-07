@@ -4,9 +4,11 @@ import React from "react";
 interface RoundedButtonProps {
   text: string;
   className: string;
+  onClick: () => void;
 }
 
-export function RedRoundedButton({ text, className }: RoundedButtonProps) {
+export function RedRoundedButton(props: RoundedButtonProps) {
+  const { text, className, onClick } = props;
   return (
     <button
       className={classNames(
@@ -15,16 +17,15 @@ export function RedRoundedButton({ text, className }: RoundedButtonProps) {
         "rounded-full",
         className
       )}
+      onClick={onClick}
     >
       {text}
     </button>
   );
 }
 
-export function TransparentRoundedButton({
-  text,
-  className,
-}: RoundedButtonProps) {
+export function TransparentRoundedButton(props: RoundedButtonProps) {
+  const { text, className, onClick } = props;
   return (
     <button
       className={classNames(
@@ -33,6 +34,7 @@ export function TransparentRoundedButton({
         "rounded-full",
         className
       )}
+      onClick={onClick}
     >
       {text}
     </button>

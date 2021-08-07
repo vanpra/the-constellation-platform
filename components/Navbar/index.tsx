@@ -2,9 +2,13 @@ import classnames from "classnames/dedupe";
 import { useRouter } from "next/dist/client/router";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { RedRoundedButton, TransparentRoundedButton } from "../Buttons";
 
+interface NavbarProps {
+  setShowLoginDialog: (show: boolean) => void;
+  setShowSignupDialog: (show: boolean) => void;
+}
 interface NavButtonProps {
   href: string;
   children: React.ReactNode;
@@ -32,11 +36,23 @@ const NavButton = ({ href, children }: NavButtonProps) => {
   );
 };
 
-export default function Navbar() {
+export default function Navbar(props: NavbarProps) {
+  const { setShowLoginDialog, setShowSignupDialog } = props;
+  const showLoginDialog = useCallback(
+    () => setShowLoginDialog(true),
+    [setShowLoginDialog]
+  );
+  const showSignupDialog = useCallback(
+    () => setShowSignupDialog(true),
+    [setShowSignupDialog]
+  );
+
   return (
     <div className="flex justify-between items-center">
       <div className="flex">
-        <div className={classnames("ml-8 mr-6 my-1", "flex-col justify-center")}>
+        <div
+          className={classnames("ml-8 mr-6 my-1", "flex-col justify-center")}
+        >
           <Image
             src="/logo.svg"
             alt="The Constellation Logo"
@@ -50,8 +66,16 @@ export default function Navbar() {
       </div>
 
       <div className="flex items-center">
-        <TransparentRoundedButton className="mr-6" text="Login" />
-        <RedRoundedButton className="mr-4" text="Signup" />
+        <TransparentRoundedButton
+          className="mr-6"
+          text="Login"
+          onClick={showLoginDialog}
+        />
+        <RedRoundedButton
+          className="mr-4"
+          text="Signup"
+          onClick={showSignupDialog}
+        />
       </div>
     </div>
   );

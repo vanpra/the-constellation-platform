@@ -1,8 +1,8 @@
 import { Dialog, Transition } from "@headlessui/react"
 import React, { Fragment, useCallback, useState } from "react"
 
-interface BaseDialogProps {
-  children: React.ReactNode[],
+export interface BaseDialogProps {
+  children: React.ReactNode,
   isOpen: boolean,
   setIsOpen: (isOpen: boolean) => void
 }

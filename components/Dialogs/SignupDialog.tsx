@@ -2,12 +2,12 @@ import { Dialog } from "@headlessui/react";
 import React, { useCallback } from "react";
 import BaseDialog from "./BaseDialog";
 
-interface LoginDialogProps {
+interface SignupDialogProps {
   isOpen: boolean,
   setIsOpen: (isOpen: boolean) => void
 }
 
-export default function LoginDialog(props: LoginDialogProps) {
+export default function SignupDialog(props: SignupDialogProps) {
   const { setIsOpen } = props 
   const closeModal = useCallback(() => setIsOpen(false), [setIsOpen])
 
@@ -18,7 +18,7 @@ export default function LoginDialog(props: LoginDialogProps) {
           as="h3"
           className="text-lg font-medium leading-6 text-gray-900"
         >
-          Login
+          Signup
         </Dialog.Title>
         <div className="mt-2">
           <p className="text-sm text-gray-500">
