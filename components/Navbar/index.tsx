@@ -24,10 +24,13 @@ const NavButton = ({ href, children }: NavButtonProps) => {
         className={classnames(
           "px-6 min-h-12 max-h-full",
           "flex flex-wrap content-center",
-          isActive
-            ? "bg-gray-500 bg-opacity-40 pointer-events-none"
-            : "hover:bg-gray-500 hover:bg-opacity-40",
-          "text-xl"
+          // isActive
+          //   ? "bg-gray-500 bg-opacity-40 pointer-events-none"
+          //   : "hover:bg-gray-500 hover:bg-opacity-40",
+          isActive 
+            ? "text-primary"
+            : "text-black",
+          "text-2xl font-medium"
         )}
       >
         {children}

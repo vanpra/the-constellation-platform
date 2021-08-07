@@ -1,15 +1,16 @@
-import { Dialog, Transition } from "@headlessui/react"
-import React, { Fragment, useCallback, useState } from "react"
+import { Dialog, Transition } from "@headlessui/react";
+import classNames from "classnames";
+import React, { Fragment, useCallback, useState } from "react";
 
 export interface BaseDialogProps {
-  children: React.ReactNode,
-  isOpen: boolean,
-  setIsOpen: (isOpen: boolean) => void
+  children: React.ReactNode;
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
 }
 
 export default function BaseDialog(props: BaseDialogProps) {
-  const { children, isOpen, setIsOpen } = props 
-  const closeModal = useCallback(() => setIsOpen(false), [setIsOpen])
+  const { children, isOpen, setIsOpen } = props;
+  const closeModal = useCallback(() => setIsOpen(false), [setIsOpen]);
 
   return (
     <>
@@ -46,11 +47,19 @@ export default function BaseDialog(props: BaseDialogProps) {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              {children}
+              <div
+                className={classNames(
+                  "w-full max-w-lg p-6 my-8",
+                  "inline-block align-middle overflow-hidden text-left transform",
+                  " bg-white shadow-xl rounded-2xl"
+                )}
+              >
+                {children}
+              </div>
             </Transition.Child>
           </div>
         </Dialog>
       </Transition>
     </>
-  )
+  );
 }
