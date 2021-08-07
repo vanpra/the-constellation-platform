@@ -8,7 +8,10 @@ module.exports = {
           sans: ['Livvic', 'sans-serif'],
       },
       colors: {
-        primary: "#D23A27",
+        primary: { 
+          DEFAULT: "#D23A27",
+          dark: "#962a1d"
+        },
         secondary: "#FFCD5A",
         background: "#F5E6CE",
         error: "#E74C3C"

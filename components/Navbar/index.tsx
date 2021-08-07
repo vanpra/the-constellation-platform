@@ -1,8 +1,9 @@
-import React from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { useRouter } from "next/dist/client/router";
 import classnames from "classnames/dedupe";
+import { useRouter } from "next/dist/client/router";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
+import { RedRoundedButton, TransparentRoundedButton } from "../Buttons";
 
 interface NavButtonProps {
   href: string;
@@ -33,18 +34,25 @@ const NavButton = ({ href, children }: NavButtonProps) => {
 
 export default function Navbar() {
   return (
-    <div className="flex">
-      <div className={classnames("ml-8 mr-6 my-1", "flex-col justify-center")}>
-        <Image
-          src="/logo.svg"
-          alt="The Constellation Logo"
-          height={50}
-          width={50}
-        />
+    <div className="flex justify-between items-center">
+      <div className="flex">
+        <div className={classnames("ml-8 mr-6 my-1", "flex-col justify-center")}>
+          <Image
+            src="/logo.svg"
+            alt="The Constellation Logo"
+            height={50}
+            width={50}
+          />
+        </div>
+        <NavButton href="/">Home</NavButton>
+        <NavButton href="/topics">Topics</NavButton>
+        <NavButton href="/search">Search</NavButton>
       </div>
-      <NavButton href="/">Home</NavButton>
-      <NavButton href="/topics">Topics</NavButton>
-      <NavButton href="/search">Search</NavButton>
+
+      <div className="flex items-center">
+        <TransparentRoundedButton className="mr-6" text="Login" />
+        <RedRoundedButton className="mr-4" text="Signup" />
+      </div>
     </div>
   );
 }
