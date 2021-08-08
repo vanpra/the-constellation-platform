@@ -16,7 +16,7 @@ module.exports = {
         },
         secondary: "#FFCD5A",
         background: "#F5E6CE",
-        error: "#E74C3C"
+        error: "#e31b07"
       }
     },
   },

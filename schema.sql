@@ -51,6 +51,7 @@ alter table public.topics enable row level security;
 create policy "Allow authorized insert access" on public.topics for insert with check ( authorize('topics.insert', auth.uid()) );
 create policy "Allow authorized update access" on public.topics for update using ( authorize('topics.update', auth.uid()) );
 create policy "Allow authorized delete access" on public.topics for delete using ( authorize('topics.delete', auth.uid()) );
+create policy "Allow all insert access" on public.topics for select using ( true );
 
 
 -- USER ROLES

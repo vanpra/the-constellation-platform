@@ -1,64 +1,91 @@
 import { Dialog } from "@headlessui/react";
 import classNames from "classnames";
-import React, { useCallback } from "react";
-import BaseDialog from "./BaseDialog";
+import React, { useCallback, useState } from "react";
+import { supabase } from "../../utils/supabaseClient";
+import DialogButton from "../Buttons/DialogButton";
+import DialogInput from "../Inputs/DialogInput";
+import DialogTitle from "../Titles/DialogTitle";
+import BaseDialog, { DialogSize } from "./BaseDialog";
 
 interface SignupDialogProps {
-  isOpen: boolean,
-  setIsOpen: (isOpen: boolean) => void
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
 }
 
 export default function SignupDialog(props: SignupDialogProps) {
-  const { setIsOpen } = props 
-  const closeModal = useCallback(() => setIsOpen(false), [setIsOpen])
+  const { setIsOpen } = props;
+
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<String | undefined>(undefined);
+
+  const onClose = useCallback(async () => {
+    if (password != confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    setIsLoading(true);
+    const { user, error: signUpError } = await supabase.auth.signUp({
+      email,
+      password,
+    });
+
+    if (signUpError) {
+      setError(signUpError.message);
+      setIsLoading(false);
+      return;
+    }
+
+    await supabase
+      .from("users")
+      .update({ full_name: `${firstName.trim()} ${lastName.trim()}` })
+      .match({ id: user?.id });
+
+    setIsOpen(false);
+  }, [confirmPassword, email, firstName, lastName, password, setIsOpen]);
 
   return (
-    <BaseDialog {...props}>
-      <div
-        className={classNames(
-          "w-full max-w-md p-6 my-8",
-          "inline-block align-middle overflow-hidden text-left transform",
-          " bg-white shadow-xl rounded-2xl"
-        )}
-      >
-        <Dialog.Title
-          as="h3"
-          className={classNames(
-            "leading-6",
-            "text-gray-900 font-medium text-3xl"
-          )}
-        >
-          Signup
-        </Dialog.Title>
-
-        <input
-          className={classNames(
-            "w-full py-2 px-4 leading-tight",
-            "appearance-none border-2",
-            "bg-gray-200  border-gray-200 rounded text-gray-700",
-            "focus:outline-none focus:bg-white focus:border-purple-500"
-          )}
-          id="inline-full-name"
-          type="text"
-          value="Jane Doe"
+    <BaseDialog {...props} isLoading={isLoading} size={DialogSize.ExtraLarge}>
+      <DialogTitle text="Signup" />
+      <div className="mt-8 flex gap-x-5">
+        <DialogInput
+          placeholder="First Name"
+          value={firstName}
+          setValue={setFirstName}
         />
-
-        <div className="mt-4">
-          <button
-            type="button"
-            className={classNames(
-              "inline-flex justify-center px-4 py-2",
-              "text-sm font-medium text-blue-900",
-              "bg-blue-100 border border-transparent rounded-md",
-              "hover:bg-blue-200",
-              "focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-            )}
-            onClick={closeModal}
-          >
-            Got it, thanks!
-          </button>
-        </div>
+        <DialogInput
+          placeholder="Last Name"
+          value={lastName}
+          setValue={setLastName}
+        />
       </div>
+      <DialogInput
+        className="mt-4"
+        placeholder="Email"
+        value={email}
+        setValue={setEmail}
+      />
+      <div className="mt-4 flex gap-x-5">
+        <DialogInput
+          placeholder="Password"
+          value={password}
+          setValue={setPassword}
+          type="password"
+        />
+        <DialogInput
+          placeholder="Confirm Password"
+          value={confirmPassword}
+          setValue={setConfirmPassword}
+          type="password"
+        />
+      </div>
+      {error && <div className="mt-2 text-error">{error}</div>}
+      <DialogButton className="mt-4 mr-2" text="Signup" onClick={onClose} />
     </BaseDialog>
   );
 }

@@ -3,13 +3,14 @@ import { useCallback } from "react";
 
 interface DialogInputProps {
   className?: string;
+  type?: string
   placeholder?: string;
   value: string;
   setValue: (value: string) => void;
 }
 
 export default function DialogInput(props: DialogInputProps) {
-  const { className, placeholder, value, setValue } = props;
+  const { className, type, placeholder, value, setValue } = props;
   const onChange = useCallback(
     (e: React.FormEvent<HTMLInputElement>) => {
       setValue(e.currentTarget.value);
@@ -27,7 +28,7 @@ export default function DialogInput(props: DialogInputProps) {
         className
       )}
       id="inline-full-name"
-      type="text"
+      type={type ?? "text"}
       placeholder={placeholder}
       value={value}
       onChange={onChange}
