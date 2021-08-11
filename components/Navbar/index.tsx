@@ -3,7 +3,7 @@ import classnames from "classnames/dedupe";
 import { useRouter } from "next/dist/client/router";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 import { supabase } from "../../utils/supabaseClient";
 import { RedRoundedButton, TransparentRoundedButton } from "../Buttons";
 
@@ -27,11 +27,8 @@ const NavButton = ({ href, children }: NavButtonProps) => {
         className={classnames(
           "px-6 min-h-12 max-h-full",
           "flex flex-wrap content-center",
-          // isActive
-          //   ? "bg-gray-500 bg-opacity-40 pointer-events-none"
-          //   : "hover:bg-gray-500 hover:bg-opacity-40",
           isActive ? "text-primary" : "text-black",
-          "text-2xl font-medium"
+          "text-2xl font-normal"
         )}
       >
         {children}
@@ -58,7 +55,7 @@ export default function Navbar(props: NavbarProps) {
     <div className="flex justify-between items-center">
       <div className="flex">
         <div
-          className={classnames("ml-8 mr-6 my-1", "flex-col justify-center")}
+          className={classnames("ml-4 mr-6 my-1", "flex-col justify-center")}
         >
           <Image
             src="/logo.svg"

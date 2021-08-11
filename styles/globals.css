@@ -2,4 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css?family=Livvic');
+@import url("https://fonts.googleapis.com/css?family=Livvic:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i");
+
+
+body {  
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-shadow:none;
+  text-rendering: optimizeLegibility;
+}

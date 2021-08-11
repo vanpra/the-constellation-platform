@@ -12,8 +12,8 @@ export function RedRoundedButton(props: RoundedButtonProps) {
   return (
     <button
       className={classNames(
-        "py-2 px-5",
-        "bg-primary hover:bg-primary-dark text-white text-xl font-medium",
+        "py-1.5 px-5",
+        "bg-primary hover:bg-primary-dark text-white text-2xl font-normal",
         "rounded-full",
         className
       )}
@@ -30,7 +30,7 @@ export function TransparentRoundedButton(props: RoundedButtonProps) {
     <button
       className={classNames(
         "py-2",
-        "bg-transparent text-black text-xl font-medium",
+        "bg-transparent text-black text-2xl font-normal",
         "rounded-full",
         className
       )}
