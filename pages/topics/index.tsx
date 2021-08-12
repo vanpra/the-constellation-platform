@@ -14,7 +14,7 @@ export default function TopcisPage() {
     <div
       className={classNames(
         "flex flex-col self-center",
-        "w-full max-w-5xl mt-8"
+        "w-full max-w-6xl mt-8"
       )}
     >
       <h1 className={classNames("font-medium text-5xl")}>Topics</h1>
@@ -52,7 +52,7 @@ function TopicCard(props: TopicCardProps) {
         <p className="text-xl mt-2 text-gray-800">{topic.description}</p>
       </div>
 
-      <div className="flex flex-col justify-center items-center">
+      <div className="flex flex-col justify-center items-center ml-6">
         <p className="text-4xl">3</p>
         <p className="text-xl">posts</p>
       </div>
