@@ -35,6 +35,7 @@ export default function TopcisPage() {
   );
 }
 
+//TODO: Extract out card layout div into component
 function TopicCard(props: TopicCardProps) {
   const { topic } = props;
   return (
@@ -43,7 +44,7 @@ function TopicCard(props: TopicCardProps) {
         "flex flex-row justify-between",
         "w-full rounded-2xl ",
         "pl-8 pr-8 pt-5 pb-5",
-        "bg-background-light shadow"
+        "bg-background-light active:bg-background-dark shadow hover:cursor-pointer "
       )}
     >
       <div className={classNames("flex flex-col justify-center")}>
