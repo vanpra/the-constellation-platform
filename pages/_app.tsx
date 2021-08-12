@@ -33,7 +33,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, []);
 
   return (
-    <div className="bg-background flex flex-1 flex-col w-screen h-screen">
+    <div className="bg-background flex flex-1 flex-col w-full h-full min-h-screen min-w-screen">
       <Navbar
         setShowLoginDialog={setShowLoginDialog}
         setShowSignupDialog={setShowSignupDialog}

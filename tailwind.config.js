@@ -15,7 +15,10 @@ module.exports = {
           lightest: "#f5d0cb"
         },
         secondary: "#FFCD5A",
-        background: "#F5E6CE",
+        background: {
+         DEFAULT: "#F5E6CE",
+         light: "#FFF0D7"
+        },
         error: "#e31b07"
       }
     },
