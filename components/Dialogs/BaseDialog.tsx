@@ -39,7 +39,7 @@ export default function BaseDialog(props: BaseDialogProps) {
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-30" />
+              <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-60" />
             </Transition.Child>
             <span
               className="inline-block h-screen align-middle"

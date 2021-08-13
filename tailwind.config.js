@@ -1,27 +1,31 @@
 module.exports = {
-  mode: 'jit',
-  purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
-    darkMode: false, // or 'media' or 'class'
+  mode: "jit",
+  purge: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
+  darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
       fontFamily: {
-          sans: ['Livvic', 'sans-serif'],
+        sans: ["Livvic", "sans-serif"],
       },
       colors: {
-        primary: { 
+        primary: {
           DEFAULT: "#D23A27",
           dark: "#962a1d",
           light: "#fcc9c2",
-          lightest: "#f5d0cb"
+          lightest: "#f5d0cb",
         },
         secondary: "#FFCD5A",
-        background: "#F5E6CE",
-        error: "#e31b07"
-      }
+        background: {
+          DEFAULT: "#F5E6CE",
+          light: "#FFF0D7",
+          dark: "#cfc0a9",
+        },
+        error: "#e31b07",
+      },
     },
   },
   variants: {
     extend: {},
   },
   plugins: [],
-}
+};
