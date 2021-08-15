@@ -10,7 +10,7 @@ export default function PostCard(props: PostCardProps) {
 
   return (
     <BaseCard>
-      <p>{post.title}</p>
+      <p className="text-4xl font-medium">{post.title}</p>
       <p>{post.description}</p>
     </BaseCard>
   );

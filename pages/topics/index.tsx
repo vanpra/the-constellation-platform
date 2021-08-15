@@ -1,12 +1,8 @@
-import classNames from "classnames";
-import { useRouter } from "next/dist/client/router";
-import React, { useCallback } from "react";
+import React from "react";
 import TopicCard from "../../components/Cards/TopicsCard";
-import LoadingSpinner from "../../components/Loading";
 import ErrorDataScaffold from "../../components/Scaffolds/ErrorDataScaffold";
 import PageScaffold from "../../components/Scaffolds/PageScaffold";
-import Topic from "../../models/Topic";
-import { useTopic, useTopics } from "../../utils/db";
+import { useTopics } from "../../utils/db";
 
 export default function TopcisPage() {
   const { topics, error } = useTopics();
@@ -23,4 +19,3 @@ export default function TopcisPage() {
     </PageScaffold>
   );
 }
-
