@@ -22,7 +22,7 @@ export default function TopcisPage() {
       <div className="mt-8">
         {error && <p>{error}</p>}
         {topics && (
-          <div className="grid grid-cols-1 gap-x-8 gap-y-6 md:grid-cols-2">
+          <div className="grid grid-cols-1 auto-rows-fr gap-x-8 gap-y-6 md:grid-cols-2">
             {topics.map((topic) => (
               <TopicCard key={topic.id} topic={topic} />
             ))}
