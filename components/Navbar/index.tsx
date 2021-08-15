@@ -19,7 +19,7 @@ interface NavButtonProps {
 
 const NavButton = ({ href, children }: NavButtonProps) => {
   const router = useRouter();
-  const isActive = router.asPath === href;
+  const isActive = router.asPath.startsWith(href);
 
   return (
     <Link href={href} passHref>
@@ -64,7 +64,7 @@ export default function Navbar(props: NavbarProps) {
             width={50}
           />
         </div>
-        <NavButton href="/">Home</NavButton>
+        <NavButton href="/home">Home</NavButton>
         <NavButton href="/topics">Topics</NavButton>
         <NavButton href="/search">Search</NavButton>
       </div>

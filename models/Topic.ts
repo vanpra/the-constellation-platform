@@ -1,5 +1,5 @@
 export default interface Topic {
-  id: string
+  id: number
   title: string
   description: string
 }
