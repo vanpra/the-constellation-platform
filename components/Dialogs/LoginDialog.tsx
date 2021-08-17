@@ -24,20 +24,22 @@ export default function LoginDialog(props: LoginDialogProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [signInError, setSignInError] = useState<String | undefined>(undefined);
 
-  const onClose = useCallback(async () => {
-    setIsLoading(true);
-    const { error } = await supabase.auth.signIn({
-      email,
-      password,
-    });
+  const onSignIn = useCallback(
+    async (google: boolean) => {
+      setIsLoading(true);
+      const { error } = google
+        ? await supabase.auth.signIn({ provider: "google" })
+        : await supabase.auth.signIn({ email, password });
 
-    if (error) {
-      setSignInError(error.message);
-      setIsLoading(false);
-    } else {
-      setIsOpen(false);
-    }
-  }, [email, password, setIsOpen]);
+      if (error) {
+        setSignInError(error.message);
+        setIsLoading(false);
+      } else {
+        setIsOpen(false);
+      }
+    },
+    [email, password, setIsOpen]
+  );
 
   return (
     <BaseDialog {...props} isLoading={isLoading}>
@@ -59,10 +61,10 @@ export default function LoginDialog(props: LoginDialogProps) {
       <DialogButton
         className="mt-4 mr-2"
         text="Login with email"
-        onClick={onClose}
+        onClick={() => onSignIn(false)}
       />
       <OrDivider className="pt-1 pb-1" />
-      <GoogleButton text="Login with Google" />
+      <GoogleButton text="Login with Google" onClick={() => onSignIn(true)} />
     </BaseDialog>
   );
 }
