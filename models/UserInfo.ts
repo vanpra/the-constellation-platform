@@ -1,5 +1,5 @@
 export default interface UserInfo {
-  id: string;
+  id: number;
   full_name: string;
   avatar_url?: string;
   description?: string;
