@@ -53,8 +53,9 @@ export default function SignupDialog(props: SignupDialogProps) {
 
   const onGoogleSignUp = useCallback(async () => {
     setIsLoading(true);
-    const { user, error: signUpError } = await supabase.auth.signUp({
-      provider: "google",
+    console.log("GOOGLE")
+    const { error: signUpError } = await supabase.auth.signIn({
+      provider: 'google'
     });
 
     if (signUpError) {
