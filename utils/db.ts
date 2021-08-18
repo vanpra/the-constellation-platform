@@ -81,3 +81,33 @@ export const usePostsByTopic = (topicId?: string | string[]) => {
 
   return { error, postsByTopic };
 };
+
+export const usePost = (postId?: string | string[]) => {
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [post, setPost] = useState<Post | undefined>(undefined);
+
+  useEffect(() => {
+    async function getPost() {
+      // SELECT posts.*, users as author
+      // FROM posts
+      // INNER JOIN users ON posts.user_id=users.id
+      // WHERE posts.id = 1;
+      const { error: e, data } = await supabase
+        .from("posts")
+        .select(`
+        *,
+        author:user_id (full_name),
+        prev_salt_post:previous_salt_post_id (id, title)
+      `)
+        .eq("id", postId)
+        .single();
+      setError(e?.message);
+      setPost(data ?? undefined);
+      console.log(data);
+    }
+
+    getPost();
+  }, [postId, setError, setPost]);
+
+  return { error, post };
+};

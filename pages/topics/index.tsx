@@ -4,7 +4,7 @@ import ErrorDataScaffold from "../../components/Scaffolds/ErrorDataScaffold";
 import PageScaffold from "../../components/Scaffolds/PageScaffold";
 import { useTopics } from "../../utils/db";
 
-export default function TopcisPage() {
+export default function TopicsPage() {
   const { topics, error } = useTopics();
 
   return (
