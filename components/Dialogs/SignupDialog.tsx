@@ -3,6 +3,8 @@ import classNames from "classnames";
 import React, { useCallback, useState } from "react";
 import { supabase } from "../../utils/supabaseClient";
 import DialogButton from "../Buttons/DialogButton";
+import { GoogleButton } from "../Buttons/GoogleButtons";
+import OrDivider from "../Dividers/OrDivider";
 import DialogInput from "../Inputs/DialogInput";
 import DialogTitle from "../Titles/DialogTitle";
 import BaseDialog, { DialogSize } from "./BaseDialog";
@@ -23,7 +25,7 @@ export default function SignupDialog(props: SignupDialogProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<String | undefined>(undefined);
 
-  const onClose = useCallback(async () => {
+  const onEmailSignup = useCallback(async () => {
     if (password != confirmPassword) {
       setError("Passwords do not match");
       return;
@@ -48,6 +50,21 @@ export default function SignupDialog(props: SignupDialogProps) {
 
     setIsOpen(false);
   }, [confirmPassword, email, firstName, lastName, password, setIsOpen]);
+
+  const onGoogleSignUp = useCallback(async () => {
+    setIsLoading(true);
+    console.log("GOOGLE")
+    const { error: signUpError } = await supabase.auth.signIn({
+      provider: 'google'
+    });
+
+    if (signUpError) {
+      setError(signUpError.message);
+      setIsLoading(false);
+    } else {
+      setIsOpen(false);
+    }
+  }, [setIsOpen, setError, setIsLoading]);
 
   return (
     <BaseDialog {...props} isLoading={isLoading} size={DialogSize.ExtraLarge}>
@@ -85,7 +102,13 @@ export default function SignupDialog(props: SignupDialogProps) {
         />
       </div>
       {error && <div className="mt-2 text-error">{error}</div>}
-      <DialogButton className="mt-4 mr-2" text="Signup" onClick={onClose} />
+      <DialogButton
+        className="mt-4 mr-2"
+        text="Signup with Email"
+        onClick={onEmailSignup}
+      />
+      <OrDivider className="pt-1 pb-1" />
+      <GoogleButton text="Signup with Google" onClick={onGoogleSignUp} />
     </BaseDialog>
   );
 }
