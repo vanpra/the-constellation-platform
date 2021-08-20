@@ -2,7 +2,31 @@ import { useEffect, useState } from "react";
 import Post from "../models/Post";
 import PostsByTopic from "../models/PostsByTopic";
 import Topic from "../models/Topic";
+import UserInfo from "../models/UserInfo";
 import { supabase } from "./supabaseClient";
+
+export const useUserInfo = (userId?: string) => {
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [userInfo, setUserInfo] = useState<UserInfo | undefined>(undefined);
+
+  useEffect(() => {
+    async function getUser() {
+      if (userId != undefined) {
+        const { error: e, data } = await supabase
+          .from("users")
+          .select()
+          .eq("id", userId)
+          .single();
+        setError(e?.message);
+        setUserInfo(data ?? undefined);
+      }
+    }
+
+    getUser();
+  }, [setError, setUserInfo, userId]);
+
+  return { error, userInfo };
+};
 
 export const useTopics = () => {
   const [error, setError] = useState<string | undefined>(undefined);
@@ -94,11 +118,13 @@ export const usePost = (postId?: string | string[]) => {
       // WHERE posts.id = 1;
       const { error: e, data } = await supabase
         .from("posts")
-        .select(`
+        .select(
+          `
         *,
         author:user_id (full_name),
         prev_salt_post:previous_salt_post_id (id, title)
-      `)
+      `
+        )
         .eq("id", postId)
         .single();
       setError(e?.message);

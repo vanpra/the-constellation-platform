@@ -2,10 +2,11 @@ import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import Navbar from "../components/Navbar";
 import LoginDialog from "../components/Dialogs/LoginDialog";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import SignupDialog from "../components/Dialogs/SignupDialog";
 import { supabase } from "../utils/supabaseClient";
 import { User } from "@supabase/supabase-js";
+import classNames from "classnames";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [showLoginDialog, setShowLoginDialog] = useState(false);
@@ -33,7 +34,13 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, []);
 
   return (
-    <div className="bg-background flex flex-1 flex-col w-full h-full min-h-screen min-w-screen">
+    <div
+      className={classNames(
+        " flex flex-1 flex-col",
+        "w-full h-full min-h-screen min-w-screen",
+        "bg-background"
+      )}
+    >
       <Navbar
         setShowLoginDialog={setShowLoginDialog}
         setShowSignupDialog={setShowSignupDialog}
