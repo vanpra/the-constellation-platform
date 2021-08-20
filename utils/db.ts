@@ -17,8 +17,12 @@ export const useUserInfo = (userId?: string) => {
           .select()
           .eq("id", userId)
           .single();
+
         setError(e?.message);
         setUserInfo(data ?? undefined);
+      } else {
+        setError(undefined);
+        setUserInfo(undefined);
       }
     }
 

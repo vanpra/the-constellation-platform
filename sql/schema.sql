@@ -33,13 +33,14 @@ create table public.users (
   -- UUID from auth.users
   id uuid references auth.users not null primary key,
   full_name text,
+  description text,
   avatar_url text,
   location text
 );
 comment on table public.users is 'Additional user details';
 alter table public.users enable row level security;
 
-create policy "Allow logged-in read access" on public.users for select using ( auth.role() = 'authenticated' );
+create policy "Allow all read access" on public.users for select using ( true );
 create policy "Allow individual update access" on public.users for update using ( auth.uid() = id );
 create policy "Allow authorized delete access" on public.users for delete using ( authorize('users.delete', auth.uid()) );
 

@@ -7,7 +7,6 @@ import React, { useCallback } from "react";
 import { useUserInfo } from "../../utils/db";
 import { supabase } from "../../utils/supabaseClient";
 import Avatar from "../Avatar/Avatar";
-import ImageAvatar from "../Avatar/ImageAvatar";
 import { RedRoundedButton, TransparentRoundedButton } from "../Buttons";
 
 interface NavbarProps {
@@ -77,10 +76,15 @@ export default function Navbar(props: NavbarProps) {
       <div className="flex items-center">
         {user && userInfo ? (
           <>
+            <TransparentRoundedButton
+              className="mr-5"
+              text="Logout"
+              onClick={signOut}
+            />
             <RedRoundedButton
               className="mr-4"
-              text="Sign Out"
-              onClick={signOut}
+              text="Create a post"
+              onClick={() => {}}
             />
             <Avatar
               name={userInfo?.full_name}
