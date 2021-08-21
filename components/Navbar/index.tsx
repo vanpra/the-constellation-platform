@@ -8,6 +8,7 @@ import { useUserInfo } from "../../utils/db";
 import { supabase } from "../../utils/supabaseClient";
 import Avatar from "../Avatar/Avatar";
 import { RedRoundedButton, TransparentRoundedButton } from "../Buttons";
+import AddIcon from "../../assets/add.svg";
 
 interface NavbarProps {
   setShowLoginDialog: (show: boolean) => void;
@@ -84,6 +85,13 @@ export default function Navbar(props: NavbarProps) {
             <RedRoundedButton
               className="mr-4"
               text="Create a post"
+              icon={
+                <AddIcon
+                  height="24"
+                  width="24"
+                  className="fill-current text-white"
+                />
+              }
               onClick={() => {}}
             />
             <Avatar
