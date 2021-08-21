@@ -2,10 +2,10 @@ import { Dialog } from "@headlessui/react";
 import classNames from "classnames";
 
 interface DialogTitleProps {
-  text: string
+  text: string;
 }
 
-export default function DialogTitle({text}: DialogTitleProps) {
+export default function DialogTitle({ text }: DialogTitleProps) {
   return (
     <Dialog.Title
       as="h3"

@@ -3,6 +3,7 @@ import Post from "../models/Post";
 import PostsByTopic from "../models/PostsByTopic";
 import Topic from "../models/Topic";
 import UserInfo from "../models/UserInfo";
+import UserInfoWithPosts from "../models/UserInfoWithPosts";
 import { supabase } from "./supabaseClient";
 
 export const useUserInfo = (userId?: string) => {
@@ -30,6 +31,48 @@ export const useUserInfo = (userId?: string) => {
   }, [setError, setUserInfo, userId]);
 
   return { error, userInfo };
+};
+
+export const useUserInfoWithPosts = (userId?: string) => {
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [userInfoWithPosts, setUserInfoWithPosts] = useState<
+    UserInfoWithPosts | undefined
+  >(undefined);
+
+  useEffect(() => {
+    async function getUserInfoWithPosts() {
+      if (userId != undefined) {
+        const { error: userError, data: userData } = await supabase
+          .from("users")
+          .select()
+          .eq("id", userId)
+          .single();
+
+        if (userError) {
+          setError(userError?.message);
+          return;
+        }
+
+        const { error: postsError, data: postsData } = await supabase
+          .from("posts")
+          .select()
+          .eq("user_id", userId);
+
+        if (postsError) {
+          setError(postsError?.message);
+          return;
+        }
+        setUserInfoWithPosts({
+          ...userData,
+          posts: postsData,
+        });
+      }
+    }
+
+    getUserInfoWithPosts();
+  }, [userId, setError, setUserInfoWithPosts]);
+
+  return { error, userInfoWithPosts };
 };
 
 export const useTopics = () => {
@@ -96,7 +139,11 @@ export const usePostsByTopic = (topicId?: string | string[]) => {
           .select()
           .eq("topic_id", topicId);
 
-        setError(postsError?.message);
+        if (postsError) {
+          setError(postsError?.message);
+          return;
+        }
+
         setPostsByTopic(
           { topic: (topicData as Topic).title, posts: postsData as Post[] } ??
             undefined

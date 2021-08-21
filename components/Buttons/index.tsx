@@ -3,8 +3,8 @@ import React from "react";
 
 interface RoundedButtonProps {
   text: string;
-  className: string;
-  onClick: () => void;
+  className?: string;
+  onClick?: () => void;
 }
 
 export function RedRoundedButton(props: RoundedButtonProps) {

@@ -10,7 +10,7 @@ interface ErrorDataScaffold<T> {
 // TODO: Maybe move and rename this as its not exactly a scaffold
 export default function ErrorDataScaffold<T>(props: ErrorDataScaffold<T>) {
   const { error, data, children } = props;
-  return(
+  return (
     <>
       {error && <p>{error}</p>}
       {data && children}

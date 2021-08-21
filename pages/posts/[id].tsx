@@ -1,7 +1,10 @@
 import { useRouter } from "next/dist/client/router";
 import Link from "next/link";
 import React, { useCallback } from "react";
-import { RedRoundedButton, TransparentRoundedButton } from "../../components/Buttons";
+import {
+  RedRoundedButton,
+  TransparentRoundedButton,
+} from "../../components/Buttons";
 import PostCard from "../../components/Cards/PostCard";
 import LoadingSpinner from "../../components/Loading";
 import ErrorDataScaffold from "../../components/Scaffolds/ErrorDataScaffold";
@@ -24,28 +27,26 @@ export default function Post() {
           <TransparentRoundedButton
             className="mr-6 bg-white"
             text="Translate"
-            onClick={() => { console.log("translate"); }}
+            onClick={() => {
+              console.log("translate");
+            }}
           />
           <p>
-            Post Header (as own component) with title, views, profile pic, author, date posted
-            {post?.title} {post?.views} view(s). Posted by {post?.author?.full_name}, on {post?.created_at}
+            Post Header (as own component) with title, views, profile pic,
+            author, date posted
+            {post?.title} {post?.views} view(s). Posted by{" "}
+            {post?.author?.full_name}, on {post?.created_at}
           </p>
-          
-          <p>
-            {post?.description}
-          </p>
-
+          <p>{post?.description}</p>
           Salt stage component
-          <RedRoundedButton className="mr-2" onClick={prevPostOnClick} text={post?.prev_salt_post?.title || ""} />
-          <p>
-            Salt stage {post?.salt_stage}
-          </p>
-
+          <RedRoundedButton
+            className="mr-2"
+            onClick={prevPostOnClick}
+            text={post?.prev_salt_post?.title || ""}
+          />
+          <p>Salt stage {post?.salt_stage}</p>
           {post?.content}
-
-          <p className="text-2xl">
-            Discussion component
-          </p>
+          <p className="text-2xl">Discussion component</p>
         </PageScaffold>
       </ErrorDataScaffold>
     </>

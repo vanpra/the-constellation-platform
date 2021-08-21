@@ -2,7 +2,7 @@ import classNames from "classnames";
 import Image from "next/image";
 
 interface GoogleButtonProps {
-  text: string,
+  text: string;
   className?: string;
   onClick?: () => void;
 }

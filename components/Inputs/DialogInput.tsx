@@ -3,7 +3,7 @@ import { useCallback } from "react";
 
 interface DialogInputProps {
   className?: string;
-  type?: string
+  type?: string;
   placeholder?: string;
   value: string;
   setValue: (value: string) => void;

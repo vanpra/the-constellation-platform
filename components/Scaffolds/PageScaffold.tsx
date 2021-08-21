@@ -17,7 +17,9 @@ export default function PageScaffold(props: PageScaffoldProps) {
         className
       )}
     >
-      {title && <h1 className={classNames("font-medium text-5xl mb-8")}>{title}</h1>}
+      {title && (
+        <h1 className={classNames("font-medium text-5xl mb-8")}>{title}</h1>
+      )}
       {children}
     </div>
   );
