@@ -1,11 +1,9 @@
-import { Dialog } from "@headlessui/react";
-import classNames from "classnames";
 import React, { useCallback, useState } from "react";
 import { supabase } from "../../utils/supabaseClient";
 import DialogButton from "../Buttons/DialogButton";
 import { GoogleButton } from "../Buttons/GoogleButtons";
 import OrDivider from "../Dividers/OrDivider";
-import DialogInput from "../Inputs/DialogInput";
+import DialogTextInput from "../Inputs/DialogTextInput";
 import DialogTitle from "../Titles/DialogTitle";
 import BaseDialog, { DialogSize } from "./BaseDialog";
 
@@ -70,31 +68,31 @@ export default function SignupDialog(props: SignupDialogProps) {
     <BaseDialog {...props} isLoading={isLoading} size={DialogSize.ExtraLarge}>
       <DialogTitle text="Signup" />
       <div className="mt-8 flex gap-x-5">
-        <DialogInput
+        <DialogTextInput
           placeholder="First Name"
           value={firstName}
           setValue={setFirstName}
         />
-        <DialogInput
+        <DialogTextInput
           placeholder="Last Name"
           value={lastName}
           setValue={setLastName}
         />
       </div>
-      <DialogInput
+      <DialogTextInput
         className="mt-4"
         placeholder="Email"
         value={email}
         setValue={setEmail}
       />
       <div className="mt-4 flex gap-x-5">
-        <DialogInput
+        <DialogTextInput
           placeholder="Password"
           value={password}
           setValue={setPassword}
           type="password"
         />
-        <DialogInput
+        <DialogTextInput
           placeholder="Confirm Password"
           value={confirmPassword}
           setValue={setConfirmPassword}
