@@ -15,7 +15,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [showSignupDialog, setShowSignupDialog] = useState(false);
 
   const [user, setUser] = useState<User | undefined>();
-  const [isLoading, setLoading] = useState(false);
+  const [, setLoading] = useState(false);
 
   useEffect(() => {
     const session = supabase.auth.session();

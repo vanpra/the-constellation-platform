@@ -1,7 +1,7 @@
 import classNames from "classnames";
 
 interface DialogButtonProps {
-  className: string;
+  className?: string;
   text: string;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }

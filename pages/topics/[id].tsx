@@ -1,10 +1,9 @@
 import { useRouter } from "next/dist/client/router";
 import React from "react";
 import PostCard from "../../components/Cards/PostCard";
-import LoadingSpinner from "../../components/Loading";
 import ErrorDataScaffold from "../../components/Scaffolds/ErrorDataScaffold";
 import PageScaffold from "../../components/Scaffolds/PageScaffold";
-import { usePostsByTopic } from "../../utils/db";
+import { usePostsByTopic } from "../../utils/supabase";
 
 export default function PostsByTopic() {
   const router = useRouter();

@@ -1,15 +1,12 @@
 import { useRouter } from "next/dist/client/router";
-import Link from "next/link";
 import React, { useCallback } from "react";
 import {
   RedRoundedButton,
   TransparentRoundedButton,
 } from "../../components/Buttons";
-import PostCard from "../../components/Cards/PostCard";
-import LoadingSpinner from "../../components/Loading";
 import ErrorDataScaffold from "../../components/Scaffolds/ErrorDataScaffold";
 import PageScaffold from "../../components/Scaffolds/PageScaffold";
-import { usePost } from "../../utils/db";
+import { usePost } from "../../utils/supabase";
 
 export default function Post() {
   const router = useRouter();

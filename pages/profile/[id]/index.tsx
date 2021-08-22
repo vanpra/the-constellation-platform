@@ -4,7 +4,7 @@ import Avatar from "../../../components/Avatar/Avatar";
 import { RedRoundedButton } from "../../../components/Buttons";
 import ErrorDataScaffold from "../../../components/Scaffolds/ErrorDataScaffold";
 import PageScaffold from "../../../components/Scaffolds/PageScaffold";
-import { useUserInfoWithPosts } from "../../../utils/db";
+import { useUserInfoWithPosts } from "../../../utils/supabase";
 import EditIcon from "../../../assets/edit.svg";
 import Post from "../../../models/Post";
 import ReactCountryFlag from "react-country-flag";

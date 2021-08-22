@@ -1,10 +1,9 @@
-import { User } from "@supabase/supabase-js";
 import classnames from "classnames/dedupe";
 import { useRouter } from "next/dist/client/router";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useCallback, useContext } from "react";
-import { useUserInfo } from "../../utils/db";
+import { useUserInfo } from "../../utils/supabase";
 import { supabase } from "../../utils/supabaseClient";
 import Avatar from "../Avatar/Avatar";
 import { RedRoundedButton, TransparentRoundedButton } from "../Buttons";
@@ -94,7 +93,6 @@ export default function Navbar(props: NavbarProps) {
                   className="fill-current text-white"
                 />
               }
-              onClick={() => {}}
             />
             <Avatar
               name={userInfo?.full_name}

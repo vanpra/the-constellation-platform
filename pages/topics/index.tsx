@@ -2,7 +2,7 @@ import React from "react";
 import TopicCard from "../../components/Cards/TopicsCard";
 import ErrorDataScaffold from "../../components/Scaffolds/ErrorDataScaffold";
 import PageScaffold from "../../components/Scaffolds/PageScaffold";
-import { useTopics } from "../../utils/db";
+import { useTopics } from "../../utils/supabase";
 
 export default function TopicsPage() {
   const { topics, error } = useTopics();
