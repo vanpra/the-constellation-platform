@@ -15,7 +15,7 @@ export default function ProfilePage() {
   const { userInfoWithPosts, error } = useUserInfoWithPosts(id as string);
 
   return (
-    <PageScaffold>
+    <PageScaffold title="My Profile">
       <ErrorDataScaffold error={error} data={userInfoWithPosts}>
         <div className="pb-12 flex items-center justify-between flex-row">
           <div className="flex flex-row items-center">
@@ -49,7 +49,7 @@ export default function ProfilePage() {
                   className="fill-current text-white"
                 />
               }
-              onClick={() => router.push(`${router.asPath}/edit`)}s
+              onClick={() => router.push(`${router.asPath}/edit`)}
               className="ml-16"
             />
           </div>
