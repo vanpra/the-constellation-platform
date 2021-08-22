@@ -18,7 +18,7 @@ export default function LoginDialog(props: LoginDialogProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [signInError, setSignInError] = useState<String | undefined>(undefined);
+  const [signInError, setSignInError] = useState<string | undefined>(undefined);
 
   const onSignIn = useCallback(
     async (google: boolean) => {

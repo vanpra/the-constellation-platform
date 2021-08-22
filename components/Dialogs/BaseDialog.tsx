@@ -1,13 +1,13 @@
 import { Dialog, Transition } from "@headlessui/react";
 import classNames from "classnames";
-import React, { Fragment, useCallback, useState } from "react";
+import React, { Fragment, useCallback } from "react";
 
 interface BaseDialogProps {
   children: React.ReactNode;
   size?: DialogSize;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  isLoading: boolean;
+  isLoading?: boolean;
 }
 
 export enum DialogSize {

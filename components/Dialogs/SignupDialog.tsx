@@ -21,7 +21,7 @@ export default function SignupDialog(props: SignupDialogProps) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<String | undefined>(undefined);
+  const [error, setError] = useState<string | undefined>(undefined);
 
   const onEmailSignup = useCallback(async () => {
     if (password != confirmPassword) {

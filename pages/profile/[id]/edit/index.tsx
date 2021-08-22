@@ -1,5 +1,5 @@
 import { useRouter } from "next/dist/client/router";
-import React, { useContext, useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import ReactCountryFlag from "react-country-flag";
 import Avatar from "../../../../components/Avatar/Avatar";
 import { RedRoundedButton } from "../../../../components/Buttons";
@@ -8,11 +8,18 @@ import TextInput from "../../../../components/Inputs";
 import ErrorDataScaffold from "../../../../components/Scaffolds/ErrorDataScaffold";
 import PageScaffold from "../../../../components/Scaffolds/PageScaffold";
 import { Country, findCountryByCode } from "../../../../utils/countries";
-import { updateUserInfo, useUserInfo } from "../../../../utils/db";
+import {
+  getAvatarUrl,
+  moveTempAvatar,
+  updateUserInfo,
+  useUserInfo,
+} from "../../../../utils/supabase";
 import SaveIcon from "../../../../assets/save.svg";
 import EditIcon from "../../../../assets/edit.svg";
-import { UserContext } from "../../../_app";
+import ImageUploadDialog from "../../../../components/Dialogs/ImageUploadDialog";
 
+//TODO: Split this up and extract common header
+//TODO: Handle non null assertions
 export default function EditProfilePage() {
   const router = useRouter();
   const { id } = router.query;
@@ -21,6 +28,8 @@ export default function EditProfilePage() {
     () => findCountryByCode(userInfo?.location),
     [userInfo]
   );
+  const [isUploading, setIsUploading] = useState(false);
+  const [avatarChanged, setAvatarChanged] = useState(false);
 
   return (
     <PageScaffold
@@ -34,6 +43,7 @@ export default function EditProfilePage() {
               className="h-32 w-32"
               avatarUrl={userInfo?.avatar_url}
               name={userInfo?.full_name}
+              onClick={() => setIsUploading(true)}
             />
             <div className="flex flex-col ml-12">
               <div className="flex items-center text-4xl">
@@ -64,10 +74,15 @@ export default function EditProfilePage() {
               onClick={async () => {
                 console.log(userInfo);
                 if (userInfo) {
+                  if (avatarChanged) {
+                    moveTempAvatar(userInfo?.id);
+                  }
+
                   const { error } = await updateUserInfo(userInfo);
                   if (!error) {
                     router.push(`/profile/${userInfo.id}`);
                   } else {
+                    //TODO: Display error
                     console.log(error.message);
                   }
                 }
@@ -101,6 +116,19 @@ export default function EditProfilePage() {
           }
           label="Description (Max 100 characters)"
           maxLength={100}
+        />
+        <ImageUploadDialog
+          isOpen={isUploading}
+          setIsOpen={setIsUploading}
+          userId={userInfo?.id}
+          onUpload={() => {
+            setUserInfo({
+              ...userInfo!,
+              //TODO: Handle errors here
+              avatar_url: getAvatarUrl(userInfo!.id, "private").publicURL!,
+            });
+            setAvatarChanged(true);
+          }}
         />
       </ErrorDataScaffold>
     </PageScaffold>
