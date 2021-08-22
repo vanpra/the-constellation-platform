@@ -3,17 +3,17 @@ import classnames from "classnames/dedupe";
 import { useRouter } from "next/dist/client/router";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useCallback } from "react";
+import React, { useCallback, useContext } from "react";
 import { useUserInfo } from "../../utils/db";
 import { supabase } from "../../utils/supabaseClient";
 import Avatar from "../Avatar/Avatar";
 import { RedRoundedButton, TransparentRoundedButton } from "../Buttons";
 import AddIcon from "../../assets/add.svg";
+import { UserContext } from "../../pages/_app";
 
 interface NavbarProps {
   setShowLoginDialog: (show: boolean) => void;
   setShowSignupDialog: (show: boolean) => void;
-  user?: User;
 }
 interface NavButtonProps {
   href: string;
@@ -41,7 +41,9 @@ const NavButton = ({ href, children }: NavButtonProps) => {
 };
 
 export default function Navbar(props: NavbarProps) {
-  const { setShowLoginDialog, setShowSignupDialog, user } = props;
+  const { setShowLoginDialog, setShowSignupDialog } = props;
+
+  const user = useContext(UserContext);
   const showLoginDialog = useCallback(
     () => setShowLoginDialog(true),
     [setShowLoginDialog]
