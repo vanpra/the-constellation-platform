@@ -13,7 +13,7 @@ export default function DropdownButton(props: DropdownButtonProps) {
     <Listbox.Button
       className={classNames(
         "w-full py-2.5 pl-3 pr-10",
-        "bg-white rounded-lg shadow-md cursor-default",
+        "bg-white rounded-lg shadow-sm cursor-default",
         "text-left  sm:text-sm"
       )}
     >
