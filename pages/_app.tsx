@@ -8,6 +8,8 @@ import { supabase } from "../utils/supabaseClient";
 import { User } from "@supabase/supabase-js";
 import classNames from "classnames";
 
+export const UserContext = React.createContext<User | undefined>(undefined);
+
 function MyApp({ Component, pageProps }: AppProps) {
   const [showLoginDialog, setShowLoginDialog] = useState(false);
   const [showSignupDialog, setShowSignupDialog] = useState(false);
@@ -34,22 +36,26 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, []);
 
   return (
-    <div
-      className={classNames(
-        " flex flex-1 flex-col",
-        "w-full h-full min-h-screen min-w-screen",
-        "bg-background"
-      )}
-    >
-      <Navbar
-        setShowLoginDialog={setShowLoginDialog}
-        setShowSignupDialog={setShowSignupDialog}
-        user={user}
-      />
-      <Component {...pageProps} />
-      <LoginDialog isOpen={showLoginDialog} setIsOpen={setShowLoginDialog} />
-      <SignupDialog isOpen={showSignupDialog} setIsOpen={setShowSignupDialog} />
-    </div>
+    <UserContext.Provider value={user}>
+      <div
+        className={classNames(
+          " flex flex-1 flex-col",
+          "w-full h-full min-h-screen min-w-screen",
+          "bg-background"
+        )}
+      >
+        <Navbar
+          setShowLoginDialog={setShowLoginDialog}
+          setShowSignupDialog={setShowSignupDialog}
+        />
+        <Component {...pageProps} />
+        <LoginDialog isOpen={showLoginDialog} setIsOpen={setShowLoginDialog} />
+        <SignupDialog
+          isOpen={showSignupDialog}
+          setIsOpen={setShowSignupDialog}
+        />
+      </div>
+    </UserContext.Provider>
   );
 }
 export default MyApp;

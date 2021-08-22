@@ -30,8 +30,11 @@ export const useUserInfo = (userId?: string) => {
     getUser();
   }, [setError, setUserInfo, userId]);
 
-  return { error, userInfo };
+  return { error, userInfo, setUserInfo };
 };
+
+export const updateUserInfo = async (userInfo: UserInfo) =>
+  await supabase.from("users").update(userInfo).match({ id: userInfo.id });
 
 export const useUserInfoWithPosts = (userId?: string) => {
   const [error, setError] = useState<string | undefined>(undefined);

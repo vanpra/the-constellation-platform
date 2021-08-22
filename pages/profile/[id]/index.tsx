@@ -47,9 +47,9 @@ export default function ProfilePage() {
                   height="24"
                   width="24"
                   className="fill-current text-white"
-                  onClick={() => router.push(`${router.asPath}/edit`)}
                 />
               }
+              onClick={() => router.push(`${router.asPath}/edit`)}s
               className="ml-16"
             />
           </div>
