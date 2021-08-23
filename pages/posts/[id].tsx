@@ -4,9 +4,9 @@ import {
   RedRoundedButton,
   TransparentRoundedButton,
 } from "../../components/Buttons";
-import ErrorDataScaffold from "../../components/Scaffolds/ErrorDataScaffold";
+import ErrorDataLayout from "../../components/Scaffolds/ErrorDataScaffold";
 import PageScaffold from "../../components/Scaffolds/PageScaffold";
-import { usePost } from "../../utils/supabase";
+import { usePost } from "../../utils/db";
 
 export default function Post() {
   const router = useRouter();
@@ -19,7 +19,7 @@ export default function Post() {
 
   return (
     <>
-      <ErrorDataScaffold error={error} data={post}>
+      <ErrorDataLayout error={error} data={post}>
         <PageScaffold>
           <TransparentRoundedButton
             className="mr-6 bg-white"
@@ -45,7 +45,7 @@ export default function Post() {
           {post?.content}
           <p className="text-2xl">Discussion component</p>
         </PageScaffold>
-      </ErrorDataScaffold>
+      </ErrorDataLayout>
     </>
   );
 }

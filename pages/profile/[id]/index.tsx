@@ -1,6 +1,5 @@
 import { useRouter } from "next/dist/client/router";
 import React from "react";
-import Avatar from "../../../components/Avatar/Avatar";
 import { RedRoundedButton } from "../../../components/Buttons";
 import ErrorDataLayout from "../../../components/Scaffolds/ErrorDataScaffold";
 import PageScaffold from "../../../components/Scaffolds/PageScaffold";

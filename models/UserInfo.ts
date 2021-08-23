@@ -5,4 +5,3 @@ export default interface UserInfo {
   description?: string;
   location?: string;
 }
-
