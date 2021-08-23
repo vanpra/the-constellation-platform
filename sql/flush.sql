@@ -12,7 +12,7 @@ drop policy "Allow authorized update access" on public.topics;
 drop policy "Allow authorized delete access" on public.topics;
 drop policy "Allow all select access" on public.topics;
 
-drop policy "Allow logged-in read access" on public.users;
+drop policy "Allow all read access" on public.users;
 drop policy "Allow individual update access" on public.users;
 drop policy "Allow authorized delete access" on public.users;
 

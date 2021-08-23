@@ -1,13 +1,9 @@
-import { Dialog } from "@headlessui/react";
-import { SupabaseClient } from "@supabase/supabase-js";
-import classNames from "classnames";
-import { useRouter } from "next/dist/client/router";
-import React, { useCallback, useEffect, useState } from "react";
-import { supabase } from "../../utils/supabaseClient";
+import React, { useCallback, useState } from "react";
+import { supabase } from "../../utils/supabase/supabaseClient";
 import DialogButton from "../Buttons/DialogButton";
 import { GoogleButton } from "../Buttons/GoogleButtons";
 import OrDivider from "../Dividers/OrDivider";
-import DialogInput from "../Inputs/DialogInput";
+import DialogTextInput from "../Inputs/DialogTextInput";
 import DialogTitle from "../Titles/DialogTitle";
 import BaseDialog from "./BaseDialog";
 
@@ -22,7 +18,7 @@ export default function LoginDialog(props: LoginDialogProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [signInError, setSignInError] = useState<String | undefined>(undefined);
+  const [signInError, setSignInError] = useState<string | undefined>(undefined);
 
   const onSignIn = useCallback(
     async (google: boolean) => {
@@ -44,13 +40,13 @@ export default function LoginDialog(props: LoginDialogProps) {
   return (
     <BaseDialog {...props} isLoading={isLoading}>
       <DialogTitle text="Login" />
-      <DialogInput
+      <DialogTextInput
         className="mt-8"
         placeholder="Email"
         value={email}
         setValue={setEmail}
       />
-      <DialogInput
+      <DialogTextInput
         className="mt-4"
         placeholder="Password"
         value={password}

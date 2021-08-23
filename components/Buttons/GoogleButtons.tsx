@@ -1,8 +1,8 @@
 import classNames from "classnames";
-import Image from "next/image";
+import GoogleLogo from "../../assets/google_logo.svg";
 
 interface GoogleButtonProps {
-  text: string,
+  text: string;
   className?: string;
   onClick?: () => void;
 }
@@ -20,7 +20,7 @@ export function GoogleButton(props: GoogleButtonProps) {
       )}
       onClick={onClick}
     >
-      <Image src="/google_logo.svg" alt="me" width="24" height="24" />
+      <GoogleLogo height="24" width="24" />
       <p className="text-lg font-medium pl-4">{text}</p>
     </div>
   );
