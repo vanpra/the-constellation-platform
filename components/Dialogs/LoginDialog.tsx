@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { supabase } from "../../utils/supabaseClient";
+import { supabase } from "../../utils/supabase/supabaseClient";
 import DialogButton from "../Buttons/DialogButton";
 import { GoogleButton } from "../Buttons/GoogleButtons";
 import OrDivider from "../Dividers/OrDivider";

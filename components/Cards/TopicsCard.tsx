@@ -7,7 +7,6 @@ interface TopicCardProps {
   topic: Topic;
 }
 
-//TODO: Extract out card layout div into component
 export default function TopicCard(props: TopicCardProps) {
   const { topic } = props;
   const router = useRouter();
