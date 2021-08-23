@@ -6,7 +6,7 @@ import {
 } from "../../components/Buttons";
 import ErrorDataLayout from "../../components/Scaffolds/ErrorDataScaffold";
 import PageScaffold from "../../components/Scaffolds/PageScaffold";
-import { usePost } from "../../utils/db";
+import { usePost } from "../../utils/supabase/db";
 
 export default function Post() {
   const router = useRouter();
