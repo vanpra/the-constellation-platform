@@ -1,10 +1,10 @@
 import { SupabaseRealtimePayload } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
-import Post from "../models/Post";
-import PostsByTopic from "../models/PostsByTopic";
-import Topic from "../models/Topic";
-import UserInfo from "../models/UserInfo";
-import UserInfoWithPosts from "../models/UserInfoWithPosts";
+import Post from "../../models/Post";
+import PostsByTopic from "../../models/PostsByTopic";
+import Topic from "../../models/Topic";
+import UserInfo from "../../models/UserInfo";
+import UserInfoWithPosts from "../../models/UserInfoWithPosts";
 import { supabase } from "./supabaseClient";
 
 export const useUserInfo = (userId?: string) => {
@@ -21,7 +21,6 @@ export const useUserInfo = (userId?: string) => {
           .single();
 
         if (!e) {
-          // TODO: check if this should be kept or removed
           supabase
             .from(`users:id=eq.${userId}`)
             .on("UPDATE", (payload: SupabaseRealtimePayload<UserInfo>) => {
@@ -47,25 +46,6 @@ export const useUserInfo = (userId?: string) => {
 
 export const updateUserInfo = async (userInfo: UserInfo) =>
   await supabase.from("users").update(userInfo).match({ id: userInfo.id });
-
-export async function uploadTempAvatar(userId: string, avatarFile: Blob) {
-  return await supabase.storage
-    .from("avatars")
-    .upload(`private/${userId}.jpeg`, avatarFile, {
-      cacheControl: "3600",
-      contentType: "image/jpeg",
-      upsert: true,
-    });
-}
-
-export async function moveTempAvatar(userId: string) {
-  return await supabase.storage
-    .from("avatars")
-    .move(`private/${userId}.jpeg`, `public/${userId}.jpeg`);
-}
-
-export const getAvatarUrl = (userId: string, type: string) =>
-  supabase.storage.from("avatars").getPublicUrl(`${type}/${userId}.jpeg`);
 
 export const useUserInfoWithPosts = (userId?: string) => {
   const [error, setError] = useState<string | undefined>(undefined);
@@ -147,8 +127,7 @@ export const useTopic = (topicId: number) => {
   return { error, topic };
 };
 
-// TODO: Find a way to not include string[] in type
-export const usePostsByTopic = (topicId?: string | string[]) => {
+export const usePostsByTopic = (topicId?: string) => {
   const [error, setError] = useState<string | undefined>(undefined);
   const [postsByTopic, setPostsByTopic] = useState<PostsByTopic | undefined>(
     undefined
