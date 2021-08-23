@@ -1,3 +1,4 @@
+import { SupabaseRealtimePayload } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
 import Post from "../models/Post";
 import PostsByTopic from "../models/PostsByTopic";
@@ -18,6 +19,17 @@ export const useUserInfo = (userId?: string) => {
           .select()
           .eq("id", userId)
           .single();
+
+        if (!e) {
+          // TODO: check if this should be kept or removed
+          supabase
+            .from(`users:id=eq.${userId}`)
+            .on("UPDATE", (payload: SupabaseRealtimePayload<UserInfo>) => {
+              console.log(payload.new);
+              setUserInfo(payload.new);
+            })
+            .subscribe();
+        }
 
         setError(e?.message);
         setUserInfo(data ?? undefined);

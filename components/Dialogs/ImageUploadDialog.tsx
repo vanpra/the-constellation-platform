@@ -4,13 +4,15 @@ import BaseDialog from "./BaseDialog";
 import AvatarEditor from "react-avatar-editor";
 import DialogTitle from "../Titles/DialogTitle";
 import classNames from "classnames";
-import AddIcon from "../../assets/add.svg";
-import { uploadTempAvatar } from "../../utils/supabase";
+import UploadIcon from "../../assets/upload.svg";
+import { getAvatarUrl, uploadTempAvatar } from "../../utils/supabase";
+import OrDivider from "../Dividers/OrDivider";
+import DialogTextInput from "../Inputs/DialogTextInput";
 
 interface ImageUploadDialogProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  onUpload: () => void;
+  onUpload: (url: string, isUpload: boolean) => void;
   userId?: string;
 }
 
@@ -21,6 +23,7 @@ export default function ImageUploadDialog(props: ImageUploadDialogProps) {
   const editorRef = useRef<AvatarEditor>(null);
   const [file, setFile] = useState<File | undefined>(undefined);
   const [zoom, setZoom] = useState(0);
+  const [url, setUrl] = useState("");
 
   return (
     <BaseDialog {...props}>
@@ -62,15 +65,18 @@ export default function ImageUploadDialog(props: ImageUploadDialogProps) {
           </div>
 
           <DialogButton
-            text="Save Profile Picture"
+            text="Upload Profile Picture"
             onClick={() => {
               if (editorRef.current) {
                 editorRef.current.getImage().toBlob(
                   async (blob: Blob | null) => {
-                    if (blob) {
+                    if (blob && userId) {
                       // TODO: Should not be giving emptry string to this
-                      await uploadTempAvatar(userId ?? "", blob);
-                      onUpload();
+                      await uploadTempAvatar(userId, blob);
+                      onUpload(
+                        getAvatarUrl(userId, "private").publicURL!,
+                        true
+                      );
                       setIsOpen(false);
                     }
                   },
@@ -84,17 +90,37 @@ export default function ImageUploadDialog(props: ImageUploadDialogProps) {
       )}
 
       {!file && (
-        <button
-          className={classNames(
-            "mt-6 h-52 w-full",
-            "flex flex-col items-center justify-center",
-            "border-4 border-gray-600 border-dashed rounded-xl"
-          )}
-          onClick={() => inputFileRef.current?.click()}
-        >
-          <AddIcon width={60} height={60} />
-          <p className="text-xl font-medium">Add a new profile picture</p>
-        </button>
+        <>
+          <button
+            className={classNames(
+              "mt-6 h-52 w-full",
+              "flex flex-col items-center justify-center",
+              "border-4 border-gray-600 border-dashed rounded-xl"
+            )}
+            onClick={() => inputFileRef.current?.click()}
+          >
+            <UploadIcon width={60} height={60} />
+            <p className="text-xl font-medium">Upload a new profile picture</p>
+          </button>
+          <OrDivider className="mt-2" />
+          <DialogTextInput
+            placeholder="http://..."
+            label="Use image from URL"
+            value={url}
+            setValue={setUrl}
+          />
+
+          <DialogButton
+            className="mt-3"
+            text="Save URL Profile Picture"
+            onClick={() => {
+              if (url.match(/\.(jpg|jpeg|gif|png)$/) != null) {
+                onUpload(url, false);
+                setIsOpen(false);
+              }
+            }}
+          />
+        </>
       )}
     </BaseDialog>
   );

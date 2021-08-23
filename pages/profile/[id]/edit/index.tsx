@@ -74,8 +74,15 @@ export default function EditProfilePage() {
               onClick={async () => {
                 console.log(userInfo);
                 if (userInfo) {
+                  // Check that url is a supabase one
                   if (avatarChanged) {
                     moveTempAvatar(userInfo?.id);
+                    setUserInfo({
+                      ...userInfo!,
+                      //TODO: Handle errors here
+                      avatar_url: getAvatarUrl(userInfo!.id, "public")
+                        .publicURL!,
+                    });
                   }
 
                   const { error } = await updateUserInfo(userInfo);
@@ -121,13 +128,13 @@ export default function EditProfilePage() {
           isOpen={isUploading}
           setIsOpen={setIsUploading}
           userId={userInfo?.id}
-          onUpload={() => {
+          onUpload={(url: string, isUpload: boolean) => {
             setUserInfo({
               ...userInfo!,
               //TODO: Handle errors here
-              avatar_url: getAvatarUrl(userInfo!.id, "private").publicURL!,
+              avatar_url: url,
             });
-            setAvatarChanged(true);
+            setAvatarChanged(isUpload);
           }}
         />
       </ErrorDataScaffold>
