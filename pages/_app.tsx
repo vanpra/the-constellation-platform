@@ -4,7 +4,7 @@ import Navbar from "../components/Navbar";
 import LoginDialog from "../components/Dialogs/LoginDialog";
 import React, { useEffect, useState } from "react";
 import SignupDialog from "../components/Dialogs/SignupDialog";
-import { supabase } from "../utils/supabaseClient";
+import { supabase } from "../utils/supabase/supabaseClient";
 import { User } from "@supabase/supabase-js";
 import classNames from "classnames";
 
