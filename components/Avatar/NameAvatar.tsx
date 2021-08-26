@@ -38,7 +38,7 @@ export default function NameAvatar(props: NameAvatarProps) {
         "rounded-full",
         backgroundStyle,
         "text-white text-lg",
-        "hover:cursor-pointer",
+        { "hover:cursor-pointer": onClick != undefined },
         className
       )}
       onClick={onClick}

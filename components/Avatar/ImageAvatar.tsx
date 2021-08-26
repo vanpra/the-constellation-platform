@@ -18,7 +18,7 @@ export default function ImageAvatar(props: ImageAvatarProps) {
           className={classNames(
             "flex items-center justify-center",
             "border-2 border-black rounded-full",
-            "hover:cursor-pointer",
+            { "hover:cursor-pointer": onClick != undefined },
             className
           )}
           onClick={onClick}
