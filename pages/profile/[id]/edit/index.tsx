@@ -2,7 +2,7 @@ import { useRouter } from "next/dist/client/router";
 import React, { useCallback, useMemo, useState } from "react";
 import { RedRoundedButton } from "../../../../components/Buttons";
 import CountryDropdown from "../../../../components/Dropdown/CountryDropdown";
-import TextInput from "../../../../components/Inputs";
+import TextInput from "../../../../components/Inputs/TextInput";
 import ErrorDataLayout from "../../../../components/Scaffolds/ErrorDataScaffold";
 import PageScaffold from "../../../../components/Scaffolds/PageScaffold";
 import { Country, findCountryByCode } from "../../../../utils/countries";
@@ -101,6 +101,7 @@ export default function EditProfilePage() {
             setValue={(value: string) => setUserInfoField("full_name", value)}
             label="Full Name"
             className="flex-1"
+            inputClassName="text-lg rounded-lg shadow-sm"
           />
           <CountryDropdown
             className="flex-1"
@@ -112,6 +113,7 @@ export default function EditProfilePage() {
         </div>
         <TextInput
           className="flex-1 pt-4"
+          inputClassName="text-lg rounded-lg shadow-sm"
           value={userInfo?.description ?? ""}
           setValue={(value: string) => setUserInfoField("description", value)}
           label="Description (Max 100 characters)"

@@ -13,7 +13,9 @@
     "@headlessui/react": "^1.4.0",
     "@supabase/supabase-js": "^1.21.0",
     "@svgr/webpack": "^5.5.0",
+    "@tinymce/tinymce-react": "^3.12.6",
     "autoprefixer": "^10.3.1",
+    "autosize": "^5.0.1",
     "classnames": "^2.3.1",
     "dayjs": "^1.10.6",
     "html-react-parser": "^1.2.8",
@@ -27,6 +29,7 @@
     "tailwindcss": "^2.2.7"
   },
   "devDependencies": {
+    "@types/autosize": "^4.0.0",
     "@types/react": "17.0.15",
     "@types/react-avatar-editor": "^10.3.6",
     "@typescript-eslint/eslint-plugin": "^4.29.2",
