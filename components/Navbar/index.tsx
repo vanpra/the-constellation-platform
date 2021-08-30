@@ -84,7 +84,7 @@ export default function Navbar(props: NavbarProps) {
               onClick={signOut}
             />
             <RedRoundedButton
-              className="mr-4"
+              className="mr-4 flex-none"
               text="Create a post"
               icon={
                 <AddIcon
@@ -97,7 +97,7 @@ export default function Navbar(props: NavbarProps) {
             <Avatar
               name={userInfo?.full_name}
               avatarUrl={userInfo?.avatar_url}
-              className="mr-4 h-12 w-12"
+              className="mr-4 h-12 w-12 flex-none"
               onClick={() => router.push(`/profile/${userInfo.id}`)}
             />
           </>
