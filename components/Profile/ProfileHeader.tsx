@@ -16,7 +16,7 @@ export function ProfileHeader(props: ProfileHeaderProps) {
     <div className="flex items-center justify-between flex-row">
       <div className="flex flex-row items-center">
         <Avatar
-          className="h-32 w-32"
+          className="w-16 md:w-32 lg:w-48 h-16 md:h-32 lg:h-48"
           avatarUrl={userInfo?.avatar_url}
           name={userInfo?.full_name}
           onClick={onAvatarClick}
@@ -31,7 +31,7 @@ export function ProfileHeader(props: ProfileHeaderProps) {
               />
             )}
           </div>
-          <p className="mt-1 text-xl">{userInfo?.description}</p>
+          <p className="mt-1 break-all text-xl">{userInfo?.description}</p>
         </div>
       </div>
 
