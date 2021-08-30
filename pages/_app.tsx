@@ -7,6 +7,10 @@ import SignupDialog from "../components/Dialogs/SignupDialog";
 import { supabase } from "../utils/supabase/supabaseClient";
 import { User } from "@supabase/supabase-js";
 import classNames from "classnames";
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+import utc from "dayjs/plugin/utc";
+import relativeTime from "dayjs/plugin/relativeTime";
 
 export const UserContext = React.createContext<User | undefined>(undefined);
 
@@ -16,6 +20,12 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   const [user, setUser] = useState<User | undefined>();
   const [, setLoading] = useState(false);
+
+  useEffect(() => {
+    dayjs.extend(customParseFormat);
+    dayjs.extend(utc);
+    dayjs.extend(relativeTime);
+  }, [dayjs]);
 
   useEffect(() => {
     const session = supabase.auth.session();

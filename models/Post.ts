@@ -7,7 +7,7 @@ export default interface Post {
   content: string;
   views: number;
   previous_salt_post_id?: number;
-  created_at: string; // TODO: make this a date time object (factoring in timezone)
+  created_at: Date; // TODO: make this a date time object (factoring in timezone)
   salt_stage?: number;
   user_id: string;
   author?: UserInfo;
