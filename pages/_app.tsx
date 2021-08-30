@@ -50,7 +50,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <div
         className={classNames(
           " flex flex-1 flex-col",
-          "w-full h-full min-h-screen min-w-screen",
+          "w-full h-full min-h-screen min-w-screen pb-4",
           "bg-background"
         )}
       >

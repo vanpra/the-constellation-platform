@@ -15,6 +15,7 @@ export enum DialogSize {
   Medium = "max-w-md",
   Large = "max-w-lg",
   ExtraLarge = "max-w-xl",
+  ExtraExtraLarge = "max-w-2xl",
 }
 
 export default function BaseDialog(props: BaseDialogProps) {
