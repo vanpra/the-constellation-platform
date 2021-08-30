@@ -9,6 +9,7 @@ export default interface Post {
   previous_salt_post_id?: number;
   created_at: string; // TODO: make this a date time object (factoring in timezone)
   salt_stage?: number;
+  user_id: string;
   author?: UserInfo;
   prev_salt_post?: {id: number, title: string};
   next_salt_post?: {id: number, title: string};

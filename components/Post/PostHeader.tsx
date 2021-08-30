@@ -12,7 +12,6 @@ interface PostHeaderProps {
 export function PostHeader(props: PostHeaderProps) {
     const { post, onAvatarClick, buttons } = props;
     const router = useRouter();
-
     return (
         <div
             className="flex flex-row"
@@ -20,7 +19,7 @@ export function PostHeader(props: PostHeaderProps) {
                 className="w-16 h-16 mr-4"
                 avatarUrl={post?.author?.avatar_url}
                 name={post?.author?.full_name}
-                onClick={() => router.push(`profile/${post?.author?.id}`)}
+                onClick={() => router.push(`/profile/${post?.user_id}`)}
             />
             <div
                 className="flex flex-col"
