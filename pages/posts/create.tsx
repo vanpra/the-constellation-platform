@@ -1,14 +1,25 @@
 import { Editor } from "@tinymce/tinymce-react";
+import classNames from "classnames";
 import React, { useState } from "react";
 import EditIcon from "../../assets/edit.svg";
+import LinkIcon from "../../assets/link.svg";
+import Upload from "../../assets/upload.svg";
+import { RedRoundedButton } from "../../components/Buttons";
+import Chip from "../../components/Buttons/Chip";
 import ExpandButton from "../../components/Buttons/ExpandButton";
+import LinkPostDialog from "../../components/Dialogs/LinkPostDialog";
 import SaltStageDialog from "../../components/Dialogs/SaltStageDialog";
 import TopicsDialog from "../../components/Dialogs/TopicsDialog";
 import TextArea from "../../components/Inputs/TextArea";
+import TextInput from "../../components/Inputs/TextInput";
 import PageScaffold from "../../components/Scaffolds/PageScaffold";
+import Post from "../../models/Post";
 import Topic from "../../models/Topic";
 import { saltStages } from "../../utils/salt";
 import { supabase } from "../../utils/supabase/supabaseClient";
+import CloseCircle from "../../assets/close_circle.svg";
+import { createPost } from "../../utils/supabase/db";
+import { useRouter } from "next/dist/client/router";
 
 interface CreatePostPageProps {
   topics: Topic[];
@@ -35,17 +46,41 @@ export async function getStaticProps() {
 export default function CreatePostPage(props: CreatePostPageProps) {
   const { topics } = props;
 
+  const router = useRouter();
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [content, setContent] = useState("");
   const [topic, setTopic] = useState<Topic>(topics[0]);
-  const [saltStage, setSaltStage] = useState(0);
+  const [saltStage, setSaltStage] = useState<number>(0);
+  const [previousPost, setPreviousPost] = useState<Post | undefined>(undefined);
+  const [tags, setTags] = useState<string[]>([]);
+
+  const [currentTag, setCurrentTag] = useState("");
 
   const [showTopicsDialog, setShowTopicsDialog] = useState(false);
   const [showSaltStageDialog, setShowSaltStageDialog] = useState(false);
+  const [showPostLinkDialog, setShowPostLinkDialog] = useState(false);
+
+  const [error, setError] = useState("");
+
+  const onPublish = async () => {
+    const { post, error }: { post: Post, } = await createPost({
+      title,
+      description,
+      content,
+    });
+
+    if (error) {
+      setError(error.message);
+    } else {
+      router.push(`/posts/${post.id}`);
+    }
+  };
 
   return (
     <PageScaffold
+      className="mb-12"
       icon={<EditIcon width="50" height="50" />}
       title="Currently Editing..."
     >
@@ -85,20 +120,69 @@ export default function CreatePostPage(props: CreatePostPageProps) {
         tinymceScriptSrc="/js/tinymce/tinymce.min.js"
       />
 
-      <div className="flex flex-row gap-x-5 pt-2">
-        <ExpandButton
-          className="flex-1"
-          label="Post topic"
-          value={topic.title}
-          onClick={() => setShowTopicsDialog(true)}
-        />
-        <ExpandButton
-          className="flex-1"
-          label="SALT stage"
-          value={saltStage + ": " + saltStages[saltStage]}
-          onClick={() => setShowSaltStageDialog(true)}
-        />
-      </div>
+      <ExpandButton
+        className="mt-3"
+        label="Post topic"
+        value={topic.title}
+        onClick={() => setShowTopicsDialog(true)}
+      />
+
+      <ExpandButton
+        className="mt-3"
+        label="SALT stage"
+        value={saltStage + ": " + saltStages[saltStage]}
+        onClick={() => setShowSaltStageDialog(true)}
+      >
+        {saltStage != 0 && saltStage != 1 && (
+          <RedRoundedButton
+            icon={
+              <LinkIcon
+                width="24"
+                height="24"
+                className="fill-current text-white"
+              />
+            }
+            text="Link previous post"
+            onClick={() => setShowPostLinkDialog(true)}
+          />
+        )}
+      </ExpandButton>
+
+      <p className="px-1 py-1 text-xl font-medium mt-3">Post tags</p>
+      <TextInput
+        inputClassName="rounded-lg"
+        placeholder="eg. Education, Medical, ..."
+        value={currentTag}
+        setValue={setCurrentTag}
+        onEnter={() => {
+          setTags([...tags, currentTag]);
+          setCurrentTag("");
+        }}
+      />
+
+      {tags.length != 0 && (
+        <div className="flex flex-wrap gap-x-3 mt-4">
+          {tags.map((tag, index) => (
+            <Chip
+              key={index}
+              label={tag}
+              button={
+                <CloseCircle
+                  width="24"
+                  height="24"
+                  className={classNames(
+                    "fill-current text-gray-400",
+                    "hover:text-gray-500 hover:cursor-pointer"
+                  )}
+                  onClick={() => {
+                    setTags(tags.filter((_, i) => i != index));
+                  }}
+                />
+              }
+            />
+          ))}
+        </div>
+      )}
 
       <TopicsDialog
         isOpen={showTopicsDialog}
@@ -112,6 +196,25 @@ export default function CreatePostPage(props: CreatePostPageProps) {
         setIsOpen={setShowSaltStageDialog}
         selected={saltStage}
         setSelected={setSaltStage}
+      />
+      <LinkPostDialog
+        selected={previousPost}
+        setSelected={setPreviousPost}
+        saltStage={saltStage}
+        isOpen={showPostLinkDialog}
+        setIsOpen={setShowPostLinkDialog}
+      />
+
+      <RedRoundedButton
+        className="mt-6 py-3"
+        text="Publish"
+        icon={
+          <Upload
+            height="24"
+            width="24"
+            className={classNames("fill-current text-white")}
+          />
+        }
       />
     </PageScaffold>
   );

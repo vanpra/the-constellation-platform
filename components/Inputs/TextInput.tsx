@@ -4,10 +4,13 @@ import { useCallback } from "react";
 interface TextInputProps {
   className?: string;
   inputClassName?: string;
+
   type?: string;
   placeholder?: string;
   label?: string;
   maxLength?: number;
+  onEnter?: () => void;
+
   value: string;
   setValue: (value: string) => void;
 }
@@ -20,6 +23,7 @@ export default function TextInput(props: TextInputProps) {
     placeholder,
     label,
     maxLength,
+    onEnter,
     value,
     setValue,
   } = props;
@@ -47,6 +51,11 @@ export default function TextInput(props: TextInputProps) {
         value={value}
         onChange={onChange}
         maxLength={maxLength}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" && onEnter) {
+            onEnter();
+          }
+        }}
       />
     </div>
   );

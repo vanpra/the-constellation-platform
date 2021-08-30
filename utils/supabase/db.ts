@@ -213,3 +213,37 @@ export const usePost = (postId?: string | string[]) => {
 
   return { error, post };
 };
+
+export const usePreviousLinkPosts = (saltStage: number, userId?: string) => {
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [posts, setPosts] = useState<Post[] | undefined>(undefined);
+
+  useEffect(() => {
+    async function getPosts() {
+      if (userId != undefined) {
+        const { error: e, data } = await supabase
+          .from("posts")
+          .select(
+            `
+        *,
+        author:user_id (full_name),
+        prev_salt_post:previous_salt_post_id (id, title)
+      `
+          )
+          .eq("user_id", userId)
+          .lt("salt_stage", saltStage);
+        setError(e?.message);
+        setPosts(data ?? undefined);
+        console.log(data);
+      }
+    }
+
+    getPosts();
+  }, [saltStage, setError, setPosts, userId]);
+
+  return { error, posts };
+};
+
+export const createPost = async (post: Post) => {
+  return await supabase.from("posts").insert(post);
+};
