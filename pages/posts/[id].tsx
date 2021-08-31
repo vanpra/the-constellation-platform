@@ -7,7 +7,6 @@ import { usePost } from "../../utils/supabase/db";
 import parse from "html-react-parser";
 import { PostHeader } from "../../components/Post/PostHeader";
 import { SaltSection } from "../../components/Post/SaltSection";
-import Chip from "../../components/Buttons/Chip";
 
 export default function Post() {
   const router = useRouter();

@@ -1,16 +1,16 @@
 import classNames from "classnames";
-import UnfoldMore from "../../assets/unfold.svg";
 
-interface ExpandButtonProps {
+interface EndIconButtonProps {
   className?: string;
   label: string;
   value: string;
   children?: React.ReactNode;
+  icon: React.ReactNode;
   onClick: () => void;
 }
 
-export default function ExpandButton(props: ExpandButtonProps) {
-  const { className, label, value, children, onClick } = props;
+export default function EndIconButton(props: EndIconButtonProps) {
+  const { className, label, value, children, icon, onClick } = props;
 
   return (
     <div className={className}>
@@ -28,10 +28,7 @@ export default function ExpandButton(props: ExpandButtonProps) {
           onClick={onClick}
         >
           <p className="block truncate text-lg font-medium">{value}</p>
-          <UnfoldMore
-            className="w-5 h-5 fill-current text-gray-400"
-            aria-hidden="true"
-          />
+          {icon}
         </button>
         {children}
       </div>

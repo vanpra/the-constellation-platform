@@ -43,17 +43,25 @@ export default function LinkPostDialog(props: LinkPostDialogProps) {
             <button
               key={index}
               className={classNames(
-                "flex flex-row py-4 px-2 justify-between",
-                "hover:bg-gray-200"
+                "flex flex-row py-4 px-2 justify-between items-center",
+                "hover:bg-gray-200 max-w-full"
               )}
               onClick={() => {
                 setSelected(post);
                 setIsOpen(false);
               }}
             >
-              <p className="text-2xl">{post.title}</p>
+              {/*TODO: Handle case where text is too long */}
+              <div className="flex flex-col items-start mr-4">
+                <p className="text-2xl">{post.title}</p>
+                <p className="text-xl">{post.description}</p>
+              </div>
               {selected?.id == post.id && (
-                <Tick className="fill-current text-primary mr-4 w-8 h-8" />
+                <Tick
+                  width="30"
+                  height="30"
+                  className="fill-current text-primary flex-none"
+                />
               )}
             </button>
           ))}

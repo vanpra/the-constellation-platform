@@ -6,7 +6,9 @@ import LinkIcon from "../../assets/link.svg";
 import Upload from "../../assets/upload.svg";
 import { RedRoundedButton } from "../../components/Buttons";
 import Chip from "../../components/Buttons/Chip";
-import ExpandButton from "../../components/Buttons/ExpandButton";
+import EndIconButton from "../../components/Buttons/EndIconButton";
+import CloseIcon from "../../assets/close.svg";
+import UnfoldMoreIcon from "../../assets/unfold.svg";
 import LinkPostDialog from "../../components/Dialogs/LinkPostDialog";
 import SaltStageDialog from "../../components/Dialogs/SaltStageDialog";
 import TopicsDialog from "../../components/Dialogs/TopicsDialog";
@@ -134,33 +136,72 @@ export default function CreatePostPage(props: CreatePostPageProps) {
         tinymceScriptSrc="/js/tinymce/tinymce.min.js"
       />
 
-      <ExpandButton
+      <EndIconButton
         className="mt-3"
         label="Post topic"
         value={topic.title}
         onClick={() => setShowTopicsDialog(true)}
+        icon={
+          <UnfoldMoreIcon
+            width="24"
+            height="24"
+            className="fill-current text-gray-400"
+            aria-hidden="true"
+          />
+        }
       />
 
-      <ExpandButton
-        className="mt-3"
-        label="SALT stage"
-        value={saltStage + ": " + saltStages[saltStage]}
-        onClick={() => setShowSaltStageDialog(true)}
-      >
-        {saltStage != 0 && saltStage != 1 && (
-          <RedRoundedButton
+      <div className="flex gap-x-3">
+        <EndIconButton
+          className="mt-3 flex-1"
+          label="SALT stage"
+          value={saltStage + ": " + saltStages[saltStage]}
+          onClick={() => setShowSaltStageDialog(true)}
+          icon={
+            <UnfoldMoreIcon
+              width="24"
+              height="24"
+              className="fill-current text-gray-400"
+              aria-hidden="true"
+            />
+          }
+        >
+          {saltStage != 0 && saltStage != 1 && !previousPost && (
+            <RedRoundedButton
+              icon={
+                <LinkIcon
+                  width="24"
+                  height="24"
+                  className="fill-current text-white"
+                />
+              }
+              text="Link previous post"
+              onClick={() => setShowPostLinkDialog(true)}
+            />
+          )}
+        </EndIconButton>
+
+        {previousPost && (
+          <EndIconButton
+            className="mt-3 flex-1"
+            label="Previous SALT post"
+            value={previousPost.title}
+            onClick={() => setShowPostLinkDialog(true)}
             icon={
-              <LinkIcon
+              <CloseIcon
                 width="24"
                 height="24"
-                className="fill-current text-white"
+                className="fill-current text-gray-400"
+                aria-hidden="true"
+                onClick={(e: Event) => {
+                  e.stopPropagation();
+                  setPreviousPost(undefined);
+                }}
               />
             }
-            text="Link previous post"
-            onClick={() => setShowPostLinkDialog(true)}
           />
         )}
-      </ExpandButton>
+      </div>
 
       <p className="px-1 py-1 text-xl font-medium mt-3">Post tags</p>
       <TextInput
