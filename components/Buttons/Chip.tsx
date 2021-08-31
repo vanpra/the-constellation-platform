@@ -12,9 +12,8 @@ export default function Chip(props: ChipProps) {
   return (
     <div
       className={classNames(
-        { "pl-5 pr-3": button },
-        { "px-5": !button },
-        "py-2",
+        { "pl-5 pr-3 py-2": button },
+        { "px-4 py-1": !button },
         "flex flex-row items-center",
         "bg-white rounded-full shadow-sm content"
       )}

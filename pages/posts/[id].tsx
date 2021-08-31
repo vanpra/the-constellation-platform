@@ -1,15 +1,13 @@
 import { useRouter } from "next/dist/client/router";
 import React from "react";
-import {
-  RedRoundedButton,
-  TransparentRoundedButton,
-} from "../../components/Buttons";
+import { TransparentRoundedButton } from "../../components/Buttons";
 import ErrorDataScaffold from "../../components/Scaffolds/ErrorDataScaffold";
 import PageScaffold from "../../components/Scaffolds/PageScaffold";
 import { usePost } from "../../utils/supabase/db";
 import parse from "html-react-parser";
 import { PostHeader } from "../../components/Post/PostHeader";
 import { SaltSection } from "../../components/Post/SaltSection";
+import Chip from "../../components/Buttons/Chip";
 
 export default function Post() {
   const router = useRouter();
@@ -30,12 +28,7 @@ export default function Post() {
 
           <PostHeader post={post} />
 
-          <div /* TAGS */ className="py-2 px-1 space-x-2 flex">
-            <RedRoundedButton className="text-sm" text="tag" />
-            <RedRoundedButton className="text-sm" text="tag2" />
-          </div>
-
-          <p className="text-2xl font-normal mt-6">{post?.description}</p>
+          <p className="text-2xl font-normal mt-4">{post?.description}</p>
 
           <div className="py-2">
             <hr className="border-gray-400 border-opacity-40 border-1"></hr>
