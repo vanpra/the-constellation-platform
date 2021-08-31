@@ -1,6 +1,9 @@
 import { useRouter } from "next/dist/client/router";
-import React, { useCallback } from "react";
-import { RedRoundedButton, TransparentRoundedButton } from "../../components/Buttons";
+import React from "react";
+import {
+  RedRoundedButton,
+  TransparentRoundedButton,
+} from "../../components/Buttons";
 import ErrorDataScaffold from "../../components/Scaffolds/ErrorDataScaffold";
 import PageScaffold from "../../components/Scaffolds/PageScaffold";
 import { usePost } from "../../utils/supabase/db";
@@ -20,35 +23,29 @@ export default function Post() {
           <TransparentRoundedButton
             className="mr-6 bg-white"
             text="Translate"
-            onClick={() => { console.log("translate"); }}
+            onClick={() => {
+              console.log("translate");
+            }}
           />
 
-          <PostHeader
-            post={post}
-          />
+          <PostHeader post={post} />
 
-          <div /* TAGS */
-            className="py-2 px-1 space-x-2 flex"
-          >
-            <RedRoundedButton className="text-sm" text="tag" onClick={() => { }} />
-            <RedRoundedButton className="text-sm" text="tag2" onClick={() => { }} />
+          <div /* TAGS */ className="py-2 px-1 space-x-2 flex">
+            <RedRoundedButton className="text-sm" text="tag" />
+            <RedRoundedButton className="text-sm" text="tag2" />
           </div>
 
-          <p className="text-xl font-normal">
-            {post?.description}
-          </p>
+          <p className="text-2xl font-normal mt-6">{post?.description}</p>
 
           <div className="py-2">
             <hr className="border-gray-400 border-opacity-40 border-1"></hr>
           </div>
 
-         <SaltSection post={post}/>
+          <SaltSection post={post} />
 
-          {parse(post?.content || "")}
+          <div className="text-xl">{parse(post?.content || "")}</div>
 
-          <p className="text-2xl">
-            Discussion component
-          </p>
+          <p className="text-2xl font-bold mt-8">Discussion</p>
         </PageScaffold>
       </ErrorDataScaffold>
     </>

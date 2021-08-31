@@ -69,7 +69,13 @@ export const useUserInfoWithPosts = (userId?: string) => {
 
         const { error: postsError, data: postsData } = await supabase
           .from("posts")
-          .select()
+          .select(
+            `
+            *,
+            author:user_id (full_name, avatar_url),
+            prev_salt_post:previous_salt_post_id (id, title)
+            `
+          )
           .eq("user_id", userId);
 
         if (postsError) {
@@ -151,10 +157,10 @@ export const usePostsByTopic = (topicId?: string) => {
           .from("posts")
           .select(
             `
-          *,
-          author:user_id (full_name, avatar_url),
-          prev_salt_post:previous_salt_post_id (id, title)
-        `
+            *,
+            author:user_id (full_name, avatar_url),
+            prev_salt_post:previous_salt_post_id (id, title)
+            `
           )
           .eq("topic_id", topicId);
 
@@ -165,7 +171,7 @@ export const usePostsByTopic = (topicId?: string) => {
 
         setPostsByTopic(
           { topic: (topicData as Topic).title, posts: postsData as Post[] } ??
-          undefined
+            undefined
         );
       }
     }

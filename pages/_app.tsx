@@ -25,7 +25,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     dayjs.extend(customParseFormat);
     dayjs.extend(utc);
     dayjs.extend(relativeTime);
-  }, [dayjs]);
+  }, []);
 
   useEffect(() => {
     const session = supabase.auth.session();

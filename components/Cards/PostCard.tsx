@@ -24,8 +24,8 @@ export default function PostCard(props: PostCardProps) {
       <div className="py-2">
         <hr className="border-gray-400 border-opacity-40 border-1"></hr>
       </div>
-      
-      <p>{post.description}</p>
+
+      <p className="text-2xl">{post.description}</p>
     </BaseCard>
   );
 }

@@ -11,7 +11,7 @@ interface PostHeaderProps {
 }
 
 export function PostHeader(props: PostHeaderProps) {
-  const { post, onAvatarClick, buttons } = props;
+  const { post, buttons } = props;
   const router = useRouter();
   return (
     <div className="flex flex-row">
@@ -23,9 +23,10 @@ export function PostHeader(props: PostHeaderProps) {
       />
       <div className="flex flex-col">
         <p className="text-4xl font-medium">{post?.title}</p>
-        <p className="text-ml font-normal">
+        <p className="text-xl font-normal">
           {post?.views} {((post?.views || 0) == 1 ? "view" : "views") + " | "}
-          Posted {dayjs.utc(post?.created_at).from(dayjs.utc())} by {post?.author?.full_name}
+          Posted {dayjs.utc(post?.created_at).from(dayjs.utc())} by{" "}
+          {post?.author?.full_name}
         </p>
       </div>
       <>{buttons}</>

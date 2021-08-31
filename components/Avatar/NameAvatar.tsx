@@ -18,18 +18,18 @@ const colors = [
 export default function NameAvatar(props: NameAvatarProps) {
   const { className, name, onClick } = props;
 
-  const initials = useMemo(
-    () => {
-      const firsts = name?.trim().split(/[ ]+/).map((name) => name[0]);
-      if (firsts && firsts.length > 2) {
-        console.log(firsts)
-        return firsts[0] + firsts[firsts.length - 1];
-      } else {
-        return firsts?.join("") ?? "";
-      }
-    },
-    [name]
-  );
+  const initials = useMemo(() => {
+    const firsts = name
+      ?.trim()
+      .split(/[ ]+/)
+      .map((name) => name[0]);
+    if (firsts && firsts.length > 2) {
+      console.log(firsts);
+      return firsts[0] + firsts[firsts.length - 1];
+    } else {
+      return firsts?.join("") ?? "";
+    }
+  }, [name]);
   const colorIndex = useMemo(
     () => stringHashCode(initials) % colors.length,
     [initials]

@@ -7,6 +7,7 @@ import { useUserInfoWithPosts } from "../../../utils/supabase/db";
 import EditIcon from "../../../assets/edit.svg";
 import Post from "../../../models/Post";
 import { ProfileHeader } from "../../../components/Profile/ProfileHeader";
+import PostCard from "../../../components/Cards/PostCard";
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -34,13 +35,13 @@ export default function ProfilePage() {
           }
         />
 
+        <p className="text-2xl font-bold mt-8 mb-4 ml-2">
+          {userInfoWithPosts?.full_name}&apos;s Contributions to The
+          Constellation
+        </p>
+
         {userInfoWithPosts?.posts?.map((post: Post) => (
-          <p key={post?.id}>
-            Post Header (as own component) with title, views, profile pic,
-            author, date posted
-            {post?.title} {post?.views} view(s). Posted by{" "}
-            {post?.author?.full_name}, on {post?.created_at}
-          </p>
+          <PostCard key={post.id} post={post} />
         ))}
       </ErrorDataLayout>
     </PageScaffold>
