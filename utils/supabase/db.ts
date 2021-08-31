@@ -1,5 +1,7 @@
 import { SupabaseRealtimePayload } from "@supabase/supabase-js";
+import link from "next/link";
 import { useEffect, useState } from "react";
+import LinkedPost from "../../models/LinkedPost";
 import Post from "../../models/Post";
 import PostsByTopic from "../../models/PostsByTopic";
 import Topic from "../../models/Topic";
@@ -170,8 +172,10 @@ export const usePostsByTopic = (topicId?: string) => {
         }
 
         setPostsByTopic(
-          { topic: (topicData as Topic).title, posts: postsData as Post[] } ??
-            undefined
+          {
+            topic: (topicData as Topic).title,
+            posts: postsData as LinkedPost[],
+          } ?? undefined
         );
       }
     }
@@ -184,7 +188,7 @@ export const usePostsByTopic = (topicId?: string) => {
 
 export const usePost = (postId?: string | string[]) => {
   const [error, setError] = useState<string | undefined>(undefined);
-  const [post, setPost] = useState<Post | undefined>(undefined);
+  const [post, setPost] = useState<LinkedPost | undefined>(undefined);
 
   useEffect(() => {
     async function getPost() {
@@ -216,7 +220,7 @@ export const usePost = (postId?: string | string[]) => {
 
 export const usePreviousLinkPosts = (saltStage: number, userId?: string) => {
   const [error, setError] = useState<string | undefined>(undefined);
-  const [posts, setPosts] = useState<Post[] | undefined>(undefined);
+  const [posts, setPosts] = useState<LinkedPost[] | undefined>(undefined);
 
   useEffect(() => {
     async function getPosts() {
@@ -245,5 +249,25 @@ export const usePreviousLinkPosts = (saltStage: number, userId?: string) => {
 };
 
 export const createPost = async (post: Post) => {
-  return await supabase.from("posts").insert(post);
+  const { error: postError, data } = await supabase.from("posts").insert(post);
+  if (postError) {
+    return { error: postError.message };
+  }
+  const newPost = (data as Post[])[0];
+
+  if (post.previous_salt_post_id) {
+    const { error: linkError } = await supabase
+      .from("posts")
+      .update({ next_salt_post_id: post.id });
+
+    // Maybe add ability to retry here
+    if (linkError) {
+      return {
+        error:
+          "Error linking previous SALT post. Please try editing the post and adding the link again.",
+      };
+    }
+  }
+
+  return { post_id: newPost.id };
 };

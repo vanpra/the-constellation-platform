@@ -1,11 +1,11 @@
 import { useRouter } from "next/dist/client/router";
 import React from "react";
-import Post from "../../models/Post";
 import Avatar from "../Avatar/Avatar";
 import dayjs from "dayjs";
+import LinkedPost from "../../models/LinkedPost";
 
 interface PostHeaderProps {
-  post?: Post;
+  post?: LinkedPost;
   onAvatarClick?: () => void;
   buttons?: React.ReactNode;
 }

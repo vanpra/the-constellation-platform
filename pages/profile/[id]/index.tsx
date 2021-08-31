@@ -5,9 +5,9 @@ import ErrorDataLayout from "../../../components/Scaffolds/ErrorDataScaffold";
 import PageScaffold from "../../../components/Scaffolds/PageScaffold";
 import { useUserInfoWithPosts } from "../../../utils/supabase/db";
 import EditIcon from "../../../assets/edit.svg";
-import Post from "../../../models/Post";
 import { ProfileHeader } from "../../../components/Profile/ProfileHeader";
 import PostCard from "../../../components/Cards/PostCard";
+import LinkedPost from "../../../models/LinkedPost";
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -40,7 +40,7 @@ export default function ProfilePage() {
           Constellation
         </p>
 
-        {userInfoWithPosts?.posts?.map((post: Post) => (
+        {userInfoWithPosts?.posts?.map((post: LinkedPost) => (
           <PostCard key={post.id} post={post} />
         ))}
       </ErrorDataLayout>

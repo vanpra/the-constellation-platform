@@ -1,10 +1,10 @@
 import { useRouter } from "next/dist/client/router";
 import React, { useCallback } from "react";
-import Post from "../../models/Post";
+import LinkedPost from "../../models/LinkedPost";
 import { RedRoundedButton } from "../Buttons";
 
 interface SaltSectionProps {
-  post?: Post;
+  post?: LinkedPost;
 }
 
 export function SaltSection(props: SaltSectionProps) {
