@@ -1,9 +1,9 @@
 import classNames from "classnames";
-import React, { ReactNode } from "react";
+import React from "react";
 
 interface PageScaffoldProps {
   title?: string;
-  icon?: ReactNode;
+  icon?: React.ReactNode;
   className?: string;
   children?: React.ReactNode;
 }

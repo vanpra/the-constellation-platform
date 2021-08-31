@@ -70,7 +70,7 @@ create table public.posts (
   created_at timestamp with time zone not null default now(),
   salt_stage int,
   views int not null default 0,
-  previous_salt_post_id int,
+  previous_salt_post_id bigint references public.posts,
   tags text[]
 ); 
 create policy "Allow authorized insert access" on public.posts for insert with check ( 

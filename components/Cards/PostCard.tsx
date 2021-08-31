@@ -1,6 +1,7 @@
 import { useRouter } from "next/dist/client/router";
 import { useCallback } from "react";
 import Post from "../../models/Post";
+import { PostHeader } from "../Post/PostHeader";
 import BaseCard from "./BaseCard";
 
 interface PostCardProps {
@@ -18,8 +19,13 @@ export default function PostCard(props: PostCardProps) {
 
   return (
     <BaseCard onClick={onClick}>
-      <p className="text-4xl font-medium">{post.title}</p>
-      <p>{post.description}</p>
+      <PostHeader post={post} />
+
+      <div className="py-2">
+        <hr className="border-gray-400 border-opacity-40 border-1"></hr>
+      </div>
+
+      <p className="text-2xl">{post.description}</p>
     </BaseCard>
   );
 }

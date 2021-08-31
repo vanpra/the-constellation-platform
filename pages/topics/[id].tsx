@@ -19,9 +19,11 @@ export default function PostsByTopic() {
               There are currently no posts for this topic
             </p>
           )}
-          {postsByTopic?.posts?.map((post) => (
-            <PostCard key={post.id} post={post} />
-          ))}
+          <div className="flex flex-col space-y-6">
+            {postsByTopic?.posts?.map((post) => (
+              <PostCard key={post.id} post={post} />
+            ))}
+          </div>
         </PageScaffold>
       </ErrorDataLayout>
     </>

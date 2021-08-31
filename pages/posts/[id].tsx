@@ -1,25 +1,24 @@
 import { useRouter } from "next/dist/client/router";
-import React, { useCallback } from "react";
+import React from "react";
 import {
   RedRoundedButton,
   TransparentRoundedButton,
 } from "../../components/Buttons";
-import ErrorDataLayout from "../../components/Scaffolds/ErrorDataScaffold";
+import ErrorDataScaffold from "../../components/Scaffolds/ErrorDataScaffold";
 import PageScaffold from "../../components/Scaffolds/PageScaffold";
 import { usePost } from "../../utils/supabase/db";
+import parse from "html-react-parser";
+import { PostHeader } from "../../components/Post/PostHeader";
+import { SaltSection } from "../../components/Post/SaltSection";
 
 export default function Post() {
   const router = useRouter();
   const { id } = router.query;
   const { error, post } = usePost(id);
 
-  const prevPostOnClick = useCallback(() => {
-    router.push(`/posts/${post?.prev_salt_post?.id}`);
-  }, [router, post?.prev_salt_post?.id]);
-
   return (
     <>
-      <ErrorDataLayout error={error} data={post}>
+      <ErrorDataScaffold error={error} data={post}>
         <PageScaffold>
           <TransparentRoundedButton
             className="mr-6 bg-white"
@@ -28,24 +27,27 @@ export default function Post() {
               console.log("translate");
             }}
           />
-          <p>
-            Post Header (as own component) with title, views, profile pic,
-            author, date posted
-            {post?.title} {post?.views} view(s). Posted by{" "}
-            {post?.author?.full_name}, on {post?.created_at}
-          </p>
-          <p>{post?.description}</p>
-          Salt stage component
-          <RedRoundedButton
-            className="mr-2"
-            onClick={prevPostOnClick}
-            text={post?.prev_salt_post?.title || ""}
-          />
-          <p>Salt stage {post?.salt_stage}</p>
-          {post?.content}
-          <p className="text-2xl">Discussion component</p>
+
+          <PostHeader post={post} />
+
+          <div /* TAGS */ className="py-2 px-1 space-x-2 flex">
+            <RedRoundedButton className="text-sm" text="tag" />
+            <RedRoundedButton className="text-sm" text="tag2" />
+          </div>
+
+          <p className="text-2xl font-normal mt-6">{post?.description}</p>
+
+          <div className="py-2">
+            <hr className="border-gray-400 border-opacity-40 border-1"></hr>
+          </div>
+
+          <SaltSection post={post} />
+
+          <div className="text-xl">{parse(post?.content || "")}</div>
+
+          <p className="text-2xl font-bold mt-8">Discussion</p>
         </PageScaffold>
-      </ErrorDataLayout>
+      </ErrorDataScaffold>
     </>
   );
 }
