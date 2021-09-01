@@ -14,7 +14,8 @@ export default function DropdownButton(props: DropdownButtonProps) {
       className={classNames(
         "w-full py-2.5 pl-3 pr-10",
         "bg-white rounded-lg shadow-sm cursor-default",
-        "text-left  sm:text-sm"
+        "text-left  sm:text-sm",
+        "focus:outline-none focus:ring focus:ring-primary"
       )}
     >
       <span className="block truncate text-lg font-medium">{selected}</span>

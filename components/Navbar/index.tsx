@@ -78,11 +78,6 @@ export default function Navbar(props: NavbarProps) {
       <div className="flex items-center">
         {user && userInfo ? (
           <>
-            <TransparentRoundedButton
-              className="mr-5"
-              text="Logout"
-              onClick={signOut}
-            />
             <RedRoundedButton
               className="mr-4 flex-none"
               text="Create a post"
@@ -93,6 +88,12 @@ export default function Navbar(props: NavbarProps) {
                   className="fill-current text-white"
                 />
               }
+              onClick={() => router.push("/posts/create")}
+            />
+            <TransparentRoundedButton
+              className="mr-5"
+              text="Logout"
+              onClick={signOut}
             />
             <Avatar
               name={userInfo?.full_name}

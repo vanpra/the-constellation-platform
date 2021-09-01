@@ -1,6 +1,6 @@
-import Post from "./Post";
+import LinkedPost from "./LinkedPost";
 
 export default interface PostsByTopic {
-    topic: string;
-    posts: Post[];
+  topic: string;
+  posts: LinkedPost[];
 }

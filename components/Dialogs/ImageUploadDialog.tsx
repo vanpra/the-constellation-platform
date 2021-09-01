@@ -82,7 +82,12 @@ export default function ImageUploadDialog(props: ImageUploadDialogProps) {
         </div>
       ) : (
         <>
-          <SelectImageLayout url={url} setUrl={setUrl} setFile={setFile} />
+          <SelectImageLayout
+            url={url}
+            setUrl={setUrl}
+            setFile={setFile}
+            setError={setError}
+          />
           <DialogButton
             className="mt-3"
             text="Save URL Profile Picture"
@@ -98,10 +103,11 @@ interface SelectImageLayoutProps {
   url: string;
   setUrl: (url: string) => void;
   setFile: (file: File) => void;
+  setError: (error: string | undefined) => void;
 }
 
 function SelectImageLayout(props: SelectImageLayoutProps) {
-  const { url, setUrl, setFile } = props;
+  const { url, setUrl, setFile, setError } = props;
   const inputFileRef = useRef<HTMLInputElement>(null);
 
   return (
@@ -116,7 +122,7 @@ function SelectImageLayout(props: SelectImageLayoutProps) {
           if (file?.type?.startsWith("image/")) {
             setFile(file);
           } else {
-            console.log("Not an image");
+            setError("Please provide a valid image file.");
           }
         }}
       />

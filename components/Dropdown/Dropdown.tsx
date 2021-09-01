@@ -24,7 +24,7 @@ export default function Dropdown<T>(props: DropdownProps<T>) {
         >
           <Listbox.Options
             className={classNames(
-              "absolute w-full max-h-60  py-1 mt-1",
+              "absolute w-full max-h-60 py-1 mt-1 mb-2",
               "bg-white rounded-md shadow-lg",
               "overflow-auto text-base sm:text-sm",
               "ring-1 ring-black ring-opacity-5 focus:outline-none"

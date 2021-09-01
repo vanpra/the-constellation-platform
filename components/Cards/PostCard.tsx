@@ -1,11 +1,11 @@
 import { useRouter } from "next/dist/client/router";
 import { useCallback } from "react";
-import Post from "../../models/Post";
+import LinkedPost from "../../models/LinkedPost";
 import { PostHeader } from "../Post/PostHeader";
 import BaseCard from "./BaseCard";
 
 interface PostCardProps {
-  post: Post;
+  post: LinkedPost;
 }
 
 export default function PostCard(props: PostCardProps) {
