@@ -71,6 +71,7 @@ create table public.posts (
   salt_stage int,
   views int not null default 0,
   previous_salt_post_id bigint references public.posts,
+  next_salt_post_id bigint references public.posts,
   tags text[]
 ); 
 create policy "Allow authorized insert access" on public.posts for insert with check ( 

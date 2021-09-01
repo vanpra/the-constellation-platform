@@ -20,9 +20,6 @@ export default function Post() {
           <TransparentRoundedButton
             className="mr-6 bg-white"
             text="Translate"
-            onClick={() => {
-              console.log("translate");
-            }}
           />
 
           <PostHeader post={post} />
@@ -35,7 +32,7 @@ export default function Post() {
 
           <SaltSection post={post} />
 
-          <div className="text-xl">{parse(post?.content || "")}</div>
+          <div className="text-xl mt-6">{parse(post?.content || "")}</div>
 
           <p className="text-2xl font-bold mt-8">Discussion</p>
         </PageScaffold>

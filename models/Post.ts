@@ -7,6 +7,7 @@ export default interface Post {
   content: string;
   views?: number;
   previous_salt_post_id?: number;
+  next_salt_post_id?: number;
   created_at?: Date;
   salt_stage?: number;
   tags?: string[];

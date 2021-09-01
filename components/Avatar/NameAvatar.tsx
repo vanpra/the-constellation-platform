@@ -24,7 +24,6 @@ export default function NameAvatar(props: NameAvatarProps) {
       .split(/[ ]+/)
       .map((name) => name[0]);
     if (firsts && firsts.length > 2) {
-      console.log(firsts);
       return firsts[0] + firsts[firsts.length - 1];
     } else {
       return firsts?.join("") ?? "";

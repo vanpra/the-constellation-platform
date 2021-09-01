@@ -26,7 +26,6 @@ export const useUserInfo = (userId?: string) => {
           supabase
             .from(`users:id=eq.${userId}`)
             .on("UPDATE", (payload: SupabaseRealtimePayload<UserInfo>) => {
-              console.log(payload.new);
               setUserInfo(payload.new);
             })
             .subscribe();
@@ -161,7 +160,6 @@ export const usePostsByTopic = (topicId?: string) => {
             `
             *,
             author:user_id (full_name, avatar_url),
-            prev_salt_post:previous_salt_post_id (id, title)
             `
           )
           .eq("topic_id", topicId);
@@ -202,14 +200,14 @@ export const usePost = (postId?: string | string[]) => {
           `
         *,
         author:user_id (full_name, avatar_url),
-        prev_salt_post:previous_salt_post_id (id, title)
+        prev_salt_post:previous_salt_post_id (id, title),
+        next_salt_post:next_salt_post_id (id, title)
       `
         )
         .eq("id", postId)
         .single();
       setError(e?.message);
       setPost(data ?? undefined);
-      console.log(data);
     }
 
     getPost();
@@ -235,10 +233,10 @@ export const usePreviousLinkPosts = (saltStage: number, userId?: string) => {
       `
           )
           .eq("user_id", userId)
-          .lt("salt_stage", saltStage);
+          .lt("salt_stage", saltStage)
+          .is("next_salt_post_id", null);
         setError(e?.message);
         setPosts(data ?? undefined);
-        console.log(data);
       }
     }
 
@@ -258,7 +256,8 @@ export const createPost = async (post: Post) => {
   if (post.previous_salt_post_id) {
     const { error: linkError } = await supabase
       .from("posts")
-      .update({ next_salt_post_id: post.id });
+      .update({ next_salt_post_id: newPost.id })
+      .eq("id", post.previous_salt_post_id);
 
     // Maybe add ability to retry here
     if (linkError) {
