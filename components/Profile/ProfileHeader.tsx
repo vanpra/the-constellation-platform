@@ -1,6 +1,7 @@
 import React from "react";
 import ReactCountryFlag from "react-country-flag";
 import UserInfo from "../../models/UserInfo";
+import { findCountryByCode } from "../../utils/countries";
 import Avatar from "../Avatar/Avatar";
 
 interface ProfileHeaderProps {
@@ -25,10 +26,15 @@ export function ProfileHeader(props: ProfileHeaderProps) {
           <div className="flex items-center text-4xl">
             <h1 className="font-bold">{userInfo?.full_name} </h1>
             {userInfo?.location && (
-              <ReactCountryFlag
-                className="ml-4"
-                countryCode={userInfo.location}
-              />
+              <div className="has-tooltip">
+                <span className="tooltip rounded shadow-lg p-1 text-base bg-gray-200 text-black -mt-6">
+                  {findCountryByCode(userInfo.location).name}
+                </span>
+                <ReactCountryFlag
+                  className="ml-4"
+                  countryCode={userInfo.location}
+                />
+              </div>
             )}
           </div>
           <p className="mt-1 break-all text-xl">{userInfo?.description}</p>

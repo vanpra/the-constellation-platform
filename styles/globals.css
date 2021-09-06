@@ -11,3 +11,11 @@ body {
   text-shadow:none;
   text-rendering: optimizeLegibility;
 }
+
+.tooltip {
+  @apply invisible absolute;
+}
+
+.has-tooltip:hover .tooltip {
+  @apply visible z-50;
+}
