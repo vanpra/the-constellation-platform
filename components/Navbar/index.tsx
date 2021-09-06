@@ -64,10 +64,12 @@ export default function Navbar(props: NavbarProps) {
           className={classnames("ml-4 mr-6 my-1", "flex-col justify-center")}
         >
           <Image
+            className="hover:cursor-pointer"
             src="/logo.svg"
             alt="The Constellation Logo"
             height={50}
             width={50}
+            onClick={() => router.push("/home")}
           />
         </div>
         <NavButton href="/home">Home</NavButton>
