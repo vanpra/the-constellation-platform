@@ -159,7 +159,7 @@ export const usePostsByTopic = (topicId?: string) => {
           .select(
             `
             *,
-            author:user_id (full_name, avatar_url),
+            author:user_id (full_name, avatar_url)
             `
           )
           .eq("topic_id", topicId);
@@ -190,19 +190,15 @@ export const usePost = (postId?: string | string[]) => {
 
   useEffect(() => {
     async function getPost() {
-      // SELECT posts.*, users as author
-      // FROM posts
-      // INNER JOIN users ON posts.user_id=users.id
-      // WHERE posts.id = 1;
       const { error: e, data } = await supabase
         .from("posts")
         .select(
           `
-        *,
-        author:user_id (full_name, avatar_url),
-        prev_salt_post:previous_salt_post_id (id, title),
-        next_salt_post:next_salt_post_id (id, title)
-      `
+          *,
+          author:user_id (full_name, avatar_url),
+          prev_salt_post:previous_salt_post_id (id, title),
+          next_salt_post:next_salt_post_id (id, title)
+          `
         )
         .eq("id", postId)
         .single();
@@ -227,10 +223,10 @@ export const usePreviousLinkPosts = (saltStage: number, userId?: string) => {
           .from("posts")
           .select(
             `
-        *,
-        author:user_id (full_name),
-        prev_salt_post:previous_salt_post_id (id, title)
-      `
+            *,
+            author:user_id (full_name),
+            prev_salt_post:previous_salt_post_id (id, title)
+            `
           )
           .eq("user_id", userId)
           .lt("salt_stage", saltStage)
