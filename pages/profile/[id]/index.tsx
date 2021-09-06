@@ -39,10 +39,11 @@ export default function ProfilePage() {
           {userInfoWithPosts?.full_name}&apos;s Contributions to The
           Constellation
         </p>
-
-        {userInfoWithPosts?.posts?.map((post: LinkedPost) => (
-          <PostCard key={post.id} post={post} />
-        ))}
+        <div className="flex flex-col space-y-6">
+          {userInfoWithPosts?.posts?.map((post: LinkedPost) => (
+            <PostCard key={post.id} post={post} />
+          ))}
+        </div>
       </ErrorDataLayout>
     </PageScaffold>
   );
