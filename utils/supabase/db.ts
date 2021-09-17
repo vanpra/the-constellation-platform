@@ -1,5 +1,7 @@
-import { SupabaseRealtimePayload } from "@supabase/supabase-js";
-import link from "next/link";
+import {
+  PostgrestResponse,
+  SupabaseRealtimePayload,
+} from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
 import LinkedPost from "../../models/LinkedPost";
 import Post from "../../models/Post";
@@ -265,4 +267,53 @@ export const createPost = async (post: Post) => {
   }
 
   return { post_id: newPost.id };
+};
+
+type CountryPostCount = { location: string; post_count: number };
+interface CountryPostCountData {
+  countryPostCounts: Map<string, number>;
+  maxPostCount: number;
+  minPostCount: number;
+}
+export const useCountryPostCounts = () => {
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [countryPostCountData, setCountryPostCountData] = useState<
+    CountryPostCountData | undefined
+  >(undefined);
+
+  useEffect(() => {
+    async function getCountryPostCountData() {
+      const {
+        error: e,
+        data,
+      }: PostgrestResponse<{ location: string; post_count: number }> =
+        await supabase.rpc("get_country_post_counts");
+
+      if (e) {
+        setError(e?.message);
+        return;
+      }
+
+      if (data == null) {
+        return { countryPostCounts: new Map() };
+      }
+
+      const countryPostCounts = new Map(
+        (data as CountryPostCount[]).map((item) => [
+          item.location,
+          item.post_count,
+        ])
+      );
+
+      setCountryPostCountData({
+        countryPostCounts,
+        maxPostCount: data.length > 0 ? data[0].post_count : 0,
+        minPostCount: data.length > 0 ? data[data.length - 1].post_count : 0,
+      });
+    }
+
+    getCountryPostCountData();
+  }, [setError, setCountryPostCountData]);
+
+  return { error, countryPostCountData };
 };
