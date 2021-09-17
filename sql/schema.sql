@@ -25,6 +25,17 @@ begin
 end;
 $$ language plpgsql security definer;
 
+
+-- get posts count for each country
+create type country_post_count as (location text, post_count int);
+
+create function public.get_country_post_counts() returns setof country_post_count
+as 'select users.location, count(*) as post_count from posts 
+  join users on posts.user_id=users.id 
+  group by users.location 
+  order by post_count desc'
+language SQL;
+
 /** 
 * USERS
 * Note: This table contains user data. Users should only be able to view and update their own data.
