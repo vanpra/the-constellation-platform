@@ -317,3 +317,37 @@ export const useCountryPostCounts = () => {
 
   return { error, countryPostCountData };
 };
+
+export const useFeaturedPosts = (numberOfPosts: number) => {
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [featuredPosts, setFeaturedPosts] = useState<LinkedPost[] | undefined>(
+    undefined
+  );
+
+  useEffect(() => {
+    async function getFeaturedPosts() {
+      const { error: e, data } = await supabase
+        .from("posts")
+        .select(
+          `
+            *,
+            author:user_id (full_name, avatar_url)
+            `
+        )
+        .order("created_at", { ascending: false })
+        .limit(numberOfPosts);
+
+      console.log(data)
+      if (error) {
+        setError(e?.message);
+        return;
+      }
+
+      setFeaturedPosts(data as LinkedPost[]);
+    }
+
+    getFeaturedPosts();
+  }, [setError, setFeaturedPosts, numberOfPosts]);
+
+  return { error, featuredPosts };
+};

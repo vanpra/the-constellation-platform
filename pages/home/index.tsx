@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import FeaturedPosts from "../../components/Post/FeaturedPosts";
 import PageScaffold from "../../components/Scaffolds/PageScaffold";
 import WorldMap from "../../components/WorldMap";
@@ -28,6 +28,8 @@ export default function HomePage() {
             </a>
           </p>
         </div>
+
+        <FeaturedPosts className="mt-6" />
       </div>
     </PageScaffold>
   );

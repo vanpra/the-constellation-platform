@@ -51,7 +51,7 @@ export default function WorldMap(props: WorldMapProps) {
                   geo.properties.ISO_A2
                 );
 
-              var fill = countryPostCount
+              const fill = countryPostCount
                 ? colorScale(countryPostCount)
                 : "#fff4f2";
               return (
