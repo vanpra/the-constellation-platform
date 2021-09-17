@@ -9,6 +9,7 @@ import PostsByTopic from "../../models/PostsByTopic";
 import Topic from "../../models/Topic";
 import UserInfo from "../../models/UserInfo";
 import UserInfoWithPosts from "../../models/UserInfoWithPosts";
+import { SearchData } from "../../pages/search";
 import { supabase } from "./supabaseClient";
 
 export const useUserInfo = (userId?: string) => {
@@ -330,14 +331,13 @@ export const useFeaturedPosts = (numberOfPosts: number) => {
         .from("posts")
         .select(
           `
-            *,
-            author:user_id (full_name, avatar_url)
-            `
+          *,
+          author:user_id (full_name, avatar_url)
+          `
         )
         .order("created_at", { ascending: false })
         .limit(numberOfPosts);
 
-      console.log(data)
       if (error) {
         setError(e?.message);
         return;
@@ -347,7 +347,43 @@ export const useFeaturedPosts = (numberOfPosts: number) => {
     }
 
     getFeaturedPosts();
-  }, [setError, setFeaturedPosts, numberOfPosts]);
+  }, [setError, setFeaturedPosts, numberOfPosts, error]);
 
   return { error, featuredPosts };
+};
+
+// TODO: Maybe use rpc to search content, title and description columns
+export const getSearchResults = async (searchData: SearchData) => {
+  let baseQuery = supabase.from<LinkedPost>("posts").select(
+    `
+    *,
+    author:user_id (full_name, avatar_url)
+    `
+  );
+
+  if (searchData.text) {
+    baseQuery = baseQuery.textSearch("content", searchData.text);
+  }
+
+  if (searchData.dateFrom) {
+    baseQuery = baseQuery.gt("created_at", searchData.dateFrom);
+  }
+
+  if (searchData.dateTo) {
+    baseQuery = baseQuery.lt("created_at", searchData.dateTo);
+  }
+
+  if (searchData.tags) {
+    baseQuery = baseQuery.overlaps("tags", searchData.tags);
+  }
+
+  if (searchData.topic) {
+    baseQuery = baseQuery.eq("topic_id", searchData.topic);
+  }
+
+  if (searchData.saltStage) {
+    baseQuery = baseQuery.lt("salt_stage", searchData.saltStage);
+  }
+
+  return await baseQuery;
 };
