@@ -1,7 +1,9 @@
+import classNames from "classnames";
 import React, { useState } from "react";
 import { RedRoundedButton } from "../../components/Buttons";
 import PostCard from "../../components/Cards/PostCard";
 import TextArea from "../../components/Inputs/TextArea";
+import TextInput from "../../components/Inputs/TextInput";
 import PageScaffold from "../../components/Scaffolds/PageScaffold";
 import LinkedPost from "../../models/LinkedPost";
 import { getSearchResults } from "../../utils/supabase/db";
@@ -28,7 +30,7 @@ export default function SearchPage() {
       >
         {moreOptions ? "- Less Options" : "+ More Options"}
       </p>
-      {moreOptions && <MoreOptionsSelection />}
+      {moreOptions && <MoreOptionsSelection className="mt-4" />}
       <RedRoundedButton
         className="mt-4 mb-6"
         text="Search"
@@ -37,7 +39,6 @@ export default function SearchPage() {
           if (error) {
             setError(error.message);
           }
-
           if (data) {
             setSearchResults(data);
           }
@@ -72,5 +73,48 @@ interface MoreOptionsSelectionProps {
 }
 
 const MoreOptionsSelection = (props: MoreOptionsSelectionProps) => {
-  return <></>;
+  const { className } = props;
+  const [from, setFrom] = useState<string>(new Date().toISOString());
+  const [to, setTo] = useState<string>(new Date().toISOString());
+
+  return (
+    <div className={className}>
+      <MoreOptionsDateRange
+        from={from}
+        setFrom={setFrom}
+        to={to}
+        setTo={setTo}
+      ></MoreOptionsDateRange>
+    </div>
+  );
+};
+
+interface MoreOptionsDateRangeProps {
+  className?: string;
+  from: string;
+  to: string;
+  setFrom: (from: string) => void;
+  setTo: (to: string) => void;
+}
+
+const MoreOptionsDateRange = (props: MoreOptionsDateRangeProps) => {
+  const { className, from, to, setFrom, setTo } = props;
+  return (
+    <div className={classNames("flex flex-row items-center", className)}>
+      <p className="ml-4 mr-3 text-xl">Published between</p>
+      <TextInput
+        value={from}
+        setValue={setFrom}
+        type="date"
+        inputClassName="rounded-xl text-md"
+      />
+      <p className="ml-3 text-xl mr-3">and</p>
+      <TextInput
+        value={to}
+        setValue={setTo}
+        type="date"
+        inputClassName="rounded-xl text-md"
+      />
+    </div>
+  );
 };
