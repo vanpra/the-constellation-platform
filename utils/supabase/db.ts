@@ -186,6 +186,56 @@ export const usePostsByTopic = (topicId?: string) => {
   return { error, postsByTopic };
 };
 
+export const useKnowledgeByTopic = (topicId?: string) => {
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [knowledgeByTopic, setKnowledgeByTopic] = useState<KnowledgeByTopic | undefined>(
+    undefined
+  );
+
+  useEffect(() => {
+    async function getKnowledgeByTopic() {
+      if (topicId != undefined) {
+        const { error: topicError, data: topicData } = await supabase
+          .from("topics")
+          .select()
+          .eq("id", topicId)
+          .single();
+
+        if (topicError) {
+          setError(topicError?.message);
+          return;
+        }
+
+        const { error: knowledgeError, data: knowledgeData } = await supabase
+          .from("knowledge_asset")
+          .select(
+            `
+            *,
+            post:post_id (user_id, title)
+            `
+          )
+          .eq("topic_id", topicId);
+
+        if (knowledgeError) {
+          setError(knowledgeError?.message);
+          return;
+        }
+
+        setKnowledgeByTopic(
+          {
+            topic: (topicData as Topic).title,
+            assets: knowledgeData as LinkedPost[],
+          } ?? undefined
+        );
+      }
+    }
+
+    getKnowledgeByTopic();
+  }, [topicId, setError, setKnowledgeByTopic]);
+
+  return { error, knowledgeByTopic };
+};
+
 export const usePost = (postId?: string | string[]) => {
   const [error, setError] = useState<string | undefined>(undefined);
   const [post, setPost] = useState<LinkedPost | undefined>(undefined);
@@ -316,6 +366,38 @@ export const useCountryPostCounts = () => {
   }, [setError, setCountryPostCountData]);
 
   return { error, countryPostCountData };
+};
+
+type JointLesson = {
+  lesson_title: string;
+  lessons: { post_id: number; post_title: string }[];
+};
+
+export const useJointLessons = (topicId: string) => {
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [jointLessons, setJointLessons] = useState<JointLesson[] | undefined>(
+    undefined
+  );
+
+  useEffect(() => {
+    async function getJointLessons() {
+      const { error: e, data } = await supabase.rpc<JointLesson>(
+        "get_joint_lessons",
+        { topic_id: topicId }
+      );
+
+      if (e) {
+        setError(e?.message);
+        return;
+      }
+
+      setJointLessons(data as JointLesson[]);
+    }
+
+    getJointLessons();
+  }, [setError, setJointLessons]);
+
+  return { error, jointLessons };
 };
 
 export const useFeaturedPosts = (numberOfPosts: number) => {
