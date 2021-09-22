@@ -1,6 +1,8 @@
 import classNames from "classnames";
 import React, { useState } from "react";
+import CloseCircle from "../../assets/close_circle.svg";
 import { RedRoundedButton } from "../../components/Buttons";
+import Chip from "../../components/Buttons/Chip";
 import PostCard from "../../components/Cards/PostCard";
 import TextArea from "../../components/Inputs/TextArea";
 import TextInput from "../../components/Inputs/TextInput";
@@ -30,9 +32,9 @@ export default function SearchPage() {
       >
         {moreOptions ? "- Less Options" : "+ More Options"}
       </p>
-      {moreOptions && <MoreOptionsSelection className="mt-4" />}
+      {moreOptions && <MoreOptionsSelection className="mt-2" />}
       <RedRoundedButton
-        className="mt-4 mb-6"
+        className="mt-4 mb-6 ml-4 mr-4"
         text="Search"
         onClick={async () => {
           const { data, error } = await getSearchResults(searchData);
@@ -76,15 +78,57 @@ const MoreOptionsSelection = (props: MoreOptionsSelectionProps) => {
   const { className } = props;
   const [from, setFrom] = useState<string>(new Date().toISOString());
   const [to, setTo] = useState<string>(new Date().toISOString());
+  const [tags, setTags] = useState<string[]>([]);
+  const [tag, setTag] = useState<string>("");
 
   return (
-    <div className={className}>
+    <div className={classNames("ml-4 mr-4", className)}>
       <MoreOptionsDateRange
         from={from}
         setFrom={setFrom}
         to={to}
         setTo={setTo}
-      ></MoreOptionsDateRange>
+      />
+      <p className="text-xl mb-1 mt-2">With tags:</p>
+      {tags.length != 0 && (
+        <div className="flex flex-wrap gap-x-3 mt-2 mb-3">
+          {tags.map((tag, index) => (
+            <Chip
+              key={index}
+              label={tag}
+              button={
+                <CloseCircle
+                  width="24"
+                  height="24"
+                  className={classNames(
+                    "fill-current text-gray-400",
+                    "hover:text-gray-500 hover:cursor-pointer"
+                  )}
+                  onClick={() => {
+                    setTags(tags.filter((_, i) => i != index));
+                  }}
+                />
+              }
+            />
+          ))}
+        </div>
+      )}
+      <div className="flex gap-4">
+        <TextInput
+          className="flex-1"
+          inputClassName="rounded-lg"
+          value={tag}
+          setValue={setTag}
+          placeholder="Add post tags"
+        />
+        <RedRoundedButton
+          text="Add Tag"
+          onClick={() => {
+            setTags([...tags, tag]);
+            setTag("");
+          }}
+        />
+      </div>
     </div>
   );
 };
@@ -100,20 +144,20 @@ interface MoreOptionsDateRangeProps {
 const MoreOptionsDateRange = (props: MoreOptionsDateRangeProps) => {
   const { className, from, to, setFrom, setTo } = props;
   return (
-    <div className={classNames("flex flex-row items-center", className)}>
-      <p className="ml-4 mr-3 text-xl">Published between</p>
+    <div className={classNames("flex items-center", className)}>
+      <p className="mr-3 text-xl">Published between</p>
       <TextInput
         value={from}
         setValue={setFrom}
         type="date"
-        inputClassName="rounded-xl text-md"
+        inputClassName="rounded-lg text-md"
       />
       <p className="ml-3 text-xl mr-3">and</p>
       <TextInput
         value={to}
         setValue={setTo}
         type="date"
-        inputClassName="rounded-xl text-md"
+        inputClassName="rounded-lg text-md"
       />
     </div>
   );
