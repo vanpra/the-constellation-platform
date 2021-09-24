@@ -3,7 +3,7 @@ import React from "react";
 import Avatar from "../Avatar/Avatar";
 import dayjs from "dayjs";
 import LinkedPost from "../../models/LinkedPost";
-import Chip from "../Buttons/Chip";
+import { ChipList } from "../Buttons/Chip";
 
 interface PostHeaderProps {
   post?: LinkedPost;
@@ -29,11 +29,8 @@ export function PostHeader(props: PostHeaderProps) {
           Posted {dayjs.utc(post?.created_at).from(dayjs.utc())} by{" "}
           {post?.author?.full_name}
         </p>
-        <div className="py-2 space-x-2 flex">
-          {post?.tags?.map((tag: string, index: number) => (
-            <Chip key={index} label={tag} />
-          ))}
-        </div>
+
+        <ChipList tags={post?.tags ?? []} />
       </div>
       <>{buttons}</>
     </div>

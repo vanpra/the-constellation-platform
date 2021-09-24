@@ -1,4 +1,6 @@
 import classNames from "classnames";
+import React from "react";
+import CloseCircle from "../../assets/close_circle.svg";
 
 interface ChipProps {
   label: string;
@@ -21,6 +23,43 @@ export default function Chip(props: ChipProps) {
     >
       <p className="text-lg">{label}</p>
       {button && <div className="ml-1">{button}</div>}
+    </div>
+  );
+}
+
+interface ChipListProps {
+  tags: string[];
+  setTags?: (tags: string[]) => void;
+}
+
+export function ChipList(props: ChipListProps) {
+  const { tags, setTags } = props;
+  if (tags.length === 0) {
+    return <></>;
+  }
+  return (
+    <div className="flex flex-wrap gap-x-3 mt-2 mb-3">
+      {tags.map((tag, index) => (
+        <Chip
+          key={index}
+          label={tag}
+          button={
+            setTags && (
+              <CloseCircle
+                width="24"
+                height="24"
+                className={classNames(
+                  "fill-current text-gray-400",
+                  "hover:text-gray-500 hover:cursor-pointer"
+                )}
+                onClick={() => {
+                  setTags(tags.filter((_, i) => i != index));
+                }}
+              />
+            )
+          }
+        />
+      ))}
     </div>
   );
 }

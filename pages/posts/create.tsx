@@ -5,7 +5,7 @@ import EditIcon from "../../assets/edit.svg";
 import LinkIcon from "../../assets/link.svg";
 import Upload from "../../assets/upload.svg";
 import { RedRoundedButton } from "../../components/Buttons";
-import Chip from "../../components/Buttons/Chip";
+import { ChipList } from "../../components/Buttons/Chip";
 import EndIconButton from "../../components/Buttons/EndIconButton";
 import CloseIcon from "../../assets/close.svg";
 import UnfoldMoreIcon from "../../assets/unfold.svg";
@@ -19,7 +19,6 @@ import Post from "../../models/Post";
 import Topic from "../../models/Topic";
 import { saltStages } from "../../utils/salt";
 import { supabase } from "../../utils/supabase/supabaseClient";
-import CloseCircle from "../../assets/close_circle.svg";
 import { createPost } from "../../utils/supabase/db";
 import { useRouter } from "next/dist/client/router";
 import { UserContext } from "../_app";
@@ -215,29 +214,7 @@ export default function CreatePostPage(props: CreatePostPageProps) {
         }}
       />
 
-      {tags.length != 0 && (
-        <div className="flex flex-wrap gap-x-3 mt-4">
-          {tags.map((tag, index) => (
-            <Chip
-              key={index}
-              label={tag}
-              button={
-                <CloseCircle
-                  width="24"
-                  height="24"
-                  className={classNames(
-                    "fill-current text-gray-400",
-                    "hover:text-gray-500 hover:cursor-pointer"
-                  )}
-                  onClick={() => {
-                    setTags(tags.filter((_, i) => i != index));
-                  }}
-                />
-              }
-            />
-          ))}
-        </div>
-      )}
+      <ChipList tags={tags} setTags={setTags} />
 
       <TopicsDialog
         isOpen={showTopicsDialog}
