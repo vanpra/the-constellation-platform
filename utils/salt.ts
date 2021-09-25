@@ -1,4 +1,5 @@
 export const saltStages = [
+  "None",
   "Mobilize",
   "Shared Dream",
   "Self-Assessment",
@@ -6,3 +7,5 @@ export const saltStages = [
   "Action!",
   "Learn and Share",
 ];
+
+export const anySaltStage = -1;

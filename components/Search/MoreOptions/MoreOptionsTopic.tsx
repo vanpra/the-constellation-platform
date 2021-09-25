@@ -7,11 +7,12 @@ import Topic, { anyTopic } from "../../../models/Topic";
 interface MoreOptionsTopicProps {
   className?: string;
   topics: Topic[];
+  topic: Topic;
+  setTopic: (topic: Topic) => void;
 }
 
 export default function MoreOptionsTopic(props: MoreOptionsTopicProps) {
-  const { className, topics } = props;
-  const [topic, setTopic] = useState<Topic>(anyTopic);
+  const { className, topics, topic, setTopic } = props;
   const [showTopicsDialog, setShowTopicsDialog] = useState(false);
 
   return (

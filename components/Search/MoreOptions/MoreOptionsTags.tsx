@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { RedRoundedButton } from "../../Buttons";
 import { ChipList } from "../../Buttons/Chip";
 import TextInput from "../../Inputs/TextInput";
@@ -7,12 +7,11 @@ interface MoreOptionsTagsProps {
   className?: string;
   tags: string[];
   setTags: (tags: string[]) => void;
-  newTag: string;
-  setNewTag: (newTag: string) => void;
 }
 
 export default function MoreOptionsTags(props: MoreOptionsTagsProps) {
-  const { className, tags, setTags, newTag, setNewTag } = props;
+  const { className, tags, setTags } = props;
+  const [newTag, setNewTag] = useState("");
 
   return (
     <div className={className}>

@@ -4,7 +4,7 @@ import DialogButton from "../Buttons/DialogButton";
 import { GoogleButton } from "../Buttons/GoogleButtons";
 import OrDivider from "../Dividers/OrDivider";
 import DialogTextInput from "../Inputs/DialogTextInput";
-import DialogTitle from "../Titles/DialogTitle";
+import DialogTitle from "./DialogTitle";
 import BaseDialog, { DialogSize } from "./BaseDialog";
 
 interface SignupDialogProps {

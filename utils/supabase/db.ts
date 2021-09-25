@@ -6,10 +6,12 @@ import { useEffect, useState } from "react";
 import LinkedPost from "../../models/LinkedPost";
 import Post from "../../models/Post";
 import PostsByTopic from "../../models/PostsByTopic";
-import Topic from "../../models/Topic";
+import Topic, { anyTopic } from "../../models/Topic";
 import UserInfo from "../../models/UserInfo";
 import UserInfoWithPosts from "../../models/UserInfoWithPosts";
 import { SearchData } from "../../pages/search";
+import { anyCountry } from "../countries";
+import { anySaltStage } from "../salt";
 import { supabase } from "./supabaseClient";
 
 export const useUserInfo = (userId?: string) => {
@@ -354,10 +356,10 @@ export const useFeaturedPosts = (numberOfPosts: number) => {
 
 // TODO: Maybe use rpc to search content, title and description columns
 export const getSearchResults = async (searchData: SearchData) => {
-  let baseQuery = supabase.from<LinkedPost>("posts").select(
+  let baseQuery = supabase.from("posts").select(
     `
     *,
-    author:user_id (full_name, avatar_url)
+    author:user_id (full_name, avatar_url, location)
     `
   );
 
@@ -373,17 +375,22 @@ export const getSearchResults = async (searchData: SearchData) => {
     baseQuery = baseQuery.lt("created_at", searchData.dateTo);
   }
 
-  if (searchData.tags) {
+  if (searchData.tags.length > 0) {
     baseQuery = baseQuery.overlaps("tags", searchData.tags);
   }
 
-  if (searchData.topic) {
-    baseQuery = baseQuery.eq("topic_id", searchData.topic);
+  if (searchData.country && searchData.country !== anyCountry) {
+    baseQuery = baseQuery.eq("author.location", searchData.country.code);
   }
 
-  if (searchData.saltStage) {
-    baseQuery = baseQuery.lt("salt_stage", searchData.saltStage);
+  if (searchData.topic && searchData.topic !== anyTopic) {
+    baseQuery = baseQuery.eq("topic_id", searchData.topic.id);
   }
 
-  return await baseQuery;
+  if (searchData.saltStage && searchData.saltStage !== anySaltStage) {
+    baseQuery = baseQuery.eq("salt_stage", searchData.saltStage);
+  }
+
+  const { error, data } = await baseQuery;
+  return { error, data: data as LinkedPost[] };
 };

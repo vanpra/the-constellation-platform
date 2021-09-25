@@ -6,12 +6,13 @@ import SaltStageDialog from "../../Dialogs/SaltStageDialog";
 
 interface MoreOptionsSaltStageProps {
   className?: string;
+  saltStage: number;
+  setSaltStage: (saltStage: number) => void;
 }
 
 export default function MoreOptionsSaltStage(props: MoreOptionsSaltStageProps) {
-  const { className } = props;
+  const { className, saltStage, setSaltStage } = props;
   const filterSaltStages = ["Any", ...saltStages];
-  const [saltStage, setSaltStage] = useState<number>(0);
   const [showSaltStageDialog, setShowSaltStageDialog] = useState(false);
 
   return (

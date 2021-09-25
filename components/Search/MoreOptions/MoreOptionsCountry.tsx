@@ -6,11 +6,12 @@ import CountryDialog from "../../Dialogs/CountryDialog";
 
 interface MoreOptionsCountryProps {
   className?: string;
+  country: Country;
+  setCountry: (country: Country) => void;
 }
 
 export default function MoreOptionsCountry(props: MoreOptionsCountryProps) {
-  const { className } = props;
-  const [country, setCountry] = useState<Country>(anyCountry);
+  const { className, country, setCountry } = props;
   const [showCountryDialog, setShowCountryDialog] = useState(false);
 
   return (

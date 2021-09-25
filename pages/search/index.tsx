@@ -5,9 +5,28 @@ import TextArea from "../../components/Inputs/TextArea";
 import PageScaffold from "../../components/Scaffolds/PageScaffold";
 import MoreOptions from "../../components/Search/MoreOptions";
 import LinkedPost from "../../models/LinkedPost";
-import Topic from "../../models/Topic";
+import Topic, { anyTopic } from "../../models/Topic";
+import { anyCountry, Country } from "../../utils/countries";
+import { anySaltStage } from "../../utils/salt";
 import { getSearchResults } from "../../utils/supabase/db";
 import { supabase } from "../../utils/supabase/supabaseClient";
+
+export interface SearchData {
+  text?: string;
+  dateFrom?: string;
+  dateTo?: string;
+  tags: string[];
+  topic: Topic;
+  country: Country;
+  saltStage: number;
+}
+
+const defaultSearchData: SearchData = {
+  tags: [],
+  topic: anyTopic,
+  country: anyCountry,
+  saltStage: anySaltStage,
+};
 
 interface SearchPageProps {
   topics: Topic[];
@@ -35,7 +54,7 @@ export default function SearchPage(props: SearchPageProps) {
   const { topics } = props;
 
   const [moreOptions, setMoreOptions] = useState(false);
-  const [searchData, setSearchData] = useState<SearchData>({});
+  const [searchData, setSearchData] = useState<SearchData>(defaultSearchData);
   const [searchResults, setSearchResults] = useState<LinkedPost[]>([]);
   const [error, setError] = useState<string | undefined>(undefined);
 
@@ -44,7 +63,7 @@ export default function SearchPage(props: SearchPageProps) {
       <TextArea
         inputClassName="rounded-lg shadow-lg h-20 text-2xl rounded-xl shadow-sm"
         value={searchData.text ?? ""}
-        setValue={(text: string) => setSearchData({ text })}
+        setValue={(text: string) => setSearchData({ ...searchData, text })}
         placeholder="Search..."
       />
       <p
@@ -55,7 +74,14 @@ export default function SearchPage(props: SearchPageProps) {
       >
         {moreOptions ? "- Less Options" : "+ More Options"}
       </p>
-      {moreOptions && <MoreOptions className="mt-2" topics={topics} />}
+      {moreOptions && (
+        <MoreOptions
+          className="mt-2"
+          topics={topics}
+          searchData={searchData}
+          setSearchData={setSearchData}
+        />
+      )}
       <RedRoundedButton
         className="mt-4 mb-6 ml-4 mr-4"
         text="Search"
@@ -81,14 +107,4 @@ export default function SearchPage(props: SearchPageProps) {
       )}
     </PageScaffold>
   );
-}
-
-export interface SearchData {
-  text?: string;
-  dateFrom?: Date;
-  dateTo?: Date;
-  tags?: string[];
-  topic?: string;
-  country?: string;
-  saltStage?: string;
 }

@@ -224,7 +224,7 @@ export default function CreatePostPage(props: CreatePostPageProps) {
         setSelected={setTopic}
       />
       <SaltStageDialog
-        stages={["None", ...saltStages]}
+        stages={saltStages}
         isOpen={showSaltStageDialog}
         setIsOpen={setShowSaltStageDialog}
         selected={saltStage}

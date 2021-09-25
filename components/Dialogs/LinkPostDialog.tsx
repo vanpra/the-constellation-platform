@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import React, { useContext } from "react";
-import DialogTitle from "../Titles/DialogTitle";
+import DialogTitle from "./DialogTitle";
 import BaseDialog, { DialogSize } from "./BaseDialog";
 import Tick from "../../assets/tick.svg";
 import Post from "../../models/Post";
