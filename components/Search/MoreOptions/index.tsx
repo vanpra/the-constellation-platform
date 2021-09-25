@@ -1,16 +1,21 @@
 import classNames from "classnames";
 import React, { useState } from "react";
-import MoreOptionsDateRange from "./DateRange";
-import MoreOptionsTags from "./Tags";
+import Topic from "../../../models/Topic";
+import MoreOptionsCountry from "./MoreOptionsCountry";
+import MoreOptionsDateRange from "./MoreOptionsDateRange";
+import MoreOptionsSaltStage from "./MoreOptionsSALTStage";
+import MoreOptionsTags from "./MoreOptionsTags";
+import MoreOptionsTopic from "./MoreOptionsTopic";
 
 interface MoreOptionsProps {
   className?: string;
+  topics: Topic[];
 }
 
 export default function MoreOptions(props: MoreOptionsProps) {
-  const { className } = props;
-  const [from, setFrom] = useState<string>(new Date().toISOString());
-  const [to, setTo] = useState<string>(new Date().toISOString());
+  const { className, topics } = props;
+  const [from, setFrom] = useState<string | undefined>(undefined);
+  const [to, setTo] = useState<string | undefined>(undefined);
   const [tags, setTags] = useState<string[]>([]);
   const [newTag, setNewTag] = useState<string>("");
 
@@ -29,6 +34,13 @@ export default function MoreOptions(props: MoreOptionsProps) {
         newTag={newTag}
         setNewTag={setNewTag}
       />
+
+      <div className="flex flex-row gap-x-4">
+        <MoreOptionsTopic className="flex-1" topics={topics} />
+        <MoreOptionsCountry className="flex-1" />
+      </div>
+
+      <MoreOptionsSaltStage />
     </div>
   );
 }

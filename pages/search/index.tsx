@@ -5,9 +5,35 @@ import TextArea from "../../components/Inputs/TextArea";
 import PageScaffold from "../../components/Scaffolds/PageScaffold";
 import MoreOptions from "../../components/Search/MoreOptions";
 import LinkedPost from "../../models/LinkedPost";
+import Topic from "../../models/Topic";
 import { getSearchResults } from "../../utils/supabase/db";
+import { supabase } from "../../utils/supabase/supabaseClient";
 
-export default function SearchPage() {
+interface SearchPageProps {
+  topics: Topic[];
+}
+
+export async function getStaticProps() {
+  const { error, data } = await supabase.from("topics").select();
+
+  if (error) {
+    return {
+      notFound: true,
+      revalidate: 86400,
+    };
+  }
+
+  return {
+    props: {
+      topics: data,
+      revalidate: 86400,
+    },
+  };
+}
+
+export default function SearchPage(props: SearchPageProps) {
+  const { topics } = props;
+
   const [moreOptions, setMoreOptions] = useState(false);
   const [searchData, setSearchData] = useState<SearchData>({});
   const [searchResults, setSearchResults] = useState<LinkedPost[]>([]);
@@ -29,7 +55,7 @@ export default function SearchPage() {
       >
         {moreOptions ? "- Less Options" : "+ More Options"}
       </p>
-      {moreOptions && <MoreOptions className="mt-2" />}
+      {moreOptions && <MoreOptions className="mt-2" topics={topics} />}
       <RedRoundedButton
         className="mt-4 mb-6 ml-4 mr-4"
         text="Search"

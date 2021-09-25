@@ -3,3 +3,5 @@ export default interface Topic {
   title: string;
   description: string;
 }
+
+export const anyTopic = { id: -1, title: "Any", description: "Any topic" };

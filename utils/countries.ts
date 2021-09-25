@@ -6,11 +6,17 @@ export interface Country {
 export const findCountryByCode = (code: string | undefined) =>
   countries.find((country) => country.code === code) ?? countries[0];
 
+export const noneCountry: Country = {
+  name: "None",
+  code: "NAN",
+};
+
+export const anyCountry: Country = {
+  name: "Any",
+  code: "ANY",
+};
+
 const countries: Country[] = [
-  {
-    name: "None",
-    code: "",
-  },
   {
     name: "Afghanistan",
     code: "AF",

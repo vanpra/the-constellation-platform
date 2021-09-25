@@ -1,5 +1,4 @@
 export const saltStages = [
-  "None",
   "Mobilize",
   "Shared Dream",
   "Self-Assessment",

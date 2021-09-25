@@ -18,7 +18,7 @@ export default function MoreOptionsTags(props: MoreOptionsTagsProps) {
     <div className={className}>
       <p className="text-xl">With tags:</p>
       <ChipList tags={tags} setTags={setTags} />
-      <div className="flex gap-4">
+      <div className="flex gap-4 mt-1">
         <TextInput
           className="flex-1"
           inputClassName="rounded-lg"

@@ -1,19 +1,19 @@
 import classNames from "classnames";
 import React from "react";
-import { saltStages } from "../../utils/salt";
 import DialogTitle from "../Titles/DialogTitle";
 import BaseDialog, { DialogSize } from "./BaseDialog";
 import Tick from "../../assets/tick.svg";
 
-interface SaltStagetDialogProps {
+interface SaltStageDialogProps {
+  stages: string[];
   selected: number;
   setSelected: (saltStage: number) => void;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
 }
 
-export default function SaltStageDialog(props: SaltStagetDialogProps) {
-  const { selected, setSelected, isOpen, setIsOpen } = props;
+export default function SaltStageDialog(props: SaltStageDialogProps) {
+  const { stages, selected, setSelected, isOpen, setIsOpen } = props;
 
   return (
     <BaseDialog
@@ -23,7 +23,7 @@ export default function SaltStageDialog(props: SaltStagetDialogProps) {
     >
       <DialogTitle text="Select a SALT stage" />
       <div className="flex flex-col mt-4 overflow-y-auto">
-        {saltStages.map((stage, index) => (
+        {stages.map((stage, index) => (
           <button
             key={index}
             className={classNames(

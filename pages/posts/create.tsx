@@ -217,13 +217,14 @@ export default function CreatePostPage(props: CreatePostPageProps) {
       <ChipList tags={tags} setTags={setTags} />
 
       <TopicsDialog
+        topics={topics}
         isOpen={showTopicsDialog}
         setIsOpen={setShowTopicsDialog}
-        topics={topics}
         selected={topic}
         setSelected={setTopic}
       />
       <SaltStageDialog
+        stages={["None", ...saltStages]}
         isOpen={showSaltStageDialog}
         setIsOpen={setShowSaltStageDialog}
         selected={saltStage}
