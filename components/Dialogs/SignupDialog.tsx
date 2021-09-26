@@ -66,32 +66,36 @@ export default function SignupDialog(props: SignupDialogProps) {
   return (
     <BaseDialog {...props} isLoading={isLoading} size={DialogSize.ExtraLarge}>
       <DialogTitle text="Signup" />
-      <div className="mt-8 flex gap-x-5">
+      <div className="mt-6 flex flex-row gap-x-5">
         <DialogTextInput
+          className="flex-1"
           placeholder="First Name"
           value={firstName}
           setValue={setFirstName}
         />
         <DialogTextInput
+          className="flex-1"
           placeholder="Last Name"
           value={lastName}
           setValue={setLastName}
         />
       </div>
       <DialogTextInput
-        className="mt-4"
+        className="mt-2"
         placeholder="Email"
         value={email}
         setValue={setEmail}
       />
-      <div className="mt-4 flex gap-x-5">
+      <div className="mt-2 flex gap-x-5">
         <DialogTextInput
+          className="flex-1"
           placeholder="Password"
           value={password}
           setValue={setPassword}
           type="password"
         />
         <DialogTextInput
+          className="flex-1"
           placeholder="Confirm Password"
           value={confirmPassword}
           setValue={setConfirmPassword}
