@@ -7,10 +7,11 @@ import BaseCard from "./BaseCard";
 
 interface PostKnowledgeCardProps {
   post: LinkedPost;
+  onAddJointLesson: (post: LinkedPost) => void;
 }
 
 export default function PostKnowledgeCard(props: PostKnowledgeCardProps) {
-  const { post } = props;
+  const { post, onAddJointLesson } = props;
   const router = useRouter();
 
   const onClick = useCallback(() => {
@@ -34,7 +35,8 @@ export default function PostKnowledgeCard(props: PostKnowledgeCardProps) {
             className="text-primary"
             text="+ Add to joint lesson"
             onClick={(e) => {
-              e.stopPropagation();
+              e?.stopPropagation();
+              onAddJointLesson(post);
             }}
           />
         </div>

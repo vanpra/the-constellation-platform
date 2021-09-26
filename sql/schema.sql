@@ -105,14 +105,10 @@ create table public.joint_lesson (
 );
 
 -- LESSON_POST
-create table public.lesson_post (
-  lesson_id   bigint references public.joint_lesson not null,
-  post_id     bigint references public.posts not null
-);
+create type joint_lesson_for_topic as (lesson_id bigint, lesson_title text, lessons json[]);
 
-create type joint_lesson_for_topic as (lesson_title text, lessons json[]);
 create function public.get_joint_lessons(topic_id bigint) returns setof joint_lesson_for_topic
-as 'SELECT joint_lesson.title AS lesson_title,
+as 'SELECT joint_lesson.id AS lesson_id, joint_lesson.title AS lesson_title,
        ARRAY_AGG (json_build_object(
         ''post_id'', posts.id,
         ''post_title'', posts.title )) lessons
@@ -123,9 +119,10 @@ LEFT OUTER JOIN lesson_post
 ON joint_lesson.id = lesson_post.lesson_id
 RIGHT OUTER JOIN posts
 ON lesson_post.post_id = posts.id
-WHERE topics.id = 1
+WHERE topics.id = $1
 GROUP BY joint_lesson.id'
 language SQL;
+
 
 -- USER ROLES
 create table public.user_roles (

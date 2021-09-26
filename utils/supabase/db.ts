@@ -4,6 +4,7 @@ import {
 } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
 import JointLesson from "../../models/JointLesson";
+import LinkedJointLesson from "../../models/LinkedJointLesson";
 import LinkedPost from "../../models/LinkedPost";
 import Post from "../../models/Post";
 import PostsByTopic from "../../models/PostsByTopic";
@@ -314,7 +315,6 @@ export const useCountryPostCounts = () => {
         minPostCount: data.length > 0 ? data[data.length - 1].post_count : 0,
       });
     }
-
     getCountryPostCountData();
   }, [setError, setCountryPostCountData]);
 
@@ -323,13 +323,13 @@ export const useCountryPostCounts = () => {
 
 export const useJointLessons = (topicId: string) => {
   const [error, setError] = useState<string | undefined>(undefined);
-  const [jointLessons, setJointLessons] = useState<JointLesson[] | undefined>(
-    undefined
-  );
+  const [jointLessons, setJointLessons] = useState<
+    LinkedJointLesson[] | undefined
+  >(undefined);
 
   useEffect(() => {
     async function getJointLessons() {
-      const { error: e, data } = await supabase.rpc<JointLesson>(
+      const { error: e, data } = await supabase.rpc<LinkedJointLesson>(
         "get_joint_lessons",
         { topic_id: topicId }
       );
@@ -339,7 +339,7 @@ export const useJointLessons = (topicId: string) => {
         return;
       }
 
-      setJointLessons(data as JointLesson[]);
+      setJointLessons(data as LinkedJointLesson[]);
     }
 
     getJointLessons();
@@ -416,4 +416,37 @@ export const getSearchResults = async (searchData: SearchData) => {
 
   const { error, data } = await baseQuery;
   return { error, data: data as LinkedPost[] };
+};
+
+export const addPostToExistingJointLesson = async (
+  post: LinkedPost,
+  jointLesson: LinkedJointLesson
+) => {
+  return await supabase.from("lesson_post").insert({
+    lesson_id: jointLesson.lesson_id,
+    post_id: post.id,
+  });
+};
+
+export const addPostToNewJointLesson = async (
+  post: LinkedPost,
+  jointLesson: string,
+  topicId: string
+) => {
+  const { error, data: newJointLesson } = await supabase
+    .from<JointLesson>("joint_lesson")
+    .insert({
+      title: jointLesson,
+      topic_id: topicId,
+    })
+    .single();
+
+  if (error || newJointLesson == null) {
+    return { error };
+  }
+
+  return await supabase.from("lesson_post").insert({
+    lesson_id: newJointLesson.id,
+    post_id: post.id,
+  });
 };

@@ -1,10 +1,10 @@
 import { useRouter } from "next/dist/client/router";
 import React from "react";
-import JointLesson from "../../models/JointLesson";
+import LinkedJointLesson from "../../models/LinkedJointLesson";
 import BaseCard from "./BaseCard";
 
 interface JointLessonCardProps {
-  jointLesson: JointLesson;
+  jointLesson: LinkedJointLesson;
 }
 
 export default function JointLessonCard(props: JointLessonCardProps) {

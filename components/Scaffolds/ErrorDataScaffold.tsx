@@ -11,7 +11,7 @@ export default function ErrorDataLayout<T>(props: ErrorDataScaffold<T>) {
   const { error, data, children } = props;
   return (
     <>
-      {error && <p>{error}</p>}
+      {error && !data && <p>{error}</p>}
       {data && children}
       {!data && !error && <LoadingSpinner />}
     </>
