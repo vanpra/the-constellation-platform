@@ -29,7 +29,7 @@ export default function HomePage() {
           </p>
         </div>
 
-        <FeaturedPosts className="mt-6" />
+        <FeaturedPosts className="mt-6 mb-10" />
       </div>
     </PageScaffold>
   );

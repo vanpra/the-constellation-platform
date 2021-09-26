@@ -11,6 +11,7 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import utc from "dayjs/plugin/utc";
 import relativeTime from "dayjs/plugin/relativeTime";
+import Footer from "../components/Footer";
 
 export const UserContext = React.createContext<User | undefined>(undefined);
 
@@ -50,7 +51,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <div
         className={classNames(
           " flex flex-1 flex-col",
-          "w-full h-full min-h-screen min-w-screen pb-4",
+          "w-full h-full min-h-screen min-w-screen",
           "bg-background"
         )}
       >
@@ -64,6 +65,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           isOpen={showSignupDialog}
           setIsOpen={setShowSignupDialog}
         />
+        <Footer />
       </div>
     </UserContext.Provider>
   );
