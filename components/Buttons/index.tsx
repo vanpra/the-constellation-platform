@@ -5,7 +5,7 @@ interface RoundedButtonProps {
   text: string;
   icon?: React.ReactNode;
   className?: string;
-  onClick?: () => void;
+  onClick?: (e?: React.MouseEvent<HTMLElement>) => void;
 }
 
 export function RedRoundedButton(props: RoundedButtonProps) {
