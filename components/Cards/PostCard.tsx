@@ -47,7 +47,10 @@ const PostEditButtons = (props: PostEditButtonsProps) => {
     <div className="flex flex-col gap-y-2 mb-2">
       <RedRoundedButton
         text="Edit"
-        onClick={() => router.push(`/posts/${post.id}/edit`)}
+        onClick={(e) => {
+          e?.stopPropagation();
+          router.push(`/posts/${post.id}/edit`);
+        }}
       />
       <RedRoundedButton
         text="Delete"

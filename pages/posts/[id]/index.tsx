@@ -1,7 +1,6 @@
 import { useRouter } from "next/dist/client/router";
 import React from "react";
 import parse from "html-react-parser";
-import { TransparentRoundedButton } from "../../../components/Buttons";
 import { PostHeader } from "../../../components/Post/PostHeader";
 import { SaltSection } from "../../../components/Post/SaltSection";
 import ErrorDataScaffold from "../../../components/Scaffolds/ErrorDataScaffold";
@@ -17,10 +16,10 @@ export default function Post() {
     <>
       <ErrorDataScaffold error={error} data={post}>
         <PageScaffold>
-          <TransparentRoundedButton
+          {/* <TransparentRoundedButton
             className="mr-6 bg-white"
             text="Translate"
-          />
+          /> */}
 
           <PostHeader post={post} />
 
@@ -34,7 +33,7 @@ export default function Post() {
 
           <div className="text-xl mt-6">{parse(post?.content || "")}</div>
 
-          <p className="text-2xl font-bold mt-8">Discussion</p>
+          {/* <p className="text-2xl font-bold mt-8">Discussion</p> */}
         </PageScaffold>
       </ErrorDataScaffold>
     </>

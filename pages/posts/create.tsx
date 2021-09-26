@@ -96,7 +96,7 @@ export default function CreatePostPage(props: CreatePostPageProps) {
         saveBtn={
           <>
             <RedRoundedButton
-              className="mt-6 py-3"
+              className="mt-4 py-3"
               text="Publish"
               icon={
                 <Upload

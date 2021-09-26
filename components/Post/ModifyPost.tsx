@@ -222,16 +222,30 @@ export default function ModifyPost(props: ModifyPostProps) {
       </div>
 
       <p className="px-1 py-1 text-xl font-medium mt-2">Post tags</p>
-      <TextInput
-        inputClassName="rounded-lg"
-        placeholder="eg. Education, Medical, ..."
-        value={currentTag}
-        setValue={setCurrentTag}
-        onEnter={() => {
-          setPost({ ...post, tags: [...post.tags, currentTag] });
-          setCurrentTag("");
-        }}
-      />
+      <div className=" flex flex-row gap-x-4">
+        <TextInput
+          className="flex-1"
+          inputClassName="rounded-lg"
+          placeholder="eg. Education, Medical, ..."
+          value={currentTag}
+          setValue={setCurrentTag}
+          onEnter={() => {
+            if (currentTag != "") {
+              setPost({ ...post, tags: [...post.tags, currentTag] });
+              setCurrentTag("");
+            }
+          }}
+        />
+        <RedRoundedButton
+          text="Add Tag"
+          onClick={() => {
+            if (currentTag != "") {
+              setPost({ ...post, tags: [...post.tags, currentTag] });
+              setCurrentTag("");
+            }
+          }}
+        />
+      </div>
 
       <ChipList
         tags={post.tags}

@@ -12,7 +12,8 @@ import { UserContext } from "../../_app";
 import ErrorDataLayout from "../../../components/Scaffolds/ErrorDataScaffold";
 
 export default function EditPostPage() {
-  const { error: topicsError, topics } = useTopics();
+  // TODO: handle topics error
+  const { topics } = useTopics();
   const router = useRouter();
   const { id } = router.query;
   const { error: postError, post } = usePost(id);
@@ -93,7 +94,7 @@ export default function EditPostPage() {
           saveBtn={
             <>
               <RedRoundedButton
-                className="mt-6 py-3"
+                className="mt-4 py-3"
                 text="Update post"
                 icon={
                   <EditIcon

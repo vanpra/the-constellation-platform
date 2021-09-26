@@ -1,4 +1,3 @@
-import classNames from "classnames";
 import React from "react";
 import { useFeaturedPosts } from "../../utils/supabase/db";
 import PostCard from "../Cards/PostCard";

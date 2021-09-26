@@ -38,7 +38,7 @@ export function ChipList(props: ChipListProps) {
     return <></>;
   }
   return (
-    <div className="flex flex-wrap gap-x-3 mt-2 mb-3">
+    <div className="flex flex-wrap gap-x-2 mt-3">
       {tags.map((tag, index) => (
         <Chip
           key={index}
