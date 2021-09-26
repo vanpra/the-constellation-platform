@@ -3,7 +3,6 @@ import React, { useContext } from "react";
 import DialogTitle from "./DialogTitle";
 import BaseDialog, { DialogSize } from "./BaseDialog";
 import Tick from "../../assets/tick.svg";
-import Post from "../../models/Post";
 import { usePreviousLinkPosts } from "../../utils/supabase/db";
 import { UserContext } from "../../pages/_app";
 import ErrorDataLayout from "../Scaffolds/ErrorDataScaffold";
@@ -11,8 +10,8 @@ import DialogButton from "../Buttons/DialogButton";
 import { SaltStage } from "../../utils/salt";
 
 interface LinkPostDialogProps {
-  selected?: Post;
-  setSelected: (post: Post) => void;
+  selected?: { id: number; title: string };
+  setSelected: (post: { id: number; title: string }) => void;
   saltStage: SaltStage;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
@@ -48,7 +47,9 @@ export default function LinkPostDialog(props: LinkPostDialogProps) {
                 "hover:bg-gray-200 max-w-full"
               )}
               onClick={() => {
-                setSelected(post);
+                if (post.id) {
+                  setSelected({ id: post.id, title: post.title });
+                }
                 setIsOpen(false);
               }}
             >

@@ -41,8 +41,8 @@ const NavButton = ({ href, children }: NavButtonProps) => {
 
 export default function Navbar(props: NavbarProps) {
   const { setShowLoginDialog, setShowSignupDialog } = props;
-
   const user = useContext(UserContext);
+  const router = useRouter();
   const showLoginDialog = useCallback(
     () => setShowLoginDialog(true),
     [setShowLoginDialog]
@@ -53,8 +53,8 @@ export default function Navbar(props: NavbarProps) {
   );
   const signOut = useCallback(() => {
     supabase.auth.signOut();
-  }, []);
-  const router = useRouter();
+    router.push("/");
+  }, [router]);
   const { userInfo } = useUserInfo(user?.id);
 
   return (
