@@ -2,7 +2,7 @@ import React, { ChangeEvent, useCallback, useRef, useState } from "react";
 import DialogButton from "../Buttons/DialogButton";
 import BaseDialog from "./BaseDialog";
 import AvatarEditor from "react-avatar-editor";
-import DialogTitle from "../Titles/DialogTitle";
+import DialogTitle from "./DialogTitle";
 import classNames from "classnames";
 import UploadIcon from "../../assets/upload.svg";
 import { getAvatarUrl, uploadTempAvatar } from "../../utils/supabase/storage";

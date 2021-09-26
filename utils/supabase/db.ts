@@ -6,9 +6,12 @@ import { useEffect, useState } from "react";
 import LinkedPost from "../../models/LinkedPost";
 import Post from "../../models/Post";
 import PostsByTopic from "../../models/PostsByTopic";
-import Topic from "../../models/Topic";
+import Topic, { anyTopic } from "../../models/Topic";
 import UserInfo from "../../models/UserInfo";
 import UserInfoWithPosts from "../../models/UserInfoWithPosts";
+import { SearchData } from "../../pages/search";
+import { anyCountry } from "../countries";
+import { anySaltStage } from "../salt";
 import { supabase } from "./supabaseClient";
 
 export const useUserInfo = (userId?: string) => {
@@ -330,14 +333,13 @@ export const useFeaturedPosts = (numberOfPosts: number) => {
         .from("posts")
         .select(
           `
-            *,
-            author:user_id (full_name, avatar_url)
-            `
+          *,
+          author:user_id (full_name, avatar_url)
+          `
         )
         .order("created_at", { ascending: false })
         .limit(numberOfPosts);
 
-      console.log(data)
       if (error) {
         setError(e?.message);
         return;
@@ -347,7 +349,44 @@ export const useFeaturedPosts = (numberOfPosts: number) => {
     }
 
     getFeaturedPosts();
-  }, [setError, setFeaturedPosts, numberOfPosts]);
+  }, [setError, setFeaturedPosts, numberOfPosts, error]);
 
   return { error, featuredPosts };
+};
+
+// TODO: Maybe use rpc to search content, title and description columns
+export const getSearchResults = async (searchData: SearchData) => {
+  let baseQuery = supabase.from("posts").select(
+    `
+    *,
+    author:user_id (full_name, avatar_url, location)
+    `
+  );
+
+  if (searchData.text) {
+    baseQuery = baseQuery.textSearch("content", searchData.text);
+  }
+
+  if (searchData.dateFrom) {
+    baseQuery = baseQuery.gt("created_at", searchData.dateFrom);
+  }
+
+  if (searchData.dateTo) {
+    baseQuery = baseQuery.lt("created_at", searchData.dateTo);
+  }
+
+  if (searchData.tags.length > 0) {
+    baseQuery = baseQuery.overlaps("tags", searchData.tags);
+  }
+
+  if (searchData.topic && searchData.topic !== anyTopic) {
+    baseQuery = baseQuery.eq("topic_id", searchData.topic.id);
+  }
+
+  if (searchData.saltStage && searchData.saltStage !== anySaltStage) {
+    baseQuery = baseQuery.eq("salt_stage", searchData.saltStage.id);
+  }
+
+  const { error, data } = await baseQuery;
+  return { error, data: data as LinkedPost[] };
 };

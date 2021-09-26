@@ -1,20 +1,26 @@
 import { useRouter } from "next/dist/client/router";
 import React, { useCallback, useMemo, useState } from "react";
+import EditIcon from "../../../../assets/edit.svg";
+import SaveIcon from "../../../../assets/save.svg";
 import { RedRoundedButton } from "../../../../components/Buttons";
-import CountryDropdown from "../../../../components/Dropdown/CountryDropdown";
+import EndIconButton from "../../../../components/Buttons/EndIconButton";
+import CountryDialog from "../../../../components/Dialogs/CountryDialog";
+import ImageUploadDialog from "../../../../components/Dialogs/ImageUploadDialog";
 import TextInput from "../../../../components/Inputs/TextInput";
+import { ProfileHeader } from "../../../../components/Profile/ProfileHeader";
 import ErrorDataLayout from "../../../../components/Scaffolds/ErrorDataScaffold";
 import PageScaffold from "../../../../components/Scaffolds/PageScaffold";
-import { Country, findCountryByCode } from "../../../../utils/countries";
+import countries, {
+  Country,
+  findCountryByCode,
+  noneCountry,
+} from "../../../../utils/countries";
+import { updateUserInfo, useUserInfo } from "../../../../utils/supabase/db";
 import {
   getAvatarUrl,
   moveTempAvatar,
 } from "../../../../utils/supabase/storage";
-import { updateUserInfo, useUserInfo } from "../../../../utils/supabase/db";
-import SaveIcon from "../../../../assets/save.svg";
-import EditIcon from "../../../../assets/edit.svg";
-import ImageUploadDialog from "../../../../components/Dialogs/ImageUploadDialog";
-import { ProfileHeader } from "../../../../components/Profile/ProfileHeader";
+import UnfoldMoreIcon from "../../../../assets/unfold.svg";
 
 export default function EditProfilePage() {
   const router = useRouter();
@@ -29,6 +35,7 @@ export default function EditProfilePage() {
     [userInfo]
   );
   const [isUploading, setIsUploading] = useState(false);
+  const [showCountryDialog, setShowCountryDialog] = useState(false);
   const [avatarChanged, setAvatarChanged] = useState(false);
   const setUserInfoField = useCallback(
     (field: string, value?: string | null) => {
@@ -103,11 +110,19 @@ export default function EditProfilePage() {
             className="flex-1"
             inputClassName="text-lg rounded-lg shadow-sm"
           />
-          <CountryDropdown
+
+          <EndIconButton
             className="flex-1"
-            selected={selectedCountry}
-            onChange={(value: Country) =>
-              setUserInfoField("location", value.code)
+            label="Country"
+            value={selectedCountry.name}
+            onClick={() => setShowCountryDialog(true)}
+            icon={
+              <UnfoldMoreIcon
+                width="24"
+                height="24"
+                className="fill-current text-gray-400"
+                aria-hidden="true"
+              />
             }
           />
         </div>
@@ -127,6 +142,15 @@ export default function EditProfilePage() {
             setUserInfoField("avatar_url", url);
             setAvatarChanged(isUpload);
           }}
+        />
+        <CountryDialog
+          countries={[noneCountry, ...countries]}
+          selected={selectedCountry}
+          setSelected={(country: Country) =>
+            setUserInfoField("location", country.code)
+          }
+          isOpen={showCountryDialog}
+          setIsOpen={setShowCountryDialog}
         />
       </ErrorDataLayout>
     </PageScaffold>

@@ -19,3 +19,7 @@ body {
 .has-tooltip:hover .tooltip {
   @apply visible z-50;
 }
+
+.simplebar-scrollbar::before {
+  background-color: "#D23A27";
+}
