@@ -261,7 +261,7 @@ export const createPost = async (post: Post) => {
       .update({ next_salt_post_id: newPost.id })
       .eq("id", post.previous_salt_post_id);
 
-    // Maybe add ability to retry here
+    // TODO: Maybe add ability to retry here
     if (linkError) {
       return {
         error:
