@@ -11,7 +11,6 @@ import Topic, { anyTopic } from "../../models/Topic";
 import UserInfo from "../../models/UserInfo";
 import UserInfoWithPosts from "../../models/UserInfoWithPosts";
 import { SearchData } from "../../pages/search";
-import { anyCountry } from "../countries";
 import { anySaltStage } from "../salt";
 import { supabase } from "./supabaseClient";
 
@@ -344,7 +343,7 @@ export const useJointLessons = (topicId: string) => {
     }
 
     getJointLessons();
-  }, [setError, setJointLessons]);
+  }, [setError, setJointLessons, topicId]);
 
   return { error, jointLessons };
 };
