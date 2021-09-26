@@ -3,11 +3,12 @@ import React from "react";
 import DialogTitle from "./DialogTitle";
 import BaseDialog, { DialogSize } from "./BaseDialog";
 import Tick from "../../assets/tick.svg";
+import { SaltStage } from "../../utils/salt";
 
 interface SaltStageDialogProps {
-  stages: string[];
-  selected: number;
-  setSelected: (saltStage: number) => void;
+  stages: SaltStage[];
+  selected: SaltStage;
+  setSelected: (saltStage: SaltStage) => void;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
 }
@@ -23,23 +24,20 @@ export default function SaltStageDialog(props: SaltStageDialogProps) {
     >
       <DialogTitle text="Select a SALT stage" />
       <div className="flex flex-col mt-4 overflow-y-auto">
-        {stages.map((stage, index) => (
+        {stages.map((stage) => (
           <button
-            key={index}
+            key={stage.id}
             className={classNames(
               "flex flex-row py-4 px-2 justify-between",
               "hover:bg-gray-200"
             )}
             onClick={() => {
-              setSelected(index);
+              setSelected(stage);
               setIsOpen(false);
             }}
           >
-            <p className="text-2xl">
-              {index}:{"  "}
-              {stage}
-            </p>
-            {selected == index && (
+            <p className="text-2xl">{stage.name}</p>
+            {selected.id == stage.id && (
               <Tick className="fill-current text-primary mr-4 w-8 h-8" />
             )}
           </button>

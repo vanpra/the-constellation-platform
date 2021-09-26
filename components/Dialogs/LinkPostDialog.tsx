@@ -8,11 +8,12 @@ import { usePreviousLinkPosts } from "../../utils/supabase/db";
 import { UserContext } from "../../pages/_app";
 import ErrorDataLayout from "../Scaffolds/ErrorDataScaffold";
 import DialogButton from "../Buttons/DialogButton";
+import { SaltStage } from "../../utils/salt";
 
 interface LinkPostDialogProps {
   selected?: Post;
   setSelected: (post: Post) => void;
-  saltStage: number;
+  saltStage: SaltStage;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
 }
@@ -21,7 +22,7 @@ export default function LinkPostDialog(props: LinkPostDialogProps) {
   const { selected, setSelected, saltStage, isOpen, setIsOpen } = props;
   const user = useContext(UserContext);
   // TODO: Add null check on user
-  const { posts, error } = usePreviousLinkPosts(saltStage, user?.id);
+  const { posts, error } = usePreviousLinkPosts(saltStage.id, user?.id);
 
   return (
     <BaseDialog

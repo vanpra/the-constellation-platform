@@ -1,5 +1,5 @@
 export function stringHashCode(str: string) {
-  var hash = 0,
+  let hash = 0,
     i,
     chr;
   if (str.length === 0) return hash;

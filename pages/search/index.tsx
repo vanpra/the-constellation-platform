@@ -7,7 +7,7 @@ import MoreOptions from "../../components/Search/MoreOptions";
 import LinkedPost from "../../models/LinkedPost";
 import Topic, { anyTopic } from "../../models/Topic";
 import { anyCountry, Country } from "../../utils/countries";
-import { anySaltStage } from "../../utils/salt";
+import { anySaltStage, SaltStage } from "../../utils/salt";
 import { getSearchResults } from "../../utils/supabase/db";
 import { supabase } from "../../utils/supabase/supabaseClient";
 
@@ -18,7 +18,7 @@ export interface SearchData {
   tags: string[];
   topic: Topic;
   country: Country;
-  saltStage: number;
+  saltStage: SaltStage;
 }
 
 const defaultSearchData: SearchData = {
@@ -88,6 +88,7 @@ export default function SearchPage(props: SearchPageProps) {
         onClick={async () => {
           const { data, error } = await getSearchResults(searchData);
           if (error) {
+            setSearchResults([]);
             setError(error.message);
           }
           if (data) {

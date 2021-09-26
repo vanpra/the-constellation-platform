@@ -17,7 +17,7 @@ import TextInput from "../../components/Inputs/TextInput";
 import PageScaffold from "../../components/Scaffolds/PageScaffold";
 import Post from "../../models/Post";
 import Topic from "../../models/Topic";
-import { saltStages } from "../../utils/salt";
+import { SaltStage, saltStages } from "../../utils/salt";
 import { supabase } from "../../utils/supabase/supabaseClient";
 import { createPost } from "../../utils/supabase/db";
 import { useRouter } from "next/dist/client/router";
@@ -55,7 +55,7 @@ export default function CreatePostPage(props: CreatePostPageProps) {
   const [description, setDescription] = useState("");
   const [content, setContent] = useState("");
   const [topic, setTopic] = useState<Topic>(topics[0]);
-  const [saltStage, setSaltStage] = useState<number>(0);
+  const [saltStage, setSaltStage] = useState<SaltStage>(saltStages[0]);
   const [previousPost, setPreviousPost] = useState<Post | undefined>(undefined);
   const [tags, setTags] = useState<string[]>([]);
 
@@ -81,7 +81,7 @@ export default function CreatePostPage(props: CreatePostPageProps) {
       description,
       content,
       topic_id: topic.id,
-      salt_stage: saltStage,
+      salt_stage: saltStage.id,
       tags,
       previous_salt_post_id: previousPost?.id,
     });
@@ -154,7 +154,7 @@ export default function CreatePostPage(props: CreatePostPageProps) {
         <EndIconButton
           className="mt-3 flex-1"
           label="SALT stage"
-          value={saltStage + ": " + saltStages[saltStage]}
+          value={saltStage.id + ": " + saltStage.name}
           onClick={() => setShowSaltStageDialog(true)}
           icon={
             <UnfoldMoreIcon
@@ -165,7 +165,7 @@ export default function CreatePostPage(props: CreatePostPageProps) {
             />
           }
         >
-          {saltStage != 0 && saltStage != 1 && !previousPost && (
+          {saltStage.id != 0 && saltStage.id != 1 && !previousPost && (
             <RedRoundedButton
               icon={
                 <LinkIcon

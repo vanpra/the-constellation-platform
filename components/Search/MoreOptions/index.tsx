@@ -2,9 +2,9 @@ import classNames from "classnames";
 import React from "react";
 import Topic from "../../../models/Topic";
 import { SearchData } from "../../../pages/search";
-import { Country } from "../../../utils/countries";
-import MoreOptionsCountry from "./MoreOptionsCountry";
+import { SaltStage } from "../../../utils/salt";
 import MoreOptionsDateRange from "./MoreOptionsDateRange";
+import MoreOptionsSaltStage from "./MoreOptionsSALTStage";
 import MoreOptionsTags from "./MoreOptionsTags";
 import MoreOptionsTopic from "./MoreOptionsTopic";
 
@@ -41,21 +41,21 @@ export default function MoreOptions(props: MoreOptionsProps) {
           topic={searchData.topic}
           setTopic={(topic: Topic) => setSearchData({ ...searchData, topic })}
         />
-        <MoreOptionsCountry
+        {/* <MoreOptionsCountry
           className="flex-1"
           country={searchData.country}
           setCountry={(country: Country) =>
             setSearchData({ ...searchData, country })
           }
+        /> */}
+        <MoreOptionsSaltStage
+          className="flex-1"
+          saltStage={searchData.saltStage}
+          setSaltStage={(saltStage: SaltStage) =>
+            setSearchData({ ...searchData, saltStage })
+          }
         />
       </div>
-
-      {/* <MoreOptionsSaltStage
-        saltStage={searchData.saltStage}
-        setSaltStage={(saltStage: number) =>
-          setSearchData({ ...searchData, saltStage })
-        }
-      /> */}
     </div>
   );
 }

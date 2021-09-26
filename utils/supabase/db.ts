@@ -379,16 +379,12 @@ export const getSearchResults = async (searchData: SearchData) => {
     baseQuery = baseQuery.overlaps("tags", searchData.tags);
   }
 
-  if (searchData.country && searchData.country !== anyCountry) {
-    baseQuery = baseQuery.eq("author.location", searchData.country.code);
-  }
-
   if (searchData.topic && searchData.topic !== anyTopic) {
     baseQuery = baseQuery.eq("topic_id", searchData.topic.id);
   }
 
   if (searchData.saltStage && searchData.saltStage !== anySaltStage) {
-    baseQuery = baseQuery.eq("salt_stage", searchData.saltStage);
+    baseQuery = baseQuery.eq("salt_stage", searchData.saltStage.id);
   }
 
   const { error, data } = await baseQuery;

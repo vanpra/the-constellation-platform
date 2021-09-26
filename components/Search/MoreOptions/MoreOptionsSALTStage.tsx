@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import UnfoldMoreIcon from "../../../assets/unfold.svg";
 import EndIconButton from "../../Buttons/EndIconButton";
-import { saltStages } from "../../../utils/salt";
+import { anySaltStage, SaltStage, saltStages } from "../../../utils/salt";
 import SaltStageDialog from "../../Dialogs/SaltStageDialog";
 
 interface MoreOptionsSaltStageProps {
   className?: string;
-  saltStage: number;
-  setSaltStage: (saltStage: number) => void;
+  saltStage: SaltStage;
+  setSaltStage: (saltStage: SaltStage) => void;
 }
 
 export default function MoreOptionsSaltStage(props: MoreOptionsSaltStageProps) {
   const { className, saltStage, setSaltStage } = props;
-  const filterSaltStages = ["Any", ...saltStages];
+  const filterSaltStages = [anySaltStage, ...saltStages];
   const [showSaltStageDialog, setShowSaltStageDialog] = useState(false);
 
   return (
@@ -20,7 +20,7 @@ export default function MoreOptionsSaltStage(props: MoreOptionsSaltStageProps) {
       <EndIconButton
         className="mt-3"
         label="SALT stage"
-        value={filterSaltStages[saltStage]}
+        value={saltStage.name}
         onClick={() => setShowSaltStageDialog(true)}
         icon={
           <UnfoldMoreIcon
