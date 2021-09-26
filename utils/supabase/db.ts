@@ -3,6 +3,7 @@ import {
   SupabaseRealtimePayload,
 } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
+import JointLesson from "../../models/JointLesson";
 import LinkedPost from "../../models/LinkedPost";
 import Post from "../../models/Post";
 import PostsByTopic from "../../models/PostsByTopic";
@@ -189,56 +190,6 @@ export const usePostsByTopic = (topicId?: string) => {
   return { error, postsByTopic };
 };
 
-export const useKnowledgeByTopic = (topicId?: string) => {
-  const [error, setError] = useState<string | undefined>(undefined);
-  const [knowledgeByTopic, setKnowledgeByTopic] = useState<KnowledgeByTopic | undefined>(
-    undefined
-  );
-
-  useEffect(() => {
-    async function getKnowledgeByTopic() {
-      if (topicId != undefined) {
-        const { error: topicError, data: topicData } = await supabase
-          .from("topics")
-          .select()
-          .eq("id", topicId)
-          .single();
-
-        if (topicError) {
-          setError(topicError?.message);
-          return;
-        }
-
-        const { error: knowledgeError, data: knowledgeData } = await supabase
-          .from("knowledge_asset")
-          .select(
-            `
-            *,
-            post:post_id (user_id, title)
-            `
-          )
-          .eq("topic_id", topicId);
-
-        if (knowledgeError) {
-          setError(knowledgeError?.message);
-          return;
-        }
-
-        setKnowledgeByTopic(
-          {
-            topic: (topicData as Topic).title,
-            assets: knowledgeData as LinkedPost[],
-          } ?? undefined
-        );
-      }
-    }
-
-    getKnowledgeByTopic();
-  }, [topicId, setError, setKnowledgeByTopic]);
-
-  return { error, knowledgeByTopic };
-};
-
 export const usePost = (postId?: string | string[]) => {
   const [error, setError] = useState<string | undefined>(undefined);
   const [post, setPost] = useState<LinkedPost | undefined>(undefined);
@@ -369,11 +320,6 @@ export const useCountryPostCounts = () => {
   }, [setError, setCountryPostCountData]);
 
   return { error, countryPostCountData };
-};
-
-type JointLesson = {
-  lesson_title: string;
-  lessons: { post_id: number; post_title: string }[];
 };
 
 export const useJointLessons = (topicId: string) => {

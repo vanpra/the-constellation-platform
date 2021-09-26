@@ -14,7 +14,17 @@ export default function PostsByTopic() {
   return (
     <>
       <ErrorDataLayout error={error} data={postsByTopic}>
-        <PageScaffold title={postsByTopic?.topic} button={<RedRoundedButton text="View Knowlege Asset" onClick={() => {router.push(id + "/knowledge")}}/>}>
+        <PageScaffold
+          title={postsByTopic?.topic}
+          button={
+            <RedRoundedButton
+              text="View Knowledge Asset"
+              onClick={() => {
+                router.push(id + "/knowledge");
+              }}
+            />
+          }
+        >
           {postsByTopic?.posts.length === 0 && (
             <p className="text-2xl">
               There are currently no posts for this topic

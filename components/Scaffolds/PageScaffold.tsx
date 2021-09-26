@@ -25,9 +25,7 @@ export default function PageScaffold(props: PageScaffoldProps) {
         {title && (
           <h1 className={classNames("font-medium text-5xl")}>{title}</h1>
         )}
-        <div className="ml-auto">
-          {button}
-        </div>
+        <div className="ml-auto">{button}</div>
       </div>
 
       {children}

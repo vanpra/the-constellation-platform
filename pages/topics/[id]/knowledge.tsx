@@ -1,6 +1,6 @@
 import { useRouter } from "next/dist/client/router";
 import React from "react";
-import PostCard from "../../../components/Cards/PostCard";
+import { TransparentRoundedButton } from "../../../components/Buttons";
 import PostKnowledgeCard from "../../../components/Cards/PostKnowledgeCard";
 import ErrorDataLayout from "../../../components/Scaffolds/ErrorDataScaffold";
 import PageScaffold from "../../../components/Scaffolds/PageScaffold";
@@ -20,14 +20,24 @@ export default function KnowledgeAssetPage() {
         <PageScaffold title={postsByTopic?.topic + " - Knowledge Asset"}>
           {postsWithKnowledge.length === 0 ? (
             <p className="text-2xl">
-              There are currently no posts for this topic
+              There are no contributions to this knowledge asset! <br />
+              Create a post to share your experience and be the first!
             </p>
           ) : (
-            <div className="flex flex-col space-y-6">
-              {postsWithKnowledge.map((post, index) => (
-                <PostKnowledgeCard key={index} post={post} />
-              ))}
-            </div>
+            <>
+              <TransparentRoundedButton
+                className="text-primary font-semibold mr-auto pb-4"
+                text="View Joint Lessons"
+                onClick={() => {
+                  router.push(`/topics/${id}/lessons`);
+                }}
+              />
+              <div className="flex flex-col space-y-6">
+                {postsWithKnowledge.map((post, index) => (
+                  <PostKnowledgeCard key={index} post={post} />
+                ))}
+              </div>
+            </>
           )}
         </PageScaffold>
       </ErrorDataLayout>
