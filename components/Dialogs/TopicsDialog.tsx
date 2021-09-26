@@ -7,7 +7,7 @@ import Tick from "../../assets/tick.svg";
 
 interface TopicsDialogProps {
   topics: Topic[];
-  selected: Topic;
+  selected?: Topic;
   setSelected: (topic: Topic) => void;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;

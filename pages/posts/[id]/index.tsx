@@ -1,12 +1,12 @@
 import { useRouter } from "next/dist/client/router";
 import React from "react";
-import { TransparentRoundedButton } from "../../components/Buttons";
-import ErrorDataScaffold from "../../components/Scaffolds/ErrorDataScaffold";
-import PageScaffold from "../../components/Scaffolds/PageScaffold";
-import { usePost } from "../../utils/supabase/db";
 import parse from "html-react-parser";
-import { PostHeader } from "../../components/Post/PostHeader";
-import { SaltSection } from "../../components/Post/SaltSection";
+import { TransparentRoundedButton } from "../../../components/Buttons";
+import { PostHeader } from "../../../components/Post/PostHeader";
+import { SaltSection } from "../../../components/Post/SaltSection";
+import ErrorDataScaffold from "../../../components/Scaffolds/ErrorDataScaffold";
+import PageScaffold from "../../../components/Scaffolds/PageScaffold";
+import { usePost } from "../../../utils/supabase/db";
 
 export default function Post() {
   const router = useRouter();

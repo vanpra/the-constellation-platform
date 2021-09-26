@@ -80,7 +80,8 @@ export const useUserInfoWithPosts = (userId?: string) => {
             `
             *,
             author:user_id (full_name, avatar_url),
-            prev_salt_post:previous_salt_post_id (id, title)
+            prev_salt_post:previous_salt_post_id (id, title),
+            next_salt_post:next_salt_post_id (id, title)
             `
           )
           .eq("user_id", userId);
@@ -165,7 +166,9 @@ export const usePostsByTopic = (topicId?: string) => {
           .select(
             `
             *,
-            author:user_id (full_name, avatar_url)
+            author:user_id (id, full_name, avatar_url),
+            prev_salt_post:previous_salt_post_id (id, title),
+            next_salt_post:next_salt_post_id (id, title)
             `
           )
           .eq("topic_id", topicId);
@@ -201,7 +204,7 @@ export const usePost = (postId?: string | string[]) => {
         .select(
           `
           *,
-          author:user_id (full_name, avatar_url),
+          author:user_id (id, full_name, avatar_url),
           prev_salt_post:previous_salt_post_id (id, title),
           next_salt_post:next_salt_post_id (id, title)
           `
@@ -270,6 +273,16 @@ export const createPost = async (post: Post) => {
     }
   }
 
+  return { post_id: newPost.id };
+};
+
+export const updatePost = async (post: Post) => {
+  const { error: postError, data } = await supabase.from("posts").update(post);
+  if (postError) {
+    return { error: postError.message };
+  }
+  const newPost = (data as Post[])[0];
+  // TODO: Fix SALT links when updating
   return { post_id: newPost.id };
 };
 
@@ -361,7 +374,9 @@ export const useFeaturedPosts = (numberOfPosts: number) => {
         .select(
           `
           *,
-          author:user_id (full_name, avatar_url)
+          author:user_id (id, full_name, avatar_url),
+          prev_salt_post:previous_salt_post_id (id, title),
+          next_salt_post:next_salt_post_id (id, title)
           `
         )
         .order("created_at", { ascending: false })
@@ -386,7 +401,7 @@ export const getSearchResults = async (searchData: SearchData) => {
   let baseQuery = supabase.from("posts").select(
     `
     *,
-    author:user_id (full_name, avatar_url, location)
+    author:user_id (id, full_name, avatar_url, location)
     `
   );
 
@@ -449,4 +464,30 @@ export const addPostToNewJointLesson = async (
     lesson_id: newJointLesson.id,
     post_id: post.id,
   });
+};
+
+// Handle errors in this function
+export const deletePost = async (post: LinkedPost) => {
+  await supabase.from("lesson_post").delete().match({ post_id: post.id });
+
+  if (!post.next_salt_post_id && post.previous_salt_post_id) {
+    await supabase
+      .from("posts")
+      .update({ next_salt_post_id: null })
+      .match({ id: post.previous_salt_post_id });
+  }
+
+  if (post.next_salt_post_id && post.previous_salt_post_id) {
+    await supabase
+      .from("posts")
+      .update({ next_salt_post_id: post.next_salt_post })
+      .match({ id: post.previous_salt_post_id });
+
+    await supabase
+      .from("posts")
+      .update({ previous_salt_post_id: post.previous_salt_post_id })
+      .match({ id: post.next_salt_post_id });
+  }
+
+  return await supabase.from("posts").delete().match({ id: post.id });
 };
