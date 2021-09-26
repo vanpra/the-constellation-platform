@@ -11,4 +11,5 @@ export default interface Post {
   created_at?: Date;
   salt_stage?: number;
   tags?: string[];
+  knowledge_asset?: string[];
 }

@@ -4,6 +4,7 @@ import React, { useContext, useState } from "react";
 import EditIcon from "../../assets/edit.svg";
 import LinkIcon from "../../assets/link.svg";
 import Upload from "../../assets/upload.svg";
+import Add from "../../assets/add.svg";
 import { RedRoundedButton } from "../../components/Buttons";
 import { ChipList } from "../../components/Buttons/Chip";
 import EndIconButton from "../../components/Buttons/EndIconButton";
@@ -58,6 +59,7 @@ export default function CreatePostPage(props: CreatePostPageProps) {
   const [saltStage, setSaltStage] = useState<SaltStage>(saltStages[0]);
   const [previousPost, setPreviousPost] = useState<Post | undefined>(undefined);
   const [tags, setTags] = useState<string[]>([]);
+  const [knowledgeAssets, setKnowledgeAssets] = useState<string[]>([]);
 
   const [currentTag, setCurrentTag] = useState("");
 
@@ -84,6 +86,7 @@ export default function CreatePostPage(props: CreatePostPageProps) {
       salt_stage: saltStage.id,
       tags,
       previous_salt_post_id: previousPost?.id,
+      knowledge_asset: knowledgeAssets.filter((asset) => asset !== ""),
     });
 
     if (error) {
@@ -133,6 +136,74 @@ export default function CreatePostPage(props: CreatePostPageProps) {
             "body { font-family:Livvic,Arial,sans-serif; font-size:18px }",
         }}
         tinymceScriptSrc="/js/tinymce/tinymce.min.js"
+      />
+
+      <p className="px-1 text-xl font-medium mt-4">Knowledge Assets</p>
+      <p className="px-1 text-md font-medium mt-1 mb-2">
+        A <span className="font-bold">knowledge asset</span> is a collection of
+        shared, common knowledge which is continuously developed and grown over
+        time. Learn more{" "}
+        <a
+          className="text-blue-600"
+          target="_blank"
+          rel="noreferrer"
+          href="https://sites.google.com/a/communitylifecompetence.org/tools-for-learning/home/knowledge-asset"
+        >
+          here
+        </a>
+        !
+      </p>
+      <div className="flex flex-col gap-y-2">
+        {knowledgeAssets.length > 0 ? (
+          knowledgeAssets.map((asset, index) => {
+            return (
+              <div className="flex flex-row items-center gap-x-4" key={index}>
+                <TextInput
+                  className="flex-1"
+                  inputClassName="rounded-lg"
+                  placeholder="If we ..."
+                  value={asset}
+                  setValue={(newAsset: string) =>
+                    setKnowledgeAssets([
+                      ...knowledgeAssets.slice(0, index),
+                      newAsset,
+                      ...knowledgeAssets.slice(index + 1),
+                    ])
+                  }
+                />
+                <CloseIcon
+                  width="24"
+                  height="24"
+                  className={classNames(
+                    "fill-current text-primary",
+                    "hover:cursor-pointer"
+                  )}
+                  onClick={() =>
+                    setKnowledgeAssets([
+                      ...knowledgeAssets.slice(0, index),
+                      ...knowledgeAssets.slice(index + 1),
+                    ])
+                  }
+                />
+              </div>
+            );
+          })
+        ) : (
+          <p className="mt-2 text-lg">No knowledge assets added</p>
+        )}
+      </div>
+
+      <RedRoundedButton
+        className="mt-4 py-2"
+        text="Add another knowledge asset"
+        icon={
+          <Add
+            height="24"
+            width="24"
+            className={classNames("fill-current text-white")}
+          />
+        }
+        onClick={() => setKnowledgeAssets([...knowledgeAssets, ""])}
       />
 
       <EndIconButton
@@ -202,7 +273,7 @@ export default function CreatePostPage(props: CreatePostPageProps) {
         )}
       </div>
 
-      <p className="px-1 py-1 text-xl font-medium mt-3">Post tags</p>
+      <p className="px-1 py-1 text-xl font-medium mt-2">Post tags</p>
       <TextInput
         inputClassName="rounded-lg"
         placeholder="eg. Education, Medical, ..."
@@ -215,6 +286,18 @@ export default function CreatePostPage(props: CreatePostPageProps) {
       />
 
       <ChipList tags={tags} setTags={setTags} />
+      <RedRoundedButton
+        className="mt-6 py-3"
+        text="Publish"
+        icon={
+          <Upload
+            height="24"
+            width="24"
+            className={classNames("fill-current text-white")}
+          />
+        }
+        onClick={onPublish}
+      />
 
       <TopicsDialog
         topics={topics}
@@ -236,19 +319,6 @@ export default function CreatePostPage(props: CreatePostPageProps) {
         saltStage={saltStage}
         isOpen={showPostLinkDialog}
         setIsOpen={setShowPostLinkDialog}
-      />
-
-      <RedRoundedButton
-        className="mt-6 py-3"
-        text="Publish"
-        icon={
-          <Upload
-            height="24"
-            width="24"
-            className={classNames("fill-current text-white")}
-          />
-        }
-        onClick={onPublish}
       />
       {error && <p className="text-xl text-red-700 mt-4 mb-4">{error}</p>}
     </PageScaffold>

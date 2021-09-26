@@ -1,9 +1,10 @@
 import { useRouter } from "next/dist/client/router";
 import React from "react";
-import PostCard from "../../components/Cards/PostCard";
-import ErrorDataLayout from "../../components/Scaffolds/ErrorDataScaffold";
-import PageScaffold from "../../components/Scaffolds/PageScaffold";
-import { usePostsByTopic } from "../../utils/supabase/db";
+import { RedRoundedButton } from "../../../components/Buttons";
+import PostCard from "../../../components/Cards/PostCard";
+import ErrorDataLayout from "../../../components/Scaffolds/ErrorDataScaffold";
+import PageScaffold from "../../../components/Scaffolds/PageScaffold";
+import { usePostsByTopic } from "../../../utils/supabase/db";
 
 export default function PostsByTopic() {
   const router = useRouter();
@@ -13,7 +14,17 @@ export default function PostsByTopic() {
   return (
     <>
       <ErrorDataLayout error={error} data={postsByTopic}>
-        <PageScaffold title={postsByTopic?.topic}>
+        <PageScaffold
+          title={postsByTopic?.topic}
+          button={
+            <RedRoundedButton
+              text="View Knowledge Asset"
+              onClick={() => {
+                router.push(id + "/knowledge");
+              }}
+            />
+          }
+        >
           {postsByTopic?.posts.length === 0 && (
             <p className="text-2xl">
               There are currently no posts for this topic
