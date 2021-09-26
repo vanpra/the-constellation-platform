@@ -6,6 +6,7 @@ import OrDivider from "../Dividers/OrDivider";
 import DialogTextInput from "../Inputs/DialogTextInput";
 import DialogTitle from "./DialogTitle";
 import BaseDialog, { DialogSize } from "./BaseDialog";
+import Link from "next/link";
 
 interface SignupDialogProps {
   isOpen: boolean;
@@ -66,7 +67,16 @@ export default function SignupDialog(props: SignupDialogProps) {
   return (
     <BaseDialog {...props} isLoading={isLoading} size={DialogSize.ExtraLarge}>
       <DialogTitle text="Signup" />
-      <div className="mt-6 flex flex-row gap-x-5">
+      <p className="text-lg mt-4">
+        By signing up you agree to the{" "}
+        <Link href="/terms-and-conditions">
+          <a className="text-blue-600" rel="noreferrer" target="_blank">
+            terms and conditions
+          </a>
+        </Link>{" "}
+        of the site
+      </p>
+      <div className="mt-1 flex flex-row gap-x-5">
         <DialogTextInput
           className="flex-1"
           placeholder="First Name"
