@@ -86,6 +86,9 @@ create table public.posts (
   tags text[],
   knowledge_asset text[]
 ); 
+
+alter table public.posts enable row level security;
+
 create policy "Allow authorized insert access" on public.posts for insert with check ( 
   auth.uid() = user_id or authorize('posts.insert', auth.uid()) 
 );
