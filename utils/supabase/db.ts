@@ -277,7 +277,7 @@ export const createPost = async (post: Post) => {
 };
 
 export const updatePost = async (post: Post) => {
-  const { error: postError, data } = await supabase.from("posts").update(post);
+  const { error: postError, data } = await supabase.from("posts").update(post).eq("id", post.id);
   if (postError) {
     return { error: postError.message };
   }

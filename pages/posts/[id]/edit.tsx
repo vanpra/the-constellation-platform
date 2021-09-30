@@ -62,6 +62,7 @@ export default function EditPostPage() {
     }
 
     const { post_id, error } = await updatePost({
+      id: id as unknown as number, // TODO:: correct this bad cast
       user_id: user.id,
       title: postData.title,
       description: postData.description,
