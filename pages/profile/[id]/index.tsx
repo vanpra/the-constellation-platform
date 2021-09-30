@@ -1,5 +1,5 @@
 import { useRouter } from "next/dist/client/router";
-import React from "react";
+import React, { useContext } from "react";
 import { RedRoundedButton } from "../../../components/Buttons";
 import ErrorDataLayout from "../../../components/Scaffolds/ErrorDataScaffold";
 import PageScaffold from "../../../components/Scaffolds/PageScaffold";
@@ -8,30 +8,36 @@ import EditIcon from "../../../assets/edit.svg";
 import { ProfileHeader } from "../../../components/Profile/ProfileHeader";
 import PostCard from "../../../components/Cards/PostCard";
 import LinkedPost from "../../../models/LinkedPost";
+import { UserContext } from "../../_app";
 
 export default function ProfilePage() {
   const router = useRouter();
   const { id } = router.query;
   const { userInfoWithPosts, error } = useUserInfoWithPosts(id as string);
+  const user = useContext(UserContext);
 
   return (
-    <PageScaffold title="My Profile">
+    <PageScaffold title="Profile">
       <ErrorDataLayout error={error} data={userInfoWithPosts}>
         <ProfileHeader
           userInfo={userInfoWithPosts}
           button={
-            <RedRoundedButton
-              text="Edit"
-              icon={
-                <EditIcon
-                  height="24"
-                  width="24"
-                  className="fill-current text-white"
-                />
-              }
-              onClick={() => router.push(`${router.asPath}/edit`)}
-              className="ml-16"
-            />
+            user?.id === id ? (
+              <RedRoundedButton
+                text="Edit"
+                icon={
+                  <EditIcon
+                    height="24"
+                    width="24"
+                    className="fill-current text-white"
+                  />
+                }
+                onClick={() => router.push(`${router.asPath}/edit`)}
+                className="ml-16"
+              />
+            ) : (
+              <></>
+            )
           }
         />
 
