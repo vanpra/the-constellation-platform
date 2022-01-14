@@ -79,7 +79,7 @@ export const useUserInfoWithPosts = (userId?: string) => {
           .select(
             `
             *,
-            author:user_id (full_name, avatar_url),
+            author:user_id (id, full_name, avatar_url),
             prev_salt_post:previous_salt_post_id (id, title),
             next_salt_post:next_salt_post_id (id, title)
             `
