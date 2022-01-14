@@ -31,7 +31,7 @@ export function PostHeader(props: PostHeaderProps) {
             {post?.author?.full_name}
           </p>
 
-          <ChipList tags={post?.tags ?? []} />
+          <ChipList tags={post?.tags ?? []} searchOnClick={true} />
         </div>
       </div>
 

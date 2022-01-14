@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useRouter } from "next/dist/client/router";
+import React, { useEffect, useState } from "react";
 import { RedRoundedButton } from "../../components/Buttons";
 import PostCard from "../../components/Cards/PostCard";
 import TextArea from "../../components/Inputs/TextArea";
@@ -58,6 +59,32 @@ export default function SearchPage(props: SearchPageProps) {
   const [searchResults, setSearchResults] = useState<LinkedPost[]>([]);
   const [error, setError] = useState<string | undefined>(undefined);
 
+  const router = useRouter();
+  async function doSearch(data: SearchData) {
+    const { data: results, error } = await getSearchResults(data);
+    if (error) {
+      setSearchResults([]);
+      setError(error.message);
+    }
+    if (results) {
+      setSearchResults(results);
+    }
+  }
+
+  useEffect(() => {
+    if (router.query.tags) {
+      setSearchData({
+        ...searchData,
+        tags: searchData.tags.concat(router.query.tags),
+      });
+      setMoreOptions(true);
+    }
+  }, [router.query, searchData]);
+
+  useEffect(() => {
+    doSearch(searchData);
+  }, [searchData]);
+
   return (
     <PageScaffold title="Search for posts">
       <TextArea
@@ -85,16 +112,7 @@ export default function SearchPage(props: SearchPageProps) {
       <RedRoundedButton
         className="mt-4 mb-6 ml-4 mr-4"
         text="Search"
-        onClick={async () => {
-          const { data, error } = await getSearchResults(searchData);
-          if (error) {
-            setSearchResults([]);
-            setError(error.message);
-          }
-          if (data) {
-            setSearchResults(data);
-          }
-        }}
+        onClick={() => doSearch(searchData)}
       />
 
       {searchResults.length > 0 ? (

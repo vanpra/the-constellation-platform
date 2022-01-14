@@ -28,8 +28,10 @@ export default function MoreOptionsTags(props: MoreOptionsTagsProps) {
         <RedRoundedButton
           text="Add Tag"
           onClick={() => {
-            setTags([...tags, newTag]);
-            setNewTag("");
+            if (newTag.length > 0 && !tags.includes(newTag)) {
+              setTags([...tags, newTag]);
+              setNewTag("");
+            }
           }}
         />
       </div>

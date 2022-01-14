@@ -418,7 +418,7 @@ export const getSearchResults = async (searchData: SearchData) => {
   }
 
   if (searchData.tags.length > 0) {
-    baseQuery = baseQuery.overlaps("tags", searchData.tags);
+    baseQuery = baseQuery.contains("tags", searchData.tags);
   }
 
   if (searchData.topic && searchData.topic !== anyTopic) {
