@@ -44,7 +44,7 @@ create table public.users (
   -- UUID from auth.users
   id uuid references auth.users not null primary key,
   full_name text,
-  description text,
+  description varchar(100),
   avatar_url text,
   location text
 );
