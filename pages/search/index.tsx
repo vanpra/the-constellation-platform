@@ -71,6 +71,7 @@ export default function SearchPage(props: SearchPageProps) {
     }
   }
 
+  // TODO: Sort the dependencies on this
   useEffect(() => {
     if (router.query.tags) {
       setSearchData({
@@ -79,7 +80,7 @@ export default function SearchPage(props: SearchPageProps) {
       });
       setMoreOptions(true);
     }
-  }, [router.query, searchData]);
+  }, [router.query]);
 
   useEffect(() => {
     doSearch(searchData);
