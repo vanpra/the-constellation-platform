@@ -214,8 +214,9 @@ export const usePost = (postId?: string | string[]) => {
       setError(e?.message);
       setPost(data ?? undefined);
     }
-
-    getPost();
+    if (postId != undefined) {
+      getPost();
+    }
   }, [postId, setError, setPost]);
 
   return { error, post };
@@ -284,7 +285,7 @@ export const updatePost = async (post: Post) => {
   if (postError) {
     return { error: postError.message };
   }
-  const newPost = data[0];
+  const newPost = data![0];
   // TODO: Fix SALT links when updating
   return { post_id: newPost.id };
 };
