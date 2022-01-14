@@ -58,6 +58,7 @@ export default function LoginDialog(props: LoginDialogProps) {
         className="mt-4 mr-2"
         text="Login with email"
         onClick={() => onSignIn(false)}
+        disabled={email && password ? false : true}
       />
       <OrDivider className="pt-1 pb-1" />
       <GoogleButton text="Login with Google" onClick={() => onSignIn(true)} />
