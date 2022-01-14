@@ -19,12 +19,19 @@ export default function PostCard(props: PostCardProps) {
   const onClick = useCallback(() => {
     router.push(`/posts/${post.id}`);
   }, [router, post.id]);
+  console.log(user);
+  console.log(post.author.id);
+  console.log(user?.id === post.author.id);
   return (
     <BaseCard onClick={onClick}>
       <PostHeader
         post={post}
         buttons={
-          user?.id === post.author.id ? <PostEditButtons post={post} /> : <></>
+          user?.id != undefined && user.id === post.author.id ? (
+            <PostEditButtons post={post} />
+          ) : (
+            <></>
+          )
         }
       />
       <div className="py-2">

@@ -9,7 +9,7 @@ export default function JointLessonsPage() {
   const router = useRouter();
   const { id } = router.query;
   const { error, jointLessons } = useJointLessons(id as string);
-  const { error: err, topic } = useTopic(id as unknown as number);
+  const { error: err, topic } = useTopic(id as string);
 
   return (
     <>

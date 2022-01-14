@@ -79,7 +79,7 @@ export const useUserInfoWithPosts = (userId?: string) => {
           .select(
             `
             *,
-            author:user_id (full_name, avatar_url),
+            author:user_id (id, full_name, avatar_url),
             prev_salt_post:previous_salt_post_id (id, title),
             next_salt_post:next_salt_post_id (id, title)
             `
@@ -120,7 +120,7 @@ export const useTopics = () => {
   return { error, topics };
 };
 
-export const useTopic = (topicId: number) => {
+export const useTopic = (topicId: string) => {
   const [error, setError] = useState<string | undefined>(undefined);
   const [topic, setTopic] = useState<Topic | undefined>(undefined);
 
@@ -277,11 +277,14 @@ export const createPost = async (post: Post) => {
 };
 
 export const updatePost = async (post: Post) => {
-  const { error: postError, data } = await supabase.from("posts").update(post).eq("id", post.id);
+  const { error: postError, data } = await supabase
+    .from<Post>("posts")
+    .update(post)
+    .eq("id", post.id);
   if (postError) {
     return { error: postError.message };
   }
-  const newPost = (data as Post[])[0];
+  const newPost = data[0];
   // TODO: Fix SALT links when updating
   return { post_id: newPost.id };
 };
