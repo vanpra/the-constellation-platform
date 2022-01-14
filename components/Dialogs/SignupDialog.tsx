@@ -1,12 +1,12 @@
+import Link from "next/link";
 import React, { useCallback, useState } from "react";
 import { supabase } from "../../utils/supabase/supabaseClient";
 import DialogButton from "../Buttons/DialogButton";
 import { GoogleButton } from "../Buttons/GoogleButtons";
 import OrDivider from "../Dividers/OrDivider";
 import DialogTextInput from "../Inputs/DialogTextInput";
-import DialogTitle from "./DialogTitle";
 import BaseDialog, { DialogSize } from "./BaseDialog";
-import Link from "next/link";
+import DialogTitle from "./DialogTitle";
 
 interface SignupDialogProps {
   isOpen: boolean;
@@ -117,6 +117,11 @@ export default function SignupDialog(props: SignupDialogProps) {
         className="mt-4 mr-2"
         text="Signup with Email"
         onClick={onEmailSignup}
+        disabled={
+          firstName && lastName && email && password && confirmPassword
+            ? false
+            : true
+        }
       />
       <OrDivider className="pt-1 pb-1" />
       <GoogleButton text="Signup with Google" onClick={onGoogleSignUp} />
