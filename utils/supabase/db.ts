@@ -286,12 +286,7 @@ export const updatePost = async (post: Post) => {
   if (postError || data == null) {
     return { error: postError?.message };
   }
-<<<<<<< HEAD
   const newPost = data![0];
-=======
-
-  const newPost = data[0];
->>>>>>> e15434242078efa2c74a97e67095c76396ad6210
   // TODO: Fix SALT links when updating
   return { post_id: newPost.id };
 };
