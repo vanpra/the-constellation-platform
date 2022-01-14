@@ -3,8 +3,13 @@ export interface Country {
   code: string;
 }
 
-export const findCountryByCode = (code: string | undefined) =>
-  countries.find((country) => country.code === code) ?? countries[0];
+export function findCountryByCode(code: string | undefined) {
+  if (!code || code == noneCountry.code) {
+    return noneCountry;
+  }
+
+  return countries.find((country) => country.code === code) ?? countries[0];
+}
 
 export const noneCountry: Country = {
   name: "None",

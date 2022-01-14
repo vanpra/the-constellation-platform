@@ -17,7 +17,7 @@ export function ProfileHeader(props: ProfileHeaderProps) {
     <div className="flex items-center justify-between flex-row">
       <div className="flex flex-row items-center">
         <Avatar
-          className="w-16 md:w-32 lg:w-48 h-16 md:h-32 lg:h-48"
+          className="w-16 md:w-32 lg:w-48 h-16 md:h-32 lg:h-48 flex-grow-0 flex-shrink-0"
           avatarUrl={userInfo?.avatar_url}
           name={userInfo?.full_name}
           onClick={onAvatarClick}
@@ -30,18 +30,23 @@ export function ProfileHeader(props: ProfileHeaderProps) {
                 <span className="tooltip rounded shadow-lg p-1 text-base bg-gray-200 text-black -mt-6">
                   {findCountryByCode(userInfo.location).name}
                 </span>
-                <ReactCountryFlag
-                  className="ml-4"
-                  countryCode={userInfo.location}
-                />
+                {userInfo.location != undefined &&
+                userInfo.location != "NAN" ? (
+                  <ReactCountryFlag
+                    className="ml-4"
+                    countryCode={userInfo.location}
+                  />
+                ) : (
+                  <></>
+                )}
               </div>
             )}
           </div>
           <p className="mt-1 break-all text-xl">{userInfo?.description}</p>
         </div>
       </div>
-
-      <div>{button}</div>
+      <div className="w-20"></div>
+      <div className="flex-grow-0 flex-shrink-0">{button}</div>
     </div>
   );
 }

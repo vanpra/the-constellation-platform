@@ -25,6 +25,7 @@ import UnfoldMoreIcon from "../../../../assets/unfold.svg";
 export default function EditProfilePage() {
   const router = useRouter();
   const { id } = router.query;
+
   const {
     userInfo,
     setUserInfo,
